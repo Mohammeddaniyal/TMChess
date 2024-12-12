@@ -1,4 +1,4 @@
-package com.thinking.machines.chess.server;
+package com.thinking.machines.chess.common;
 public class Message implements java.io.Serializable
 {
 public String fromUsername;

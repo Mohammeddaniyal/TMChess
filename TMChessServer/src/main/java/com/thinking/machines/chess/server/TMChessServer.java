@@ -1,4 +1,5 @@
 package com.thinking.machines.chess.server;
+import com.thinking.machines.chess.common.*;
 import com.thinking.machines.nframework.server.*;
 import com.thinking.machines.nframework.server.annotations.*;
 import com.thinking.machines.chess.server.dl.*;
