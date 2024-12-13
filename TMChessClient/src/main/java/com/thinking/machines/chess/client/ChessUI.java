@@ -91,12 +91,12 @@ this.setVisible(true);
 class AvailableMembersListModel extends AbstractTableModel
 {
 private java.util.List<String> members;
+private java.util.List<JButton> inviteButtons;
 private String[] title={"Members"," "};
-private JButton inviteButton;
 AvailableMembersListModel()
 {
 members=new LinkedList<>();
-inviteButton=new JButton("Invite");
+inviteButtons=new LinkedList<>();
 }
 public int getRowCount()
 {
@@ -113,7 +113,7 @@ return title[column];
 public Object getValueAt(int row,int column)
 {
 if(column==0) return this.members.get(row);
-return inviteButton;
+return this.inviteButtons.get(row);
 }
 public boolean isCellEditable(int row,int column)
 {
@@ -128,34 +128,56 @@ return JButton.class;
 public void setMembers(java.util.List<String> members)
 {
 this.members=members;
+this.inviteButtons.clear();
+for(int i=0;i<members.size();i++)
+{
+this.inviteButtons.add(new JButton("Invite"));
+}
 fireTableDataChanged();
+}
+public void setValueAt(Object data,int row,int column)
+{
+System.out.println("setValueAt gets called");
+if(column==1)
+{
+JButton button=this.inviteButtons.get(row);
+button.setText((String)data);
+button.setEnabled(false);
+}
 }
 }
 class AvailableMembersListButtonRenderer implements TableCellRenderer
 {
 public Component getTableCellRendererComponent(JTable table,Object value,boolean a,boolean b,int row,int column)
 {
+System.out.println("button renderer");
 return (JButton)value;
 }
 }
 class AvailableMembersListButtonCellEditor extends DefaultCellEditor
 {
-private JButton button;
 private boolean isClicked;
+private ActionListener actionListener;
 private int row,col;
 AvailableMembersListButtonCellEditor()
 {
 super(new JCheckBox());//because of policy
-button=new JButton();
-button.setOpaque(true);
-button.addActionListener(ev->{
+this.actionListener=new ActionListener(){
+public void actionPerformed(ActionEvent ev)
+{
 fireEditingStopped();
-});
+}
+};
 }
 public Component getTableCellEditorComponent(JTable table,Object value,boolean a,int row,int col)
 {
+System.out.println("cell editor");
 this.row=row;
 this.col=col;
+JButton button=(JButton)availableMembersListModel.getValueAt(row,col);
+button.removeActionListener(actionListener);
+button.addActionListener(actionListener);
+button.setOpaque(true);
 button.setForeground(Color.black);
 button.setBackground(UIManager.getColor("Button.background"));
 button.setText("Invite");
@@ -164,7 +186,8 @@ return button;
 }
 public Object getCellEditorValue()
 {
-return "";
+System.out.println("get cell editor");
+return "Invited";
 }
 public boolean stopCellEditing()
 {
