@@ -64,6 +64,7 @@ if(playingMembers.contains(u)==false && u.equals(username)==false) availableMemb
 }
 return availableMembers;
 }
+@Path("/inviteUser")
 public void inviteUser(String fromUsername,String toUsername)
 {
 Message message=new Message();

@@ -86,15 +86,28 @@ public void showUI()
 {
 this.setVisible(true);
 }
-
+private void sendInvitation(String toUsername)
+{
+System.out.println("sending invitation to : "+toUsername);
+try
+{
+client.execute("/TMChessServer/inviteUser",username,toUsername);
+JOptionPane.showMessageDialog(this,"Invitation for game sent to : "+toUsername);
+}catch(Throwable t)
+{
+JOptionPane.showMessageDialog(this,t.toString());
+}
+}
 // inner classes starts here //
 class AvailableMembersListModel extends AbstractTableModel
 {
 private java.util.List<String> members;
 private java.util.List<JButton> inviteButtons;
 private String[] title={"Members"," "};
+private boolean awaitingInvitationReply;
 AvailableMembersListModel()
 {
+awaitingInvitationReply=false;
 members=new LinkedList<>();
 inviteButtons=new LinkedList<>();
 }
@@ -127,6 +140,7 @@ return JButton.class;
 }
 public void setMembers(java.util.List<String> members)
 {
+if(awaitingInvitationReply) return;
 this.members=members;
 this.inviteButtons.clear();
 for(int i=0;i<members.size();i++)
@@ -141,8 +155,21 @@ System.out.println("setValueAt gets called");
 if(column==1)
 {
 JButton button=this.inviteButtons.get(row);
-button.setText((String)data);
-button.setEnabled(false);
+String text=(String)data;
+button.setText(text);
+if(text.equalsIgnoreCase("Invited"))
+{
+awaitingInvitationReply=true;
+for(JButton inviteButton:inviteButtons) inviteButton.setEnabled(false);
+this.fireTableDataChanged();
+ChessUI.this.sendInvitation(this.members.get(row));
+}else if(text.equalsIgnoreCase("invite"))
+{
+awaitingInvitationReply=false;
+for(JButton inviteButton:inviteButtons) inviteButton.setEnabled(true);
+this.fireTableDataChanged();
+}
+
 }
 }
 }
@@ -150,7 +177,7 @@ class AvailableMembersListButtonRenderer implements TableCellRenderer
 {
 public Component getTableCellRendererComponent(JTable table,Object value,boolean a,boolean b,int row,int column)
 {
-System.out.println("button renderer");
+System.out.println("getTableCellRendererComponent gets called");
 return (JButton)value;
 }
 }
@@ -165,13 +192,14 @@ super(new JCheckBox());//because of policy
 this.actionListener=new ActionListener(){
 public void actionPerformed(ActionEvent ev)
 {
+System.out.println("actionPerformed gets called");
 fireEditingStopped();
 }
 };
 }
 public Component getTableCellEditorComponent(JTable table,Object value,boolean a,int row,int col)
 {
-System.out.println("cell editor");
+System.out.println("getTableCellEditorComponent gets called");
 this.row=row;
 this.col=col;
 JButton button=(JButton)availableMembersListModel.getValueAt(row,col);
@@ -186,21 +214,20 @@ return button;
 }
 public Object getCellEditorValue()
 {
-System.out.println("get cell editor");
+System.out.println("getCellEditor gets called");
 return "Invited";
 }
 public boolean stopCellEditing()
 {
+System.out.println("stopCellEditing gets called");
 isClicked=false;
 return super.stopCellEditing();
 }
 public void fireEditingStopped()
 {
 //do whatever is required
+System.out.println("fireEditingStopped gets called");
 super.fireEditingStopped();
 }
 }
-
-
-
 }//outer class ends
