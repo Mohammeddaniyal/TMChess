@@ -7,10 +7,12 @@ import java.util.*;
 @Path("/TMChessServer")
 public class TMChessServer
 {
+static private final long TIMEOUT_DURATION=30*1000; //30 seconds in millisecond
 static private Map<String,Member> members;
 static private Set<String> loggedInMembers;
 static private Set<String> playingMembers;
 static private Map<String,List<Message>> inboxes;
+static private Map<String,Message> invitationsTimeout;
 static private Map<String,Game> games;
 static
 {
@@ -35,6 +37,7 @@ members.put(member.username,member);
 loggedInMembers=new HashSet<>();
 playingMembers=new HashSet<>();
 inboxes=new HashMap<>();
+invitationsTimeout=new HashMap<>();
 games=new HashMap<>();
 }
 @Path("/authenticateMember")
@@ -71,6 +74,8 @@ Message message=new Message();
 message.fromUsername=fromUsername;
 message.toUsername=toUsername;
 message.type=MESSAGE_TYPE.CHALLENGE;
+message.inviteTimeStamp=System.currentTimeMillis();
+this.invitationsTimeout.put(fromUsername,message);
 List<Message> messages=inboxes.get(toUsername);
 if(messages==null)
 {
@@ -79,15 +84,40 @@ inboxes.put(toUsername,messages);
 }
 messages.add(message);
 }
+@Path("/getMessages")
 public List<Message> getMessages(String username)
 {
+//System.out.println("get messages called");
 List<Message> messages=inboxes.get(username);
 if(messages!=null && messages.size()>0)
 {
 inboxes.put(username,new LinkedList<Message>());
 }
+//if(messages!=null)System.out.println("returning messages "+messages.size());
+//else System.out.println("returning messages ");
 return messages;
 }
+@Path("/getInvitationStatus")
+public Message getInvitationStatus(String fromUsername,String toUsername)
+{
+//done done
+Message message=this.invitationsTimeout.get(fromUsername);
+long sentTime=message.inviteTimeStamp;
+long currentTime=System.currentTimeMillis();
+if(currentTime-sentTime>=TIMEOUT_DURATION)
+{
+//player ignored the invitation
+//remove the message from invitationsTimeout
+this.invitationsTimeout.remove(fromUsername);
+message=new Message();
+message.fromUsername=toUsername;
+message.toUsername=fromUsername;
+message.type=MESSAGE_TYPE.CHALLENGE_IGNORED;
+return message;
+}
+return null;
+}
+
 public String getGameId(String username)
 {
 return "abc";
