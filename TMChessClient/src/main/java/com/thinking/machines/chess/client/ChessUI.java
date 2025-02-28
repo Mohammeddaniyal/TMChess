@@ -6,10 +6,11 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 import java.util.*;
+import java.util.concurrent.*;
 import com.thinking.machines.chess.common.*;
 public class ChessUI extends JFrame
 {
-private java.util.List<Message> pendingMessages;
+private ConcurrentMap<String,Message> pendingInvitations;
 private final long TIMEOUT_DURATION=30*1000;
 private String username;
 private JTable availableMembersList;
@@ -19,6 +20,7 @@ private JTable invitationsList;
 private InvitationsListModel invitationsListModel;
 private javax.swing.Timer timer;
 private javax.swing.Timer invitationsTimer;
+private javax.swing.Timer pendingInvitationMessagesTimer;
 private Container container;
 private NFrameworkClient client;
 public ChessUI(String username)
@@ -36,7 +38,7 @@ setLocation(d.width/2-width/2,d.height/2-height/2);
 }
 private void initComponents()
 {
-this.pendingMessages=new java.util.LinkedList<>();
+this.pendingInvitations=new ConcurrentHashMap<>();
 this.availableMembersListModel=new AvailableMembersListModel();
 this.availableMembersList=new JTable(availableMembersListModel);
 this.availableMembersList.getColumn(" ").setCellRenderer(new AvailableMembersListButtonRenderer());
@@ -126,35 +128,43 @@ if(messages==null)
 invitationsTimer.start();
 return;
 }
-
+if(messages.size()==0) 
+{
+invitationsTimer.start();
+return;
+}
+System.out.println("Got messages : "+messages.size());
 for(Message message:messages)
 {
-ChessUI.this.pendingMessages.add(message);
+ChessUI.this.pendingInvitations.put(message.fromUsername,message);
+// check if any message is related to the invitation which we sent to the user
+if(message.type==MESSAGE_TYPE.CHALLENGE_REJECTED)
+{
+availableMembersListModel.enableInviteButtons();
+System.out.println("Size before : "+pendingInvitations.size());
+System.out.println("Removing pending message : "+message.fromUsername);
+if(pendingInvitations.size()==0)
+{
+pendingInvitationMessagesTimer.stop();
+}
+if(pendingInvitations.containsKey(message.fromUsername))
+{
+System.out.println("Hello : "+pendingInvitations.containsKey(message.fromUsername));
+pendingInvitations.remove(message.fromUsername);
+}
+System.out.println("Size After : "+pendingInvitations.size());
+JOptionPane.showMessageDialog(ChessUI.this,"Challenge rejected from user "+message.fromUsername);
+}
 }
 
 
 invitationsListModel.setMessages(messages);
 
-javax.swing.Timer pendingInvitationMessagesTimer=new javax.swing.Timer(1000,(ev1)->{
-int i=0;
-for(Message m:ChessUI.this.pendingMessages)
-{
-if(m.type==MESSAGE_TYPE.CHALLENGE)
-{
-long receivedTime=m.inviteTimeStamp;
-long currentTime=System.currentTimeMillis();
-if(currentTime-receivedTime>=TIMEOUT_DURATION)
-{
-System.out.println("Removing invitation request of user "+m.fromUsername);
-ChessUI.this.pendingMessages.remove(i);
-invitationsListModel.removeInvitationOfUser(m.fromUsername);
-}
-}
-i++;
-}
-if(ChessUI.this.pendingMessages.size()==0) ((javax.swing.Timer)ev1.getSource()).stop();
-});
+
+System.out.println("Starting the timer");
 pendingInvitationMessagesTimer.start();
+
+
 
 }catch(Throwable t)
 {
@@ -163,6 +173,43 @@ JOptionPane.showMessageDialog(ChessUI.this,t.toString());
 invitationsTimer.start();
 }
 });
+
+
+
+pendingInvitationMessagesTimer=new javax.swing.Timer(1000,(ev1)->{
+
+Iterator<Map.Entry<String,Message>> iterator=pendingInvitations.entrySet().iterator();
+Map.Entry<String,Message> entry;
+Message m;
+String user;
+while(iterator.hasNext())
+{
+entry=iterator.next();
+user=entry.getKey();
+m=entry.getValue();
+if(m.type==MESSAGE_TYPE.CHALLENGE)
+{
+long receivedTime=m.inviteTimeStamp;
+long currentTime=System.currentTimeMillis();
+if(currentTime-receivedTime>=TIMEOUT_DURATION)
+{
+System.out.println("Removing invitation request of user "+m.fromUsername);
+ChessUI.this.pendingInvitations.remove(user);
+invitationsListModel.removeInvitationOfUser(m.fromUsername);
+}
+}
+
+}
+
+
+System.out.print(ChessUI.this.pendingInvitations.size()+" ");
+if(ChessUI.this.pendingInvitations.size()==0) 
+{
+System.out.println("Stopping the timer");
+((javax.swing.Timer)ev1.getSource()).stop();
+}
+});
+
 
 
 
@@ -188,6 +235,17 @@ public void showUI()
 {
 this.setVisible(true);
 }
+private void sendInvitationReply(Message message)
+{
+try
+{
+client.execute("/TMChessServer/invitationReply",message);
+JOptionPane.showMessageDialog(this,"Invitation reply sent to user ---> "+message.toUsername+" from user : "+message.fromUsername);
+}catch(Throwable t)
+{
+JOptionPane.showMessageDialog(this,t.getMessage());
+}
+}
 private void sendInvitation(String toUsername)
 {
 System.out.println("sending invitation to : "+toUsername);
@@ -201,9 +259,7 @@ JOptionPane.showMessageDialog(this,"Invitation for game sent to : "+toUsername);
 javax.swing.Timer getInvitationStatusTimer=new javax.swing.Timer(1000,(ev)->{
 try
 {
-System.out.println("HELLO");
 Message message=(Message)client.execute("/TMChessServer/getInvitationStatus",username,toUsername);
-System.out.println("HI");
 if(message==null) return;
 if(message.type==MESSAGE_TYPE.CHALLENGE_IGNORED)
 {
@@ -280,7 +336,7 @@ fireTableDataChanged();
 }
 public void setValueAt(Object data,int row,int column)
 {
-System.out.println("setValueAt gets called");
+//System.out.println("setValueAt gets called");
 if(column==1)
 {
 JButton button=this.inviteButtons.get(row);
@@ -316,7 +372,7 @@ class AvailableMembersListButtonRenderer implements TableCellRenderer
 {
 public Component getTableCellRendererComponent(JTable table,Object value,boolean a,boolean b,int row,int column)
 {
-System.out.println("getTableCellRendererComponent gets called");
+//System.out.println("getTableCellRendererComponent gets called");
 return (JButton)value;
 }
 }
@@ -331,14 +387,14 @@ super(new JCheckBox());//because of policy
 this.actionListener=new ActionListener(){
 public void actionPerformed(ActionEvent ev)
 {
-System.out.println("actionPerformed gets called");
+//System.out.println("actionPerformed gets called");
 fireEditingStopped();
 }
 };
 }
 public Component getTableCellEditorComponent(JTable table,Object value,boolean a,int row,int col)
 {
-System.out.println("getTableCellEditorComponent gets called");
+//System.out.println("getTableCellEditorComponent gets called");
 this.row=row;
 this.col=col;
 JButton button=(JButton)availableMembersListModel.getValueAt(row,col);
@@ -353,19 +409,19 @@ return button;
 }
 public Object getCellEditorValue()
 {
-System.out.println("getCellEditor gets called");
+//System.out.println("getCellEditor gets called");
 return "Invited";
 }
 public boolean stopCellEditing()
 {
-System.out.println("stopCellEditing gets called");
+//System.out.println("stopCellEditing gets called");
 isClicked=false;
 return super.stopCellEditing();
 }
 public void fireEditingStopped()
 {
 //do whatever is required
-System.out.println("fireEditingStopped gets called");
+//System.out.println("fireEditingStopped gets called");
 super.fireEditingStopped();
 }
 }
@@ -399,7 +455,7 @@ return title[column];
 }
 public Object getValueAt(int row,int column)
 {
-System.out.println(row+","+column);
+//System.out.println(row+","+column);
 if(column==0) return this.members.get(row);
 if(column==1) return this.acceptButtons.get(row);
 return this.rejectButtons.get(row);
@@ -438,7 +494,11 @@ System.out.println("fire tabled : "+members.size());
 }
 public void setValueAt(Object data,int row,int column)
 {
-System.out.println("setValueAt gets called");
+//System.out.println("setValueAt gets called");
+Message message=new Message();
+message.fromUsername=ChessUI.this.username;
+message.toUsername=this.members.get(row);
+System.out.println(message.fromUsername+" ---> "+message.toUsername);
 
 if(column==1)
 {
@@ -451,6 +511,8 @@ if(text.equalsIgnoreCase("Accepted"))
 for(JButton acceptButton:acceptButtons) acceptButton.setEnabled(false);
 for(JButton rejectButton:rejectButtons) rejectButton.setEnabled(false);
 this.fireTableDataChanged();
+message.type=MESSAGE_TYPE.CHALLENGE_ACCEPTED;
+ChessUI.this.sendInvitationReply(message);
 }else if(text.equalsIgnoreCase("Accept"))
 {
 for(JButton acceptButton:acceptButtons) acceptButton.setEnabled(true);
@@ -475,7 +537,8 @@ for(JButton rejectButton:rejectButtons) rejectButton.setEnabled(true);
 members.remove(row);
 acceptButtons.remove(row);
 rejectButtons.remove(row);
-//ChessUI.this.sendInvitationReply(MESSAGE_TYPE.REJECTED);
+message.type=MESSAGE_TYPE.CHALLENGE_REJECTED;
+ChessUI.this.sendInvitationReply(message);
 this.fireTableDataChanged();
 }else if(text.equalsIgnoreCase("Reject"))
 {
@@ -488,11 +551,17 @@ this.fireTableDataChanged();
 }
 public void removeInvitationOfUser(String username)
 {
+boolean found=false;
 int row;
 for(row=0;row<members.size();row++)
 {
-if(members.get(row).equals(username)) break;
+if(members.get(row).equals(username)) 
+{
+found=true;
+break;
 }
+}
+if(found==false) return;
 System.out.println("FOUND AT ROW : "+row);
 this.members.remove(row);
 this.acceptButtons.remove(row);
@@ -504,7 +573,7 @@ class InvitationsListButtonRenderer implements TableCellRenderer
 {
 public Component getTableCellRendererComponent(JTable table,Object value,boolean a,boolean b,int row,int column)
 {
-System.out.println("getTableCellRendererComponent gets called");
+//System.out.println("getTableCellRendererComponent gets called");
 return (JButton)value;
 }
 }
@@ -520,14 +589,14 @@ super(new JCheckBox());//because of policy
 this.actionListener=new ActionListener(){
 public void actionPerformed(ActionEvent ev)
 {
-System.out.println("actionPerformed gets called");
+//System.out.println("actionPerformed gets called");
 fireEditingStopped();
 }
 };
 }
 public Component getTableCellEditorComponent(JTable table,Object value,boolean a,int row,int col)
 {
-System.out.println("getTableCellEditorComponent gets called");
+//System.out.println("getTableCellEditorComponent gets called");
 this.row=row;
 this.col=col;
 JButton button=(JButton)invitationsListModel.getValueAt(row,col);
@@ -552,20 +621,20 @@ return button;
 }
 public Object getCellEditorValue()
 {
-System.out.println("getCellEditor gets called");
+//System.out.println("getCellEditor gets called");
 if(acceptClicked) return "Accepted";
 return "Rejected";
 }
 public boolean stopCellEditing()
 {
-System.out.println("stopCellEditing gets called");
+//System.out.println("stopCellEditing gets called");
 acceptClicked=rejectClicked=false;
 return super.stopCellEditing();
 }
 public void fireEditingStopped()
 {
 //do whatever is required
-System.out.println("fireEditingStopped gets called");
+//System.out.println("fireEditingStopped gets called");
 super.fireEditingStopped();
 }
 }

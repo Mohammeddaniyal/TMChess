@@ -84,6 +84,31 @@ inboxes.put(toUsername,messages);
 }
 messages.add(message);
 }
+@Path("/invitationReply")
+public void invitationReply(Message m)
+{
+Message message=new Message();
+message.fromUsername=m.fromUsername;
+message.toUsername=m.toUsername;
+message.type=m.type;
+this.invitationsTimeout.remove(m.toUsername);
+List<Message> messages=inboxes.get(message.toUsername);
+if(messages==null)
+{
+messages=new LinkedList<>();
+this.inboxes.put(message.toUsername,messages);
+}
+messages.add(message);
+String fromUsername=message.toUsername;
+String toUsername=message.fromUsername;
+message=this.invitationsTimeout.get(fromUsername);
+if(message==null) return;
+if(message.toUsername==toUsername)
+{
+System.out.println("Since the user ("+toUsername+") replied to the invitation of user ("+fromUsername+")");
+this.invitationsTimeout.remove(fromUsername);
+}
+}
 @Path("/getMessages")
 public List<Message> getMessages(String username)
 {
@@ -100,8 +125,9 @@ return messages;
 @Path("/getInvitationStatus")
 public Message getInvitationStatus(String fromUsername,String toUsername)
 {
-//done done
 Message message=this.invitationsTimeout.get(fromUsername);
+if(message!=null)
+{
 long sentTime=message.inviteTimeStamp;
 long currentTime=System.currentTimeMillis();
 if(currentTime-sentTime>=TIMEOUT_DURATION)
@@ -115,6 +141,7 @@ message.toUsername=fromUsername;
 message.type=MESSAGE_TYPE.CHALLENGE_IGNORED;
 return message;
 }
+}// if the user didn't respond to the invitation then this part of ignored invitation
 return null;
 }
 
