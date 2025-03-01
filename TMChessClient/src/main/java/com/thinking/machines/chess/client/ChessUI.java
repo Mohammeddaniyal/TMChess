@@ -169,12 +169,13 @@ try
 java.util.List<String> clearInvitationOfUsers=(java.util.List<String>)client.execute("/TMChessServer/expiredInvitations",ChessUI.this.username);
 if(clearInvitationOfUsers==null)
 {
-((javax.swing.Timer)ev.getSource()).stop();
+//((javax.swing.Timer)ev.getSource()).stop();
 return;
 }
+System.out.println("clear up timer : "+clearInvitationOfUsers.size());
 if(clearInvitationOfUsers.size()==0)
 {
-((javax.swing.Timer)ev.getSource()).stop();
+//((javax.swing.Timer)ev.getSource()).stop();
 return;
 }
 
@@ -188,7 +189,8 @@ invitationsListModel.removeInvitationOfUser(removeUser);
 ((javax.swing.Timer)ev.getSource()).stop();
 }catch(Throwable t)
 {
-JOptionPane.showMessageDialog(ChessUI.this,t.getMessage());
+System.out.println("Exception : "+t);
+JOptionPane.showMessageDialog(ChessUI.this,t);
 }
 });
 
