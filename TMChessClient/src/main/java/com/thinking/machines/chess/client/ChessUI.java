@@ -131,6 +131,10 @@ if(messages.size()==0)
 invitationsTimer.start();
 return;
 }
+
+// start this timer to track expired invitations
+ChessUI.this.invitationsClearUpTimer.start();
+
 System.out.println("Got messages : "+messages.size());
 for(Message message:messages)
 {
@@ -160,10 +164,28 @@ invitationsTimer.start();
 
 
 invitationsClearUpTimer=new javax.swing.Timer(1000,ev->{
-
 try
 {
+java.util.List<String> clearInvitationOfUsers=(java.util.List<String>)client.execute("/TMChess/expiredInvitations",ChessUI.this.username);
+if(clearInvitationOfUsers==null)
+{
+((javax.swing.Timer)ev.getSource()).stop();
+return;
+}
+if(clearInvitationOfUsers.size()==0)
+{
+((javax.swing.Timer)ev.getSource()).stop();
+return;
+}
 
+
+// remove the invitations from table which are expired
+for(String removeUser:clearInvitationOfUsers)
+{
+System.out.println("User "+ChessUI.this.username+" removing invitations of user "+removeUser);
+invitationsListModel.removeInvitationOfUser(removeUser);
+}
+((javax.swing.Timer)ev.getSource()).stop();
 }catch(Throwable t)
 {
 JOptionPane.showMessageDialog(ChessUI.this,t.getMessage());
