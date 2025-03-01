@@ -39,6 +39,7 @@ loggedInMembers=new HashSet<>();
 playingMembers=new HashSet<>();
 inboxes=new HashMap<>();
 invitationsTimeout=new HashMap<>();
+userExpiredInvitations=new HashMap<>();
 games=new HashMap<>();
 }
 @Path("/authenticateMember")
@@ -126,7 +127,12 @@ return messages;
 @Path("/expiredInvitations")
 public List<String> getExpiredInvitations(String username)
 {
-
+List<String> invitationsExpiredOf=this.userExpiredInvitations.get(username);
+if(invitationsExpiredOf!=null && invitationsExpired.size()>0)
+{
+this.userExpiredInvitations.put(username,new LinkedList<>());
+}
+return invitationsExpiredOf;
 }
 @Path("/getInvitationStatus")
 public Message getInvitationStatus(String fromUsername,String toUsername)
@@ -138,6 +144,14 @@ long sentTime=message.inviteTimeStamp;
 long currentTime=System.currentTimeMillis();
 if(currentTime-sentTime>=TIMEOUT_DURATION)
 {
+// add the expired invitation to userExpiredInvitation map
+List<String> invitationsFrom=userExpiredInvitations.get(toUsername);
+if(invitationsFrom==null)
+{
+invitationsFrom=new LinkedList<>();
+this.userExpiredInvitations.put(toUsername,invitationsFrom);
+}
+invitationsFrom.add(fromUsername);
 //player ignored the invitation
 //remove the message from invitationsTimeout
 this.invitationsTimeout.remove(fromUsername);
@@ -145,6 +159,7 @@ message=new Message();
 message.fromUsername=toUsername;
 message.toUsername=fromUsername;
 message.type=MESSAGE_TYPE.CHALLENGE_IGNORED;
+
 return message;
 }
 }// if the user didn't respond to the invitation then this part of ignored invitation
