@@ -186,7 +186,7 @@ for(String removeUser:clearInvitationOfUsers)
 System.out.println("User "+ChessUI.this.username+" removing invitations of user "+removeUser);
 invitationsListModel.removeInvitationOfUser(removeUser);
 }
-((javax.swing.Timer)ev.getSource()).stop();
+//((javax.swing.Timer)ev.getSource()).stop();
 }catch(Throwable t)
 {
 System.out.println("Exception : "+t);
