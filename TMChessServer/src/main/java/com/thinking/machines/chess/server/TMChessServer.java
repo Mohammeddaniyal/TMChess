@@ -13,6 +13,7 @@ static private Set<String> loggedInMembers;
 static private Set<String> playingMembers;
 static private Map<String,List<Message>> inboxes;
 static private Map<String,Message> invitationsTimeout;
+static private Map<String,List<String>> userExpiredInvitations;
 static private Map<String,Game> games;
 static
 {
@@ -121,6 +122,11 @@ inboxes.put(username,new LinkedList<Message>());
 //if(messages!=null)System.out.println("returning messages "+messages.size());
 //else System.out.println("returning messages ");
 return messages;
+}
+@Path("/expiredInvitations")
+public List<String> getExpiredInvitations(String username)
+{
+
 }
 @Path("/getInvitationStatus")
 public Message getInvitationStatus(String fromUsername,String toUsername)
