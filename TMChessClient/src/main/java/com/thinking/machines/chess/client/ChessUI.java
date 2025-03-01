@@ -152,7 +152,7 @@ for(Message message:messages)
 if(message.type==MESSAGE_TYPE.CHALLENGE_ACCEPTED)
 {
 JOptionPane.showMessageDialog(ChessUI.this,message.fromUsername+" Accepted challenge");
-
+startGameCountdown();
 }
 if(message.type==MESSAGE_TYPE.CHALLENGE_REJECTED)
 {
@@ -284,6 +284,26 @@ JOptionPane.showMessageDialog(this,t.toString());
 
 getInvitationStatusTimer.start();
 }
+
+private void startGameCountdown()
+{
+javax.swing.Timer countdownTimer=new javax.swing.Timer(1000,new ActionListener(){
+int counter=5;
+@Override
+public void actionPerformed(ActionEvent ev)
+{
+if(counter>0)
+{
+countdownLabel.setText("Game starting in : "+counter--);
+}else
+{
+((javax.swing.Timer)ev.getSource()).stop();
+countdownLabel.setText("Play !");
+}
+}
+});
+}
+
 // inner classes starts here //
 class AvailableMembersListModel extends AbstractTableModel
 {
@@ -518,6 +538,14 @@ for(JButton rejectButton:rejectButtons) rejectButton.setEnabled(false);
 this.fireTableDataChanged();
 message.type=MESSAGE_TYPE.CHALLENGE_ACCEPTED;
 ChessUI.this.sendInvitationReply(message);
+
+try
+{
+Thread.sleep(500);
+}catch(Exception e){}
+
+ChessUI.this.startGameCountdown();
+
 }else if(text.equalsIgnoreCase("Accept"))
 {
 for(JButton acceptButton:acceptButtons) acceptButton.setEnabled(true);
