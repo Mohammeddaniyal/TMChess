@@ -10,8 +10,6 @@ import java.util.concurrent.*;
 import com.thinking.machines.chess.common.*;
 public class ChessUI extends JFrame
 {
-private ConcurrentMap<String,Message> pendingInvitations;
-private final long TIMEOUT_DURATION=30*1000;
 private String username;
 private JTable availableMembersList;
 private JScrollPane availableMembersListScrollPane;
@@ -20,7 +18,7 @@ private JTable invitationsList;
 private InvitationsListModel invitationsListModel;
 private javax.swing.Timer timer;
 private javax.swing.Timer invitationsTimer;
-private javax.swing.Timer pendingInvitationMessagesTimer;
+private javax.swing.Timer invitationsClearUpTimer;
 private Container container;
 private NFrameworkClient client;
 public ChessUI(String username)
@@ -38,7 +36,6 @@ setLocation(d.width/2-width/2,d.height/2-height/2);
 }
 private void initComponents()
 {
-this.pendingInvitations=new ConcurrentHashMap<>();
 this.availableMembersListModel=new AvailableMembersListModel();
 this.availableMembersList=new JTable(availableMembersListModel);
 this.availableMembersList.getColumn(" ").setCellRenderer(new AvailableMembersListButtonRenderer());
@@ -136,23 +133,10 @@ return;
 System.out.println("Got messages : "+messages.size());
 for(Message message:messages)
 {
-ChessUI.this.pendingInvitations.put(message.fromUsername,message);
 // check if any message is related to the invitation which we sent to the user
 if(message.type==MESSAGE_TYPE.CHALLENGE_REJECTED)
 {
 availableMembersListModel.enableInviteButtons();
-System.out.println("Size before : "+pendingInvitations.size());
-System.out.println("Removing pending message : "+message.fromUsername);
-if(pendingInvitations.size()==0)
-{
-pendingInvitationMessagesTimer.stop();
-}
-if(pendingInvitations.containsKey(message.fromUsername))
-{
-System.out.println("Hello : "+pendingInvitations.containsKey(message.fromUsername));
-pendingInvitations.remove(message.fromUsername);
-}
-System.out.println("Size After : "+pendingInvitations.size());
 JOptionPane.showMessageDialog(ChessUI.this,"Challenge rejected from user "+message.fromUsername);
 }
 }
@@ -162,7 +146,6 @@ invitationsListModel.setMessages(messages);
 
 
 System.out.println("Starting the timer");
-pendingInvitationMessagesTimer.start();
 
 
 
@@ -173,44 +156,6 @@ JOptionPane.showMessageDialog(ChessUI.this,t.toString());
 invitationsTimer.start();
 }
 });
-
-
-
-pendingInvitationMessagesTimer=new javax.swing.Timer(1000,(ev1)->{
-
-Iterator<Map.Entry<String,Message>> iterator=pendingInvitations.entrySet().iterator();
-Map.Entry<String,Message> entry;
-Message m;
-String user;
-while(iterator.hasNext())
-{
-entry=iterator.next();
-user=entry.getKey();
-m=entry.getValue();
-if(m.type==MESSAGE_TYPE.CHALLENGE)
-{
-long receivedTime=m.inviteTimeStamp;
-long currentTime=System.currentTimeMillis();
-if(currentTime-receivedTime>=TIMEOUT_DURATION)
-{
-System.out.println("Removing invitation request of user "+m.fromUsername);
-ChessUI.this.pendingInvitations.remove(user);
-invitationsListModel.removeInvitationOfUser(m.fromUsername);
-}
-}
-
-}
-
-
-System.out.print(ChessUI.this.pendingInvitations.size()+" ");
-if(ChessUI.this.pendingInvitations.size()==0) 
-{
-System.out.println("Stopping the timer");
-((javax.swing.Timer)ev1.getSource()).stop();
-}
-});
-
-
 
 
 addWindowListener(new WindowAdapter(){
