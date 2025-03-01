@@ -11,6 +11,8 @@ import com.thinking.machines.chess.common.*;
 public class ChessUI extends JFrame
 {
 private String username;
+private JLabel countdownLabel;
+private JLayeredPane layeredPane;
 private JTable availableMembersList;
 private JScrollPane availableMembersListScrollPane;
 private AvailableMembersListModel availableMembersListModel;
@@ -37,6 +39,13 @@ setLocation(d.width/2-width/2,d.height/2-height/2);
 }
 private void initComponents()
 {
+layeredPane=new JLayeredPane();
+layeredPane.setPreferredSize(new Dimension(250,200));
+countdownLabel=new JLabel("",SwingConstants.CENTER);
+countdownLabel.setFont(new Font("Arial",Font.BOLD,30));
+countdownLabel.setForeground(Color.RED);
+countdownLabel.setBounds(20,75,200,100);
+layeredPane.add(countdownLabel,JLayeredPane.POPUP_LAYER);
 this.availableMembersListModel=new AvailableMembersListModel();
 this.availableMembersList=new JTable(availableMembersListModel);
 this.availableMembersList.getColumn(" ").setCellRenderer(new AvailableMembersListButtonRenderer());
@@ -65,6 +74,7 @@ p1.add(new JLabel("		"));
 p1.add(invitationsList);
 container=getContentPane();
 container.setLayout(new BorderLayout());
+container.add(layeredPane,BorderLayout.CENTER);
 container.add(p1,BorderLayout.EAST);
 
 /*
@@ -142,6 +152,7 @@ for(Message message:messages)
 if(message.type==MESSAGE_TYPE.CHALLENGE_ACCEPTED)
 {
 JOptionPane.showMessageDialog(ChessUI.this,message.fromUsername+" Accepted challenge");
+
 }
 if(message.type==MESSAGE_TYPE.CHALLENGE_REJECTED)
 {
