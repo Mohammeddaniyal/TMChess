@@ -128,7 +128,7 @@ return messages;
 public List<String> getExpiredInvitations(String username)
 {
 List<String> invitationsExpiredOf=this.userExpiredInvitations.get(username);
-if(invitationsExpiredOf!=null && invitationsExpired.size()>0)
+if(invitationsExpiredOf!=null && invitationsExpiredOf.size()>0)
 {
 this.userExpiredInvitations.put(username,new LinkedList<>());
 }
