@@ -465,6 +465,8 @@ if(messages.size()==0)
 {
 return;	
 }
+
+// clearing list is not needed here like avaliablememberlist part,since the data which is coming is new and only we need to append it
 //this.acceptButtons.clear();
 //this.rejectButtons.clear();
 for(Message message:messages)
