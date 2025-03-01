@@ -139,6 +139,10 @@ System.out.println("Got messages : "+messages.size());
 for(Message message:messages)
 {
 // check if any message is related to the invitation which we sent to the user
+if(message.type==MESSAGE_TYPE.CHALLENGE_ACCEPTED)
+{
+JOptionPane.showMessageDialog(ChessUI.this,message.fromUsername+" Accepted challenge");
+}
 if(message.type==MESSAGE_TYPE.CHALLENGE_REJECTED)
 {
 availableMembersListModel.enableInviteButtons();
