@@ -159,6 +159,17 @@ invitationsTimer.start();
 });
 
 
+invitationsClearUpTimer=new javax.swing.Timer(1000,ev->{
+
+try
+{
+
+}catch(Throwable t)
+{
+JOptionPane.showMessageDialog(ChessUI.this,t.getMessage());
+}
+});
+
 
 
 addWindowListener(new WindowAdapter(){
