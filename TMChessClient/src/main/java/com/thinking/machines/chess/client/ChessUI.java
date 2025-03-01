@@ -19,6 +19,7 @@ private InvitationsListModel invitationsListModel;
 private javax.swing.Timer timer;
 private javax.swing.Timer invitationsTimer;
 private javax.swing.Timer invitationsClearUpTimer;
+private javax.swing.Timer getInvitationStatusTimer;
 private Container container;
 private NFrameworkClient client;
 public ChessUI(String username)
@@ -158,6 +159,8 @@ invitationsTimer.start();
 });
 
 
+
+
 addWindowListener(new WindowAdapter(){
 public void windowClosing(WindowEvent e)
 {
@@ -201,7 +204,8 @@ JOptionPane.showMessageDialog(this,"Invitation for game sent to : "+toUsername);
 
 // start a timer to get the update on what happened with invitation
 //done
-javax.swing.Timer getInvitationStatusTimer=new javax.swing.Timer(1000,(ev)->{
+
+getInvitationStatusTimer=new javax.swing.Timer(1000,(ev)->{
 try
 {
 Message message=(Message)client.execute("/TMChessServer/getInvitationStatus",username,toUsername);
@@ -220,11 +224,15 @@ availableMembersListModel.enableInviteButtons();
 JOptionPane.showMessageDialog(this,t.toString());
 }
 });
-getInvitationStatusTimer.start();
+
+
+
 }catch(Throwable t)
 {
 JOptionPane.showMessageDialog(this,t.toString());
 }
+
+getInvitationStatusTimer.start();
 }
 // inner classes starts here //
 class AvailableMembersListModel extends AbstractTableModel
