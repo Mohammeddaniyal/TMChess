@@ -166,7 +166,7 @@ invitationsTimer.start();
 invitationsClearUpTimer=new javax.swing.Timer(1000,ev->{
 try
 {
-java.util.List<String> clearInvitationOfUsers=(java.util.List<String>)client.execute("/TMChess/expiredInvitations",ChessUI.this.username);
+java.util.List<String> clearInvitationOfUsers=(java.util.List<String>)client.execute("/TMChessServer/expiredInvitations",ChessUI.this.username);
 if(clearInvitationOfUsers==null)
 {
 ((javax.swing.Timer)ev.getSource()).stop();
