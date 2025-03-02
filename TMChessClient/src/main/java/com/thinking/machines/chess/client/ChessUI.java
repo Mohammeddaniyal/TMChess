@@ -40,12 +40,11 @@ setLocation(d.width/2-width/2,d.height/2-height/2);
 private void initComponents()
 {
 layeredPane=new JLayeredPane();
-layeredPane.setPreferredSize(new Dimension(250,200));
-countdownLabel=new JLabel("",SwingConstants.CENTER);
+layeredPane.setPreferredSize(new Dimension(400,300));
+countdownLabel=new JLabel("Game",SwingConstants.CENTER);
 countdownLabel.setFont(new Font("Arial",Font.BOLD,30));
 countdownLabel.setForeground(Color.RED);
-countdownLabel.setBounds(20,75,200,100);
-layeredPane.add(countdownLabel,JLayeredPane.POPUP_LAYER);
+countdownLabel.setBounds(20,200,300,40);
 this.availableMembersListModel=new AvailableMembersListModel();
 this.availableMembersList=new JTable(availableMembersListModel);
 this.availableMembersList.getColumn(" ").setCellRenderer(new AvailableMembersListButtonRenderer());
@@ -58,15 +57,15 @@ this.invitationsList.getColumn(" ").setCellRenderer(new InvitationsListButtonRen
 this.invitationsList.getColumn(" ").setCellEditor(new InvitationsListButtonCellEditor());
 this.invitationsList.getColumn("  ").setCellRenderer(new InvitationsListButtonRenderer());
 this.invitationsList.getColumn("  ").setCellEditor(new InvitationsListButtonCellEditor());
+this.client=new NFrameworkClient();
 
 
 JButton availableMembersButton=new JButton("Members");
 JButton invitationsInboxButton=new JButton("Invitation");
 JPanel p1=new JPanel();
 p1.setLayout(new GridLayout(5,1));
-p1.add(new JLabel("Members"),BorderLayout.NORTH);
-this.client=new NFrameworkClient();
 p1.add(new JLabel("		"));
+p1.add(new JLabel("Members"));
 p1.add(new JLabel("		"));
 p1.add(availableMembersList);
 //p1.add(availableMembersButton);
@@ -74,6 +73,7 @@ p1.add(new JLabel("		"));
 p1.add(invitationsList);
 container=getContentPane();
 container.setLayout(new BorderLayout());
+layeredPane.add(countdownLabel,JLayeredPane.POPUP_LAYER);
 container.add(layeredPane,BorderLayout.CENTER);
 container.add(p1,BorderLayout.EAST);
 
@@ -152,7 +152,9 @@ for(Message message:messages)
 if(message.type==MESSAGE_TYPE.CHALLENGE_ACCEPTED)
 {
 JOptionPane.showMessageDialog(ChessUI.this,message.fromUsername+" Accepted challenge");
-startGameCountdown();
+SwingUtilities.invokeLater(()->{startGameCountdown();
+});
+
 }
 if(message.type==MESSAGE_TYPE.CHALLENGE_REJECTED)
 {
@@ -543,8 +545,10 @@ try
 {
 Thread.sleep(500);
 }catch(Exception e){}
-
+SwingUtilities.invokeLater(()->{
 ChessUI.this.startGameCountdown();
+});
+
 
 }else if(text.equalsIgnoreCase("Accept"))
 {
