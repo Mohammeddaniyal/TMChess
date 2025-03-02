@@ -105,9 +105,6 @@ this.inboxes.put(message.toUsername,messages);
 messages.add(message);
 String fromUsername=message.toUsername;
 String toUsername=message.fromUsername;
-System.out.println("Size : "+invitationsTimeout.size());
-System.out.println("Contains ("+fromUsername+") : "+this.invitationsTimeout.containsKey(fromUsername));
-System.out.println("Contains ("+toUsername+") : "+this.invitationsTimeout.containsKey(toUsername));
 message=this.invitationsTimeout.get(fromUsername);
 if(message==null) return;
 if(message.toUsername==toUsername)
