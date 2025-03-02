@@ -171,7 +171,7 @@ return message;
 }// if the user didn't respond to the invitation then this part of ignored invitation
 return null;
 }
-
+@Path("/getGameId")
 public String getGameId(String username)
 {
 String gameId=this.gameIds.get(username);
