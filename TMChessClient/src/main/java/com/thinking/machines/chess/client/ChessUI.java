@@ -150,7 +150,7 @@ for(Message message:messages)
 // check if any message is related to the invitation which we sent to the user
 if(message.type==MESSAGE_TYPE.CHALLENGE_ACCEPTED)
 {
-JOptionPane.showMessageDialog(ChessUI.this,message.fromUsername+" Accepted challenge");
+//JOptionPane.showMessageDialog(ChessUI.this,message.fromUsername+" Accepted challenge");
 SwingUtilities.invokeLater(()->{startGameCountdown();
 });
 
@@ -239,7 +239,7 @@ private void sendInvitationReply(Message message)
 try
 {
 client.execute("/TMChessServer/invitationReply",message);
-JOptionPane.showMessageDialog(this,"Invitation reply sent to user ---> "+message.toUsername+" from user : "+message.fromUsername);
+//JOptionPane.showMessageDialog(this,"Invitation reply sent to user ---> "+message.toUsername+" from user : "+message.fromUsername);
 }catch(Throwable t)
 {
 JOptionPane.showMessageDialog(this,t.getMessage());
@@ -251,7 +251,7 @@ System.out.println("sending invitation to : "+toUsername);
 try
 {
 client.execute("/TMChessServer/inviteUser",username,toUsername);
-JOptionPane.showMessageDialog(this,"Invitation for game sent to : "+toUsername);
+//JOptionPane.showMessageDialog(this,"Invitation for game sent to : "+toUsername);
 
 // start a timer to get the update on what happened with invitation
 //done
