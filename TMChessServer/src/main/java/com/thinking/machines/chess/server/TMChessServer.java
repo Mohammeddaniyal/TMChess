@@ -14,6 +14,7 @@ static private Set<String> playingMembers;
 static private Map<String,List<Message>> inboxes;
 static private Map<String,Message> invitationsTimeout;
 static private Map<String,List<String>> userExpiredInvitations;
+static private Map<String,String> gameIds;
 static private Map<String,Game> games;
 static
 {
@@ -89,6 +90,7 @@ messages.add(message);
 @Path("/invitationReply")
 public void invitationReply(Message m)
 {
+System.out.println("invitationReply got called");
 Message message=new Message();
 message.fromUsername=m.fromUsername;
 message.toUsername=m.toUsername;
@@ -105,8 +107,10 @@ String fromUsername=message.toUsername;
 String toUsername=message.fromUsername;
 message=this.invitationsTimeout.get(fromUsername);
 if(message==null) return;
+System.out.println("Hi121212");
 if(message.toUsername==toUsername)
 {
+System.out.println("Hello");
 System.out.println("Since the user ("+toUsername+") replied to the invitation of user ("+fromUsername+")");
 this.invitationsTimeout.remove(fromUsername);
 }
