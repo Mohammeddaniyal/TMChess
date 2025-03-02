@@ -11,6 +11,7 @@ import com.thinking.machines.chess.common.*;
 public class ChessUI extends JFrame
 {
 private String username;
+private String gameId;
 private JLabel countdownLabel;
 private JLayeredPane layeredPane;
 private JTable availableMembersList;
@@ -150,6 +151,15 @@ for(Message message:messages)
 // check if any message is related to the invitation which we sent to the user
 if(message.type==MESSAGE_TYPE.CHALLENGE_ACCEPTED)
 {
+try
+{
+ChessUI.this.gameId=(String)client.execute("/TMChessServer/getGameId",username);
+JOptionPane.showMessageDialog(ChessUI.this,"Game id : "+gameId);
+}catch(Throwable t)
+{
+JOptionPane.showMessageDialog(ChessUI.this,t.getMessage());
+}
+
 //JOptionPane.showMessageDialog(ChessUI.this,message.fromUsername+" Accepted challenge");
 SwingUtilities.invokeLater(()->{startGameCountdown();
 });
@@ -559,6 +569,15 @@ for(JButton rejectButton:rejectButtons) rejectButton.setEnabled(false);
 this.fireTableDataChanged();
 message.type=MESSAGE_TYPE.CHALLENGE_ACCEPTED;
 ChessUI.this.sendInvitationReply(message);
+
+try
+{
+ChessUI.this.gameId=(String)client.execute("/TMChessServer/getGameId",username);
+JOptionPane.showMessageDialog(ChessUI.this,"Game id : "+gameId);
+}catch(Throwable t)
+{
+JOptionPane.showMessageDialog(ChessUI.this,t.getMessage());
+}
 
 SwingUtilities.invokeLater(()->{
 ChessUI.this.startGameCountdown();
