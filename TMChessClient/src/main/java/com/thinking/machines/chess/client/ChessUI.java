@@ -42,9 +42,8 @@ private void initComponents()
 layeredPane=new JLayeredPane();
 layeredPane.setPreferredSize(new Dimension(400,300));
 countdownLabel=new JLabel("Game",SwingConstants.CENTER);
-countdownLabel.setFont(new Font("Arial",Font.BOLD,30));
+countdownLabel.setFont(new Font("Arial",Font.BOLD,14));
 countdownLabel.setForeground(Color.RED);
-countdownLabel.setBounds(20,200,300,40);
 this.availableMembersListModel=new AvailableMembersListModel();
 this.availableMembersList=new JTable(availableMembersListModel);
 this.availableMembersList.getColumn(" ").setCellRenderer(new AvailableMembersListButtonRenderer());
