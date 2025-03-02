@@ -289,6 +289,15 @@ getInvitationStatusTimer.start();
 
 private void startGameCountdown()
 {
+
+this.container.removeAll();
+this.repaint();
+this.revalidate();
+
+container.add(countdownLabel,BorderLayout.CENTER);
+this.repaint();
+this.revalidate();
+
 javax.swing.Timer countdownTimer=new javax.swing.Timer(1000,new ActionListener(){
 int counter=5;
 @Override
@@ -297,10 +306,14 @@ public void actionPerformed(ActionEvent ev)
 if(counter>0)
 {
 countdownLabel.setText("Game starting in : "+counter--);
+ChessUI.this.repaint();
+ChessUI.this.revalidate();
 }else
 {
 ((javax.swing.Timer)ev.getSource()).stop();
 countdownLabel.setText("Play !");
+ChessUI.this.repaint();
+ChessUI.this.revalidate();
 }
 }
 });
