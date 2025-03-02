@@ -95,7 +95,7 @@ Message message=new Message();
 message.fromUsername=m.fromUsername;
 message.toUsername=m.toUsername;
 message.type=m.type;
-this.invitationsTimeout.remove(m.toUsername);
+//this.invitationsTimeout.remove(m.toUsername);
 List<Message> messages=inboxes.get(message.toUsername);
 if(messages==null)
 {
@@ -105,13 +105,13 @@ this.inboxes.put(message.toUsername,messages);
 messages.add(message);
 String fromUsername=message.toUsername;
 String toUsername=message.fromUsername;
+System.out.println("Size : "+invitationsTimeout.size());
+System.out.println("Contains ("+fromUsername+") : "+this.invitationsTimeout.containsKey(fromUsername));
+System.out.println("Contains ("+toUsername+") : "+this.invitationsTimeout.containsKey(toUsername));
 message=this.invitationsTimeout.get(fromUsername);
 if(message==null) return;
-System.out.println("Hi121212");
 if(message.toUsername==toUsername)
 {
-System.out.println("Hello");
-System.out.println("Since the user ("+toUsername+") replied to the invitation of user ("+fromUsername+")");
 this.invitationsTimeout.remove(fromUsername);
 }
 }
