@@ -560,10 +560,6 @@ this.fireTableDataChanged();
 message.type=MESSAGE_TYPE.CHALLENGE_ACCEPTED;
 ChessUI.this.sendInvitationReply(message);
 
-try
-{
-Thread.sleep(500);
-}catch(Exception e){}
 SwingUtilities.invokeLater(()->{
 ChessUI.this.startGameCountdown();
 });
