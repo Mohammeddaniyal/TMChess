@@ -41,6 +41,7 @@ playingMembers=new HashSet<>();
 inboxes=new HashMap<>();
 invitationsTimeout=new HashMap<>();
 userExpiredInvitations=new HashMap<>();
+gameIds=new HashMap<>();
 games=new HashMap<>();
 }
 @Path("/authenticateMember")
@@ -90,12 +91,10 @@ messages.add(message);
 @Path("/invitationReply")
 public void invitationReply(Message m)
 {
-System.out.println("invitationReply got called");
 Message message=new Message();
 message.fromUsername=m.fromUsername;
 message.toUsername=m.toUsername;
 message.type=m.type;
-//this.invitationsTimeout.remove(m.toUsername);
 List<Message> messages=inboxes.get(message.toUsername);
 if(messages==null)
 {
@@ -105,6 +104,12 @@ this.inboxes.put(message.toUsername,messages);
 messages.add(message);
 String fromUsername=message.toUsername;
 String toUsername=message.fromUsername;
+if(message.type==MESSAGE_TYPE.CHALLENGE_ACCEPTED)
+{
+String uuid=UUID.randomUUID().toString();
+this.gameIds.put(fromUsername,uuid);
+this.gameIds.put(toUsername,uuid);
+}
 message=this.invitationsTimeout.get(fromUsername);
 if(message==null) return;
 if(message.toUsername==toUsername)
@@ -169,7 +174,9 @@ return null;
 
 public String getGameId(String username)
 {
-return "abc";
+String gameId=this.gameIds.get(username);
+if(gameId!=null)this.gameIds.remove(username);
+return gameId;
 }
 public boolean canIPlay(String gameId,String username)
 {
