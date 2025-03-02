@@ -304,18 +304,25 @@ public void actionPerformed(ActionEvent ev)
 {
 if(counter>0)
 {
+SwingUtilities.invokeLater(()->{
+System.out.println(counter);
 countdownLabel.setText("Game starting in : "+counter--);
 ChessUI.this.repaint();
 ChessUI.this.revalidate();
+});
 }else
 {
 ((javax.swing.Timer)ev.getSource()).stop();
-countdownLabel.setText("Play !");
+SwingUtilities.invokeLater(()->{
+countdownLabel.setText("Play!");
 ChessUI.this.repaint();
 ChessUI.this.revalidate();
+});
 }
 }
 });
+
+countdownTimer.start();
 }
 
 // inner classes starts here //
