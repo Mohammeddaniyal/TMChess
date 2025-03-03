@@ -1,6 +1,6 @@
 package com.thinking.machines.chess.client.validators;
-import com.thinking.machines.chess.client.model.*;
 import com.thinking.machines.chess.client.logic.*;
+import com.thinking.machines.chess.client.model.*;
 import javax.swing.*;
 import java.util.*;
 public class KingMoveValidator
