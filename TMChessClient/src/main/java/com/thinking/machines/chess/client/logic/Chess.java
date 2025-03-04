@@ -1,9 +1,12 @@
+package com.thinking.machines.chess.client.logic;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-class Chess extends JFrame implements ActionListener
+import com.thinking.machines.chess.client.validators.*;
+import com.thinking.machines.chess.client.model.*;
+public class Chess extends JFrame implements ActionListener
 {
 class UNDOMove
 {
