@@ -6,7 +6,7 @@ import java.awt.event.*;
 import java.util.*;
 import com.thinking.machines.chess.client.validators.*;
 import com.thinking.machines.chess.client.model.*;
-public class Chess extends JFrame implements ActionListener
+public class Chess extends JPanel implements ActionListener
 {
 class UNDOMove
 {
@@ -72,8 +72,9 @@ blackKingCastling.rightRookMoved=rightBlackRookMoved;
 tiles=new JButton[8][8];
 boardPanel=new JPanel();
 boardPanel.setLayout(new GridLayout(8,8));
-container=getContentPane();
-container.setLayout(new BorderLayout());
+//container=getContentPane();
+//container.setLayout(new BorderLayout());
+setLayout(new BorderLayout());
 JButton tile;
 blackTile=new ImageIcon("images/lightBlack_tile.png");
 whiteTile=new ImageIcon("images/grey_tile.png");
@@ -143,8 +144,11 @@ setSize(width,height);
 int x=(d.width/2)-(width/2);
 int y=(d.height/2)-(height/2);
 buttonPanel=new ButtonPanel();
-container.add(boardPanel,BorderLayout.CENTER);
-container.add(buttonPanel,BorderLayout.EAST);
+//container.add(boardPanel,BorderLayout.CENTER);
+//container.add(buttonPanel,BorderLayout.EAST);
+add(boardPanel,BorderLayout.CENTER);
+add(buttonPanel,BorderLayout.EAST);
+
 setLocation(x,y);
 setVisible(true);
 }
