@@ -122,7 +122,7 @@ this.playerIdentities.put(toUsername,playerIdentity);
 }
 message=this.invitationsTimeout.get(fromUsername);
 if(message==null) return;
-if(message.toUsername==toUsername)
+if(message.toUsername.equals(toUsername))
 {
 this.invitationsTimeout.remove(fromUsername);
 }
