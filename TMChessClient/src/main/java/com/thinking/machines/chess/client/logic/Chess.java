@@ -76,28 +76,28 @@ boardPanel.setLayout(new GridLayout(8,8));
 //container.setLayout(new BorderLayout());
 setLayout(new BorderLayout());
 JButton tile;
-blackTile=new ImageIcon(this.getClass().getResource("icons/lightBlack_tile.png"));
-whiteTile=new ImageIcon(this.getClass().getResource("icons/grey_tile.png"));
+blackTile=new ImageIcon(this.getClass().getResource("/icons/lightBlack_tile.png"));
+whiteTile=new ImageIcon(this.getClass().getResource("/icons/grey_tile.png"));
 darkTileColor=new Color(70,70,70);
 lightTileColor=new Color(240,240,240);
 darkTileBorder=BorderFactory.createLineBorder(new Color(20,20,20),2);
 lightTileBorder=BorderFactory.createLineBorder(new Color(255,255,255),2);
 Color tileColor;
 Border tileBorder;
-blackRookIcon=new ImageIcon(this.getClass().getResource("icons/black_rook.png"));
-blackKnightIcon=new ImageIcon(this.getClass().getResource("icons/black_knight.png"));
-blackBishopIcon=new ImageIcon(this.getClass().getResource("icons/black_bishop.png"));
-blackQueenIcon=new ImageIcon(this.getClass().getResource("icons/black_queen.png"));
-blackKingIcon=new ImageIcon(this.getClass().getResource("icons/black_king.png"));
-blackPawnIcon=new ImageIcon(this.getClass().getResource("icons/black_pawn.png"));
+blackRookIcon=new ImageIcon(this.getClass().getResource("/icons/black_rook.png"));
+blackKnightIcon=new ImageIcon(this.getClass().getResource("/icons/black_knight.png"));
+blackBishopIcon=new ImageIcon(this.getClass().getResource("/icons/black_bishop.png"));
+blackQueenIcon=new ImageIcon(this.getClass().getResource("/icons/black_queen.png"));
+blackKingIcon=new ImageIcon(this.getClass().getResource("/icons/black_king.png"));
+blackPawnIcon=new ImageIcon(this.getClass().getResource("/icons/black_pawn.png"));
 
 
-whiteRookIcon=new ImageIcon(this.getClass().getResource("icons/white_rook.png"));
-whiteKnightIcon=new ImageIcon(this.getClass().getResource("icons/white_knight.png"));
-whiteBishopIcon=new ImageIcon(this.getClass().getResource("icons/white_bishop.png"));
-whiteQueenIcon=new ImageIcon(this.getClass().getResource("icons/white_queen.png"));
-whiteKingIcon=new ImageIcon(this.getClass().getResource("icons/white_king.png"));
-whitePawnIcon=new ImageIcon(this.getClass().getResource("icons/white_pawn.png"));
+whiteRookIcon=new ImageIcon(this.getClass().getResource("/icons/white_rook.png"));
+whiteKnightIcon=new ImageIcon(this.getClass().getResource("/icons/white_knight.png"));
+whiteBishopIcon=new ImageIcon(this.getClass().getResource("/icons/white_bishop.png"));
+whiteQueenIcon=new ImageIcon(this.getClass().getResource("/icons/white_queen.png"));
+whiteKingIcon=new ImageIcon(this.getClass().getResource("/icons/white_king.png"));
+whitePawnIcon=new ImageIcon(this.getClass().getResource("/icons/white_pawn.png"));
 
 
 
@@ -1008,11 +1008,11 @@ private JButton undoButton;
 private JButton doneButton;
 ButtonPanel()
 {
-ImageIcon undoIcon=new ImageIcon(this.getClass().getResource("icons/undo_32.png"));
+ImageIcon undoIcon=new ImageIcon(this.getClass().getResource("/icons/undo_32.png"));
 undoButton=new JButton(undoIcon);
 undoButton.setForeground(Color.BLACK);
 undoButton.setBackground(new Color(220,240,220));
-ImageIcon doneIcon=new ImageIcon(this.getClass().getResource("icons/done_32.png"));
+ImageIcon doneIcon=new ImageIcon(this.getClass().getResource("/icons/done_32.png"));
 doneButton=new JButton(doneIcon);
 undoButton.setBounds(100+200,20,50,50);
 doneButton.setBackground(new Color(220,240,220));
