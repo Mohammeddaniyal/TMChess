@@ -8,12 +8,11 @@ import javax.swing.table.*;
 import java.util.*;
 import java.util.concurrent.*;
 import com.thinking.machines.chess.common.*;
-//import com.thinking.machines.chess.client.logic.Chess;
+import com.thinking.machines.chess.client.logic.Chess;
 public class ChessUI extends JFrame
 {
 private String username;
-private String gameId;
-private String playerColor;
+private PlayerIdentity playerIdentity;
 private JLabel countdownLabel;
 private JLayeredPane layeredPane;
 private JTable availableMembersList;
@@ -155,8 +154,8 @@ if(message.type==MESSAGE_TYPE.CHALLENGE_ACCEPTED)
 {
 try
 {
-ChessUI.this.gameId=(String)client.execute("/TMChessServer/getGameId",username);
-JOptionPane.showMessageDialog(ChessUI.this,"Game id : "+gameId);
+playerIdentity=(PlayerIdentity)client.execute("/TMChessServer/getPlayerIdentity",username);
+JOptionPane.showMessageDialog(ChessUI.this,"Game id : "+playerIdentity.gameId+" and player color : "+playerIdentity.playerColor);
 }catch(Throwable t)
 {
 JOptionPane.showMessageDialog(ChessUI.this,t.getMessage());
@@ -328,12 +327,13 @@ ChessUI.this.revalidate();
 SwingUtilities.invokeLater(()->{
 countdownLabel.setText("Play!");
 ChessUI.this.container.removeAll();
-/*
+
+
 Chess chessPanel=new Chess();
 ChessUI.this.container.add(chessPanel,BorderLayout.CENTER);
 ChessUI.this.repaint();
 ChessUI.this.revalidate();
-*/
+
 });
 }
 }
@@ -579,8 +579,10 @@ ChessUI.this.sendInvitationReply(message);
 
 try
 {
-ChessUI.this.gameId=(String)client.execute("/TMChessServer/getGameId",username);
-JOptionPane.showMessageDialog(ChessUI.this,"Game id : "+gameId);
+//done
+playerIdentity=(PlayerIdentity)client.execute("/TMChessServer/getPlayerIdentity",username);
+//ChessUI.this.gameId=(String)client.execute("/TMChessServer/getGameId",username);
+JOptionPane.showMessageDialog(ChessUI.this,"Game id : "+playerIdentity.gameId+" and player color : "+playerIdentity.playerColor);
 }catch(Throwable t)
 {
 JOptionPane.showMessageDialog(ChessUI.this,t.getMessage());
