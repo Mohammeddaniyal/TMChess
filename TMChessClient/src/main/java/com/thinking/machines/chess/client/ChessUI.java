@@ -35,8 +35,8 @@ initComponents();
 setAppearence();
 addListeners();
 Dimension d=Toolkit.getDefaultToolkit().getScreenSize();
-int width=500;
-int height=400;
+int width=650;
+int height=600;
 setSize(width,height);
 setLocation(d.width/2-width/2,d.height/2-height/2);
 }
