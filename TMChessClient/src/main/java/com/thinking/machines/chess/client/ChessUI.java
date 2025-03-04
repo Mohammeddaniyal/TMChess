@@ -8,10 +8,12 @@ import javax.swing.table.*;
 import java.util.*;
 import java.util.concurrent.*;
 import com.thinking.machines.chess.common.*;
+import com.thinking.machines.chess.client.logic.Chess;
 public class ChessUI extends JFrame
 {
 private String username;
 private String gameId;
+private String playerColor;
 private JLabel countdownLabel;
 private JLayeredPane layeredPane;
 private JTable availableMembersList;
@@ -327,6 +329,9 @@ SwingUtilities.invokeLater(()->{
 countdownLabel.setText("Play!");
 ChessUI.this.repaint();
 ChessUI.this.revalidate();
+Chess chessPanel=new Chess();
+container.add(chessPanel,BorderLayout.CENTER);
+
 });
 }
 }
