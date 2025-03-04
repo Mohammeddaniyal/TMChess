@@ -1,4 +1,4 @@
-`package com.thinking.machines.chess.server;
+package com.thinking.machines.chess.server;
 import com.thinking.machines.chess.common.*;
 import com.thinking.machines.nframework.server.*;
 import com.thinking.machines.nframework.server.annotations.*;
@@ -107,18 +107,18 @@ String toUsername=message.fromUsername;
 if(message.type==MESSAGE_TYPE.CHALLENGE_ACCEPTED)
 {
 String uuid=UUID.randomUUID().toString();
-PlayerIdentity playerIndentity=new PlayerIdentity();
+PlayerIdentity playerIdentity=new PlayerIdentity();
 playerIdentity.gameId=uuid;
 boolean isWhite=new Random().nextBoolean();
 String playerColor=isWhite?"White":"Black";
 playerIdentity.playerColor=playerColor;
 //player 1
-this.playerIdentities.put(fromUsername,playerColor);
+this.playerIdentities.put(fromUsername,playerIdentity);
 playerIdentity=new PlayerIdentity();
 playerIdentity.gameId=uuid;
 playerIdentity.playerColor=isWhite?"Black":"White";
 //player 2
-this.gameIds.put(toUsername,playerIdentity);
+this.playerIdentities.put(toUsername,playerIdentity);
 }
 message=this.invitationsTimeout.get(fromUsername);
 if(message==null) return;
@@ -182,9 +182,9 @@ return message;
 return null;
 }
 @Path("/getPlayerIdentity")
-public String getPlayerIdentity(String username)
+public PlayerIdentity getPlayerIdentity(String username)
 {
-PlayerIdentity playerIndentity=this.playerIdentities.get(username);
+PlayerIdentity playerIdentity=this.playerIdentities.get(username);
 if(playerIdentity!=null)this.playerIdentities.remove(username);
 return playerIdentity;
 }
