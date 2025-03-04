@@ -327,10 +327,11 @@ ChessUI.this.revalidate();
 ((javax.swing.Timer)ev.getSource()).stop();
 SwingUtilities.invokeLater(()->{
 countdownLabel.setText("Play!");
-ChessUI.this.repaint();
-ChessUI.this.revalidate();
+this.container.removeAll();
 Chess chessPanel=new Chess();
 container.add(chessPanel,BorderLayout.CENTER);
+ChessUI.this.repaint();
+ChessUI.this.revalidate();
 
 });
 }
