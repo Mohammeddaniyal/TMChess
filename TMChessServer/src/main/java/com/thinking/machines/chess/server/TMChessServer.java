@@ -1,4 +1,4 @@
-package com.thinking.machines.chess.server;
+`package com.thinking.machines.chess.server;
 import com.thinking.machines.chess.common.*;
 import com.thinking.machines.nframework.server.*;
 import com.thinking.machines.nframework.server.annotations.*;
@@ -14,7 +14,7 @@ static private Set<String> playingMembers;
 static private Map<String,List<Message>> inboxes;
 static private Map<String,Message> invitationsTimeout;
 static private Map<String,List<String>> userExpiredInvitations;
-static private Map<String,String> gameIds;
+static private Map<String,PlayerIdentity> playerIdentities;
 static private Map<String,Game> games;
 static
 {
@@ -41,7 +41,7 @@ playingMembers=new HashSet<>();
 inboxes=new HashMap<>();
 invitationsTimeout=new HashMap<>();
 userExpiredInvitations=new HashMap<>();
-gameIds=new HashMap<>();
+playerIdentities=new HashMap<>();
 games=new HashMap<>();
 }
 @Path("/authenticateMember")
@@ -107,8 +107,18 @@ String toUsername=message.fromUsername;
 if(message.type==MESSAGE_TYPE.CHALLENGE_ACCEPTED)
 {
 String uuid=UUID.randomUUID().toString();
-this.gameIds.put(fromUsername,uuid);
-this.gameIds.put(toUsername,uuid);
+PlayerIdentity playerIndentity=new PlayerIdentity();
+playerIdentity.gameId=uuid;
+boolean isWhite=new Random().nextBoolean();
+String playerColor=isWhite?"White":"Black";
+playerIdentity.playerColor=playerColor;
+//player 1
+this.playerIdentities.put(fromUsername,playerColor);
+playerIdentity=new PlayerIdentity();
+playerIdentity.gameId=uuid;
+playerIdentity.playerColor=isWhite?"Black":"White";
+//player 2
+this.gameIds.put(toUsername,playerIdentity);
 }
 message=this.invitationsTimeout.get(fromUsername);
 if(message==null) return;
@@ -171,12 +181,12 @@ return message;
 }// if the user didn't respond to the invitation then this part of ignored invitation
 return null;
 }
-@Path("/getGameId")
-public String getGameId(String username)
+@Path("/getPlayerIdentity")
+public String getPlayerIdentity(String username)
 {
-String gameId=this.gameIds.get(username);
-if(gameId!=null)this.gameIds.remove(username);
-return gameId;
+PlayerIdentity playerIndentity=this.playerIdentities.get(username);
+if(playerIdentity!=null)this.playerIdentities.remove(username);
+return playerIdentity;
 }
 public boolean canIPlay(String gameId,String username)
 {
