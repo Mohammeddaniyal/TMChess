@@ -12,7 +12,7 @@ import com.thinking.machines.chess.client.logic.Chess;
 public class ChessUI extends JFrame
 {
 private String username;
-private PlayerIdentity playerIdentity;
+private GameInit gameInit;
 private JLabel countdownLabel;
 private JLayeredPane layeredPane;
 private JTable availableMembersList;
@@ -154,8 +154,8 @@ if(message.type==MESSAGE_TYPE.CHALLENGE_ACCEPTED)
 {
 try
 {
-playerIdentity=(PlayerIdentity)client.execute("/TMChessServer/getPlayerIdentity",username);
-JOptionPane.showMessageDialog(ChessUI.this,"Game id : "+playerIdentity.gameId+" and player color : "+playerIdentity.playerColor);
+gameInit=(GameInit)client.execute("/TMChessServer/getGameInit",username);
+JOptionPane.showMessageDialog(ChessUI.this,"Game id : "+gameInit.gameId+" and player color : "+gameInit.playerColor);
 }catch(Throwable t)
 {
 JOptionPane.showMessageDialog(ChessUI.this,t.getMessage());
@@ -329,11 +329,10 @@ countdownLabel.setText("Play!");
 ChessUI.this.container.removeAll();
 
 
-Chess chessPanel=new Chess();
+Chess chessPanel=new Chess(gameInit);
 ChessUI.this.container.add(chessPanel,BorderLayout.CENTER);
 ChessUI.this.repaint();
 ChessUI.this.revalidate();
-
 });
 }
 }
@@ -580,9 +579,9 @@ ChessUI.this.sendInvitationReply(message);
 try
 {
 //done
-playerIdentity=(PlayerIdentity)client.execute("/TMChessServer/getPlayerIdentity",username);
+gameInit=(GameInit)client.execute("/TMChessServer/getGameInit",username);
 //ChessUI.this.gameId=(String)client.execute("/TMChessServer/getGameId",username);
-JOptionPane.showMessageDialog(ChessUI.this,"Game id : "+playerIdentity.gameId+" and player color : "+playerIdentity.playerColor);
+JOptionPane.showMessageDialog(ChessUI.this,"Game id : "+gameInit.gameId+" and player color : "+gameInit.playerColor);
 }catch(Throwable t)
 {
 JOptionPane.showMessageDialog(ChessUI.this,t.getMessage());
