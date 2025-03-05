@@ -2,7 +2,7 @@ package com.thinking.machines.chess.server.validators;
 import javax.swing.*;
 public class BishopMoveValidator
 {
-public static boolean validateMove(int startRowIndex,int startColumnIndex,int destinationRowIndex,int destinationColumnIndex,JButton[][] tiles)
+public static boolean validateMove(int startRowIndex,int startColumnIndex,int destinationRowIndex,int destinationColumnIndex,byte [][]board)
 {
 //restricting vertical and horizontal movement of the (bishop)
 if((startRowIndex==destinationRowIndex && startColumnIndex!=destinationColumnIndex) || (startRowIndex!=destinationRowIndex && startColumnIndex==destinationColumnIndex)) return false; 
@@ -16,14 +16,14 @@ if(d1!=d2)
 return false;
 }
 //validating path blocker
-JButton tile;
+byte tile;
 int e,f;
 if(destinationRowIndex<startRowIndex && destinationColumnIndex<startColumnIndex)
 {
 for(e=startRowIndex-1,f=startColumnIndex-1;e>destinationRowIndex;e--,f--)
 {
-tile=tiles[e][f];
-if(tile.getActionCommand().equals("")==false) 
+tile=board[e][f];
+if(tile!=0) 
 {
 return false;
 }
@@ -34,8 +34,8 @@ if(destinationRowIndex<startRowIndex && startColumnIndex<destinationColumnIndex)
 {
 for(e=startRowIndex-1,f=startColumnIndex+1;e>destinationRowIndex;e--,f++)
 {
-tile=tiles[e][f];
-if(tile.getActionCommand().equals("")==false)
+tile=board[e][f];
+if(tile!=0)
 {
 return false;
 }
@@ -46,8 +46,8 @@ if(startRowIndex<destinationRowIndex && destinationColumnIndex<startColumnIndex)
 {
 for(e=startRowIndex+1,f=startColumnIndex-1;e<destinationRowIndex;e++,f--)
 {
-tile=tiles[e][f];
-if(tile.getActionCommand().equals("")==false) 
+tile=board[e][f];
+if(tile!=0) 
 {
 return false;
 }
@@ -58,8 +58,8 @@ if(startRowIndex<destinationRowIndex && startColumnIndex<destinationColumnIndex)
 {
 for(e=startRowIndex+1,f=startColumnIndex+1;e<destinationRowIndex;e++,f++)
 {
-tile=tiles[e][f];
-if(tile.getActionCommand().equals("")==false) 
+tile=board[e][f];
+if(tile!=0)
 {
 return false;
 }
