@@ -3,28 +3,25 @@ import javax.swing.*;
 public class QueenMoveValidator
 {
 private QueenMoveValidator(){};
-public static boolean validateMove(int startRowIndex,int startColumnIndex,int destinationRowIndex,int destinationColumnIndex,JButton[][] tiles)
+public static boolean validateMove(int startRowIndex,int startColumnIndex,int destinationRowIndex,int destinationColumnIndex,byte[][] board)
 {
 //for vertical and horizontal movement starts here
-JButton tile;
-String pieceName;
+byte tile;
 if(startColumnIndex==destinationColumnIndex)//vertical movement
 {
 if(startRowIndex<destinationRowIndex)	
 {
 for(int e=startRowIndex+1;e<destinationRowIndex;e++)
 {
-tile=tiles[e][startColumnIndex];
-pieceName=tile.getActionCommand();
-if(pieceName.equals("")==false) return false;
+tile=board[e][startColumnIndex];
+if(tile!=0) return false; // tile not empty
 }
 }else
 {
 for(int e=startRowIndex-1;e>destinationRowIndex;e--)
 {
-tile=tiles[e][startColumnIndex];
-pieceName=tile.getActionCommand();
-if(pieceName.equals("")==false) return false;
+tile=board[e][startColumnIndex];
+if(tile!=0) return false; // tile not empty
 }
 }
 }else if(startRowIndex==destinationRowIndex)//horizontal movement
@@ -33,17 +30,15 @@ if(startColumnIndex<destinationColumnIndex)
 {
 for(int f=startColumnIndex+1;f<destinationColumnIndex;f++)
 {
-tile=tiles[startRowIndex][f];
-pieceName=tile.getActionCommand();
-if(pieceName.equals("")==false) return false;
+tile=board[startRowIndex][f];
+if(tile!=0) return false;// tile not empty
 }
 }else
 {
 for(int f=startColumnIndex-1;f>destinationColumnIndex;f--)
 {
-tile=tiles[startRowIndex][f];
-pieceName=tile.getActionCommand();
-if(pieceName.equals("")==false) return false;
+tile=board[startRowIndex][f];
+if(tile!=0) return false;// tile not empty
 }
 }
 }
@@ -67,8 +62,8 @@ if(destinationRowIndex<startRowIndex && destinationColumnIndex<startColumnIndex)
 {
 for(e=startRowIndex-1,f=startColumnIndex-1;e>destinationRowIndex;e--,f--)
 {
-tile=tiles[e][f];
-if(tile.getActionCommand().equals("")==false) 
+tile=board[e][f];
+if(tile!=0) 
 {
 return false;
 }
@@ -79,8 +74,8 @@ if(destinationRowIndex<startRowIndex && startColumnIndex<destinationColumnIndex)
 {
 for(e=startRowIndex-1,f=startColumnIndex+1;e>destinationRowIndex;e--,f++)
 {
-tile=tiles[e][f];
-if(tile.getActionCommand().equals("")==false)
+tile=board[e][f];
+if(tile!=0)
 {
 return false;
 }
@@ -91,8 +86,8 @@ if(startRowIndex<destinationRowIndex && destinationColumnIndex<startColumnIndex)
 {
 for(e=startRowIndex+1,f=startColumnIndex-1;e<destinationRowIndex;e++,f--)
 {
-tile=tiles[e][f];
-if(tile.getActionCommand().equals("")==false) 
+tile=board[e][f];
+if(tile!=0) 
 {
 return false;
 }
@@ -103,8 +98,8 @@ if(startRowIndex<destinationRowIndex && startColumnIndex<destinationColumnIndex)
 {
 for(e=startRowIndex+1,f=startColumnIndex+1;e<destinationRowIndex;e++,f++)
 {
-tile=tiles[e][f];
-if(tile.getActionCommand().equals("")==false) 
+tile=board[e][f];
+if(tile!=0) 
 {
 return false;
 }
