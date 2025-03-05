@@ -16,8 +16,10 @@ static private Set<String> playingMembers;
 static private Map<String,List<Message>> inboxes;
 static private Map<String,Message> invitationsTimeout;
 static private Map<String,List<String>> userExpiredInvitations;
-static private Map<String,PlayerIdentity> playerIdentities;
+static private Map<String,GameInit> gameInits;
 static private Map<String,Game> games;
+static private final byte WHITE=1;
+static private final byte BLACK=0;
 static
 {
 populateDataStructures();
@@ -43,7 +45,7 @@ playingMembers=new HashSet<>();
 inboxes=new HashMap<>();
 invitationsTimeout=new HashMap<>();
 userExpiredInvitations=new HashMap<>();
-playerIdentities=new HashMap<>();
+gameInits=new HashMap<>();
 games=new HashMap<>();
 }
 @Path("/authenticateMember")
@@ -109,18 +111,38 @@ String toUsername=message.fromUsername;
 if(message.type==MESSAGE_TYPE.CHALLENGE_ACCEPTED)
 {
 String uuid=UUID.randomUUID().toString();
-PlayerIdentity playerIdentity=new PlayerIdentity();
-playerIdentity.gameId=uuid;
-boolean isWhite=new Random().nextBoolean();
-String playerColor=isWhite?"White":"Black";
-playerIdentity.playerColor=playerColor;
-//player 1
-this.playerIdentities.put(fromUsername,playerIdentity);
-playerIdentity=new PlayerIdentity();
-playerIdentity.gameId=uuid;
-playerIdentity.playerColor=isWhite?"Black":"White";
+Random random=new Random();
+//decide player color
+
+byte playerColor1=(byte)random.nextInt(2); // Generates 0 or 1 (player [fromUsername])
+byte playerColor2=(playerColor1==WHITE?BLACK:WHITE); // (player [toUsername])
+
+//create Game object(for this session of game of this two players)
+Game game=new Game();
+game.id=uuid;
+game.player1=fromUsername;
+game.player2=toUsername;
+game.board=BoardInitializer.initializeBoard();
+//decide which will be the first to play
+//since WHITE represent 1 and BLACK represent 0
+game.activePlayer=(byte)random.nextInt(2); //Generates 0 or 1 
+game.moves=new LinkedList<Move>();
+
+GameInit gameInit=new GameInit();
+gameInit.gameId=uuid;
+gameInit.playerColor=playerColor1;
+gameInit.board=BoardInitializer.initializeBoard();
+//putting player 1
+this.gameInits.put(fromUsername,gameInit);
+
+
 //player 2
-this.playerIdentities.put(toUsername,playerIdentity);
+gameInit=new GameInit();
+gameInit.gameId=uuid;
+gameInit.playerColor=playerColor2;
+gameInit.board=BoardInitializer.initializeBoard();
+//putting player 2
+this.gameInits.put(toUsername,gameInit);
 }
 message=this.invitationsTimeout.get(fromUsername);
 if(message==null) return;
@@ -183,12 +205,12 @@ return message;
 }// if the user didn't respond to the invitation then this part of ignored invitation
 return null;
 }
-@Path("/getPlayerIdentity")
-public PlayerIdentity getPlayerIdentity(String username)
+@Path("/getGameInit")
+public GameInit getPlayerIdentity(String username)
 {
-PlayerIdentity playerIdentity=this.playerIdentities.get(username);
-if(playerIdentity!=null)this.playerIdentities.remove(username);
-return playerIdentity;
+GameInit gameInit=this.gameInits.get(username);
+if(gameInit!=null)this.gameInits.remove(username);
+return gameInit;
 }
 public boolean canIPlay(String gameId,String username)
 {
