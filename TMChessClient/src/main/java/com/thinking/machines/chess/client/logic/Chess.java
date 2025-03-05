@@ -1,13 +1,13 @@
 package com.thinking.machines.chess.client.logic;
+import com.thinking.machines.chess.common.GameInit;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-import com.thinking.machines.chess.client.validators.*;
-import com.thinking.machines.chess.client.model.*;
 public class Chess extends JPanel implements ActionListener
 {
+private GameInit gameInit;
 class UNDOMove
 {
 public JButton tile1,tile2;
@@ -26,8 +26,6 @@ private boolean rightBlackRookMoved=false;
 private boolean leftBlackRookMoved=false;
 private boolean white=true;
 private boolean black=false;
-private KingCastling whiteKingCastling;
-private KingCastling blackKingCastling;
 private ButtonPanel buttonPanel;
 private JPanel boardPanel;
 private JButton[][] tiles;
@@ -58,17 +56,10 @@ private ImageIcon whitePawnIcon;
 private UNDOMove undoMove;
 private boolean undoMoveValid=false;
 private int startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex;
-public Chess()
+public Chess(GameInit gameInit)
 {
+this.gameInit=gameInit;
 undoMove=new UNDOMove();
-whiteKingCastling=new KingCastling();
-whiteKingCastling.kingMoved=whiteKingMoved;
-whiteKingCastling.leftRookMoved=leftWhiteRookMoved;
-whiteKingCastling.rightRookMoved=rightWhiteRookMoved;
-blackKingCastling=new KingCastling();
-blackKingCastling.kingMoved=blackKingMoved;
-blackKingCastling.leftRookMoved=leftBlackRookMoved;
-blackKingCastling.rightRookMoved=rightBlackRookMoved;
 tiles=new JButton[8][8];
 boardPanel=new JPanel();
 boardPanel.setLayout(new GridLayout(8,8));
@@ -217,95 +208,92 @@ undoMove.castling=false;
 */	
 }
 private JButton setupBoard(int e,int f,Color tileColor,Border tileBorder)
-{	
+{
+byte board[][]=this.gameInit.board;	
 JButton tile=new JButton();
 tile.setBackground(tileColor);
 tile.setBorder(tileBorder);
-//generating black piece
-if(e==0 || e==1)//for black pieces
-{
 tile.setLayout(new BorderLayout());
-if(e==0)
+//generating black piece
+if(board[e][f]<0)
 {
-if((f==0 ||f==7) )  
+//pawn
+if(board[e][f]==-1)
+{
+tile.add(new JLabel(blackPawnIcon));
+tile.setActionCommand("blackPawn");
+}//knight
+else if(board[e][f]==-2)
+{
+tile.setActionCommand("blackKnight");
+tile.add(new JLabel(blackKnightIcon));
+}//Bishop
+else if(board[e][f]==-3)
+{
+tile.setActionCommand("blackBishop");
+tile.add(new JLabel(blackBishopIcon));
+}//Rook
+else if(board[e][f]==-4)
 {
 JLabel blackRookLabel=new JLabel(blackRookIcon);
 tile.setActionCommand("blackRook");
 tile.add(blackRookLabel,BorderLayout.CENTER);
-}else
-if((f==1 || f==6 ))
-{
-tile.setActionCommand("blackKnight");
-tile.add(new JLabel(blackKnightIcon));
-}else
-if((f==2 || f==5 ))
-{
-tile.setActionCommand("blackBishop");
-tile.add(new JLabel(blackBishopIcon));
-}else
-if(f==3 )
+}//Queen
+else if(board[e][f]==-5)
 {
 tile.setActionCommand("blackQueen");
 tile.add(new JLabel(blackQueenIcon));
-}else
-if(f==4 )
+}//King
+else if(board[e][f]==-6)
 {
 tile.setActionCommand("blackKing");
 tile.add(new JLabel(blackKingIcon));
 }
-}else
-if(e==1)
+}// for black piece ends here
+//for white piece starts here
+else
 {
-tile.add(new JLabel(blackPawnIcon));
-tile.setActionCommand("blackPawn");
-}
-}
-//generating black piece ends here
-//generating white piece starts here
-else 
-if(e==6 || e==7)
+//pawn
+if(board[e][f]==1)
 {
-JLabel whiteRookLabel=new JLabel(whiteRookIcon);
-if(e==7)
-{
-if((f==0 ||f==7) )  
-{
-tile.setActionCommand("whiteRook");
-tile.add(whiteRookLabel,BorderLayout.CENTER);
-}else
-if((f==1 || f==6 ))
+tile.add(new JLabel(whitePawnIcon));
+tile.setActionCommand("whitePawn");
+}//knight
+else if(board[e][f]==2)
 {
 tile.setActionCommand("whiteKnight");
 tile.add(new JLabel(whiteKnightIcon));
-}else
-if((f==2 || f==5 ))
+}//Bishop
+else if(board[e][f]==3)
 {
 tile.setActionCommand("whiteBishop");
 tile.add(new JLabel(whiteBishopIcon));
-}else
-if(f==3 )
+}//Rook
+else if(board[e][f]==4)
+{
+JLabel whiteRookLabel=new JLabel(whiteRookIcon);
+tile.setActionCommand("whiteRook");
+tile.add(whiteRookLabel,BorderLayout.CENTER);
+}//Queen
+else if(board[e][f]==5)
 {
 tile.setActionCommand("whiteQueen");
 tile.add(new JLabel(whiteQueenIcon));
-}else
-if(f==4 )
+}//King
+else if(board[e][f]==6)
 {
 tile.setActionCommand("whiteKing");
 tile.add(new JLabel(whiteKingIcon));
 }
-}else
-if(e==6)
-{
-tile.setActionCommand("whitePawn");
-tile.add(new JLabel(whitePawnIcon));
 }
-}
+
 //generating white piece ends here
 return tile;
 }
 
 public void actionPerformed(ActionEvent ev)
 {
+
 boolean found=false;
 JButton tile=null;
 int e=0;
@@ -367,15 +355,12 @@ startColumnIndex=f;
 click=true;
 this.sourceTile.setBorder(BorderFactory.createLineBorder(Color.GREEN,3));
 this.sourceTile.setBackground(new Color(144,238,144));
-KingCastling kingCastling=null;
 if(pieceName.equals("whiteKing"))
 {
-kingCastling=whiteKingCastling;
 }else if(pieceName.equals("blackKing"))
 {
-kingCastling=blackKingCastling;
 }
-possibleMoves=CheckmateDetector.getPossibleMoves(tiles,startRowIndex,startColumnIndex,kingCastling);
+//possibleMoves=CheckmateDetector.getPossibleMoves(tiles,startRowIndex,startColumnIndex,kingCastling);
 
 JButton validTile;
 for(e=0;e<8;e++)
@@ -537,7 +522,6 @@ if(tiles[7][4].getActionCommand().equals("whiteKing")==false)
 {
 System.out.println("White King moved : "+whiteKingMoved);
 whiteKingMoved=true;
-whiteKingCastling.kingMoved=true;
 }
 }
 if(leftWhiteRookMoved==false)
@@ -546,7 +530,6 @@ if(tiles[7][0].getActionCommand().equals("whiteRook")==false)
 {
 System.out.println("Left White Rook moved : "+rightWhiteRookMoved);
 leftWhiteRookMoved=true;
-whiteKingCastling.leftRookMoved=true;
 }
 }
 if(rightWhiteRookMoved==false)
@@ -555,7 +538,6 @@ if(tiles[7][7].getActionCommand().equals("whiteRook")==false)
 {
 System.out.println("Right White Rook moved : "+leftWhiteRookMoved);
 rightWhiteRookMoved=true;
-whiteKingCastling.rightRookMoved=true;
 }
 }
 if(targetIconName.equals("blackKing"))
@@ -566,7 +548,7 @@ setEnabled(false);
 return;
 }
 //checking is king in danger or not
-if(CheckmateDetector.detectCheckmate(tiles,"black"))
+if(false)//CheckmateDetector.detectCheckmate(tiles,"black"))
 {
 reset();
 JOptionPane.showMessageDialog(this,"White wins!","Game over",JOptionPane.INFORMATION_MESSAGE);
@@ -606,7 +588,7 @@ JOptionPane.showMessageDialog(this,"Black wins!","Game over",JOptionPane.INFORMA
 setEnabled(false);
 return;
 }
-if(CheckmateDetector.detectCheckmate(tiles,"white"))
+if(false)//CheckmateDetector.detectCheckmate(tiles,"white"))
 {
 reset();
 JOptionPane.showMessageDialog(this,"Black wins!","Game over",JOptionPane.INFORMATION_MESSAGE);
@@ -1049,9 +1031,5 @@ undoButton.setEnabled(false);
 System.out.println("DONE");
 }
 }
-}
-public static void main(String gg[])
-{
-Chess chess=new Chess();
 }
 }
