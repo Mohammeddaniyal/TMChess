@@ -334,9 +334,9 @@ if(piece==0) continue;
 tilePieceName=tile.getActionCommand();
 if(tilePieceName.equals("")) continue;
 if( (piece<0 && color>0) || (piece>0 && color<0)) continue; //in case of opponent piece
-if(piece==kingPiece) continue;//k contains name of king like(blackKing / whiteKing)
-possibleMoves=PossibleMoves.getPossibleMoves(tiles,e,f,kingCastling);
-if(possibleMoves[attackingPieceRowIndex][attackingPieceColumnIndex]==true)
+if(piece==kingPiece) continue;//kingPiece represents either (blackKing or whiteKing)
+possibleMoves=PossibleMoves.getPossibleMoves(board,e,f,kingCastling);
+if(possibleMoves[attackingPieceRowIndex][attackingPieceColumnIndex]==1)
 {
 // the which is threating the king can be captured
 //System.out.println("Threating piece can be captured by : "+tilePieceName);
