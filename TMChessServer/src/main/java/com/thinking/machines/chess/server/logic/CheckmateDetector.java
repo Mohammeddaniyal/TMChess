@@ -136,9 +136,7 @@ for(int e=0;e<8;e++)
 for(int f=0;f<8;f++)
 {
 opponentPiece=board[e][f];
-opponentPieceName=opponentPiece.getActionCommand();
 if(opponentPiece==0)
-//if(opponentPieceName.equals("")) 
 {
 continue;
 }
@@ -149,7 +147,7 @@ if((opponentPiece<0 && pieceColor==0) || (opponentPiece>0 && pieceColor==1))
 //same piece , then skip
  continue;
 }
-possibleMoves=PossibleMoves.getPossibleMoves(tiles,e,f,kingCastling);
+possibleMoves=PossibleMoves.getPossibleMoves(board,e,f,kingCastling);
 if(possibleMoves[rowIndex][columnIndex]==true)
 {
 pieceMoves=new PieceMoves();
