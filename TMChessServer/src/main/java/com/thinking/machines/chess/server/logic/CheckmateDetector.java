@@ -161,7 +161,7 @@ return piecesMoves;
 }
 return piecesMoves;
 }
-public static boolean detectCheckmate(JButton[][] tiles,String color)
+public static boolean detectCheckmate(byte [][]board,byte color)
 {
 KingCastling kingCastling=new KingCastling();
 kingCastling.checkCastling=false;
