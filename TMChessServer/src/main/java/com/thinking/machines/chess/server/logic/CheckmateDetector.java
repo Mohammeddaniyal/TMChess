@@ -370,7 +370,7 @@ blockOpponentPiece=true;
 break; 
 }
 */
-dummyTiles[row1][column1]=0;
+dummyBoard[row1][column1]=0;
 }
 if(blockOpponentPiece==true) break;//done
 }
@@ -391,7 +391,7 @@ return true;
 //System.out.println("NO THREAT");
 return false;
 }
-private static byte[][] generateDummyTiles(byte[][] board,byte pieceNotToInclude)
+private static byte[][] generateDummyBoard(byte[][] board,byte pieceNotToInclude)
 {
 byte [][]dummyBoard=new byte[8][8];
 byte dummyTile;
@@ -401,10 +401,10 @@ for(int e=0;e<8;e++)
 for(int f=0;f<8;f++)
 {
 tile=board[e][f];
-dummyTiles[e][f]=(tile!=pieceNotToInclude)?tile:0;
+dummyBoard[e][f]=(tile!=pieceNotToInclude)?tile:0;
 }
 }//creating dummy tiles(D.S) ends here
-return dummyTiles;
+return dummyBoard;
 }
 private static ArrayList<PossibleMovesIndex> getPossibleMovesIndexesList(byte [][]possibleMoves)
 {
