@@ -122,9 +122,6 @@ return validPossibleMoves;
 public static ArrayList<PieceMoves> isPieceInDanger(byte [][]board,byte pieceColor,int rowIndex,int columnIndex,boolean includeAllValidPieces)
 {
 byte opponentPiece;
-JButton opponentPiece;
-String opponentPieceName;
-String opponentPieceColor;
 PieceMoves pieceMoves;
 ArrayList<PieceMoves> piecesMoves;
 piecesMoves=new ArrayList<>();
