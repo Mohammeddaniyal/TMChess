@@ -66,20 +66,20 @@ if(board[0][1]!=0 || board[0][2]!=0 || board[0][3]!=0)
 return 0;
 }
 //checking is king is in checkmate or not
-ArrayList<PieceMoves> piecesMoves=CheckmateDetector.isPieceInDanger(tiles,"black",startRowIndex,startColumnIndex,false);
+ArrayList<PieceMoves> piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)0,startRowIndex,startColumnIndex,false);
 if(piecesMoves.size()!=0) 
 {
 return 0;
 }
 //now to check is tile c1 and d1 are not in any threat
 
-piecesMoves=CheckmateDetector.isPieceInDanger(tiles,"black",0,2,false);
+piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)0,0,2,false);
 if(piecesMoves.size()!=0)
 {
 return 0;
 }
 //for tile g8
-piecesMoves=CheckmateDetector.isPieceInDanger(tiles,"black",0,3,false);
+piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)0,0,3,false);
 if(piecesMoves.size()!=0)
 {
 return 0;
@@ -90,7 +90,7 @@ return 1;
 
 
 
-if(kingName.equals("whiteKing"))
+if(kingPiece==6)// white King
 {
 //king's side castling move arrived
 if(startRowIndex==7 && startColumnIndex==4 && destinationRowIndex==7 && destinationColumnIndex==6)
@@ -101,8 +101,9 @@ if(kingCastling.kingMoved==true || kingCastling.rightRookMoved==true)
 return 0;
 }
 //checking if tiles are empty
-if(tiles[7][5].getActionCommand().equals("")==false || tiles[7][6].getActionCommand().equals("")==false )
+if(board[7][5]!=0 || board[7][6]!=0)
 {
+//if tiles are not empty then return false in terms of byte it's 0
 return 0;
 }
 //checking is king is in checkmate or not
