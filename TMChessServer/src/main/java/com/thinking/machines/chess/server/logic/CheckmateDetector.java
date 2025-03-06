@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.util.*;
 public class CheckmateDetector
 {
-public static boolean[][] getPossibleMoves(byte[][] board,int startRowIndex,int startColumnIndex,KingCastling kingCastling)
+public static byte[][] getPossibleMoves(byte[][] board,int startRowIndex,int startColumnIndex,KingCastling kingCastling)
 {
 byte [][]possibleMoves=PossibleMoves.getPossibleMoves(board,startRowIndex,startColumnIndex,kingCastling);
 PossibleMovesIndex pieceValidIndex;
@@ -31,7 +31,7 @@ byte [][]validPossibleMoves=possibleMoves;
 byte sourcePiece=board[startRowIndex][startColumnIndex];
 //+ve represents white pieces and vice versa 
 // 6 represent king
-byte kingPiece=(sourcePiece>0)?6:-6;
+byte kingPiece=(byte)((sourcePiece>0)?6:-6);
 
 int kingRowIndex=0;
 int kingColumnIndex=0;
