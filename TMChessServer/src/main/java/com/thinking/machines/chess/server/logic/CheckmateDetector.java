@@ -135,15 +135,18 @@ for(int e=0;e<8;e++)
 {
 for(int f=0;f<8;f++)
 {
-opponentPiece=tiles[e][f];
+opponentPiece=board[e][f];
 opponentPieceName=opponentPiece.getActionCommand();
-if(opponentPieceName.equals("")) 
+if(opponentPiece==0)
+//if(opponentPieceName.equals("")) 
 {
 continue;
 }
 opponentPieceColor=opponentPieceName.substring(0,5);
-if(opponentPieceColor.equals(pieceColor))
+
+if((opponentPiece<0 && pieceColor==0) || (opponentPiece>0 && pieceColor==1))
 {
+//same piece , then skip
  continue;
 }
 possibleMoves=PossibleMoves.getPossibleMoves(tiles,e,f,kingCastling);
