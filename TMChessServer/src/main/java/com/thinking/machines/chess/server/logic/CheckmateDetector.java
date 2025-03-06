@@ -165,15 +165,14 @@ public static boolean detectCheckmate(byte [][]board,byte color)
 {
 KingCastling kingCastling=new KingCastling();
 kingCastling.checkCastling=false;
-byte k=(color>0)?1:0;
-String k=color+"King";
+byte kingPiece=(color>0)?1:0;
 int kingRowIndex=0;
 int kingColumnIndex=0;
 for(int e=0;e<8;e++)
 {
 for(int f=0;f<8;f++)
 {
-if(tiles[e][f].getActionCommand().equals(k))
+if(board[e][f]==kingPiece)
 {
 kingRowIndex=e;
 kingColumnIndex=f;
