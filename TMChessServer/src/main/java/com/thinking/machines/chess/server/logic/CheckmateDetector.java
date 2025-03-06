@@ -408,7 +408,7 @@ dummyTiles[e][f]=(tile!=pieceNotToInclude)?tile:0;
 }//creating dummy tiles(D.S) ends here
 return dummyTiles;
 }
-private static ArrayList<PossibleMovesIndex> getPossibleMovesIndexesList(boolean [][]possibleMoves)
+private static ArrayList<PossibleMovesIndex> getPossibleMovesIndexesList(byte [][]possibleMoves)
 {
 ArrayList<PossibleMovesIndex> possibleMovesIndexes=new ArrayList<>();
 PossibleMovesIndex possibleMovesIndex;
@@ -416,7 +416,7 @@ for(int e=0;e<8;e++)
 {
 for(int f=0;f<8;f++)
 {
-if(possibleMoves[e][f]==true)
+if(possibleMoves[e][f]==1)
 {
 possibleMovesIndex=new PossibleMovesIndex();
 possibleMovesIndex.row=e;
