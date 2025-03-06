@@ -216,7 +216,7 @@ return true;
 
 
 PieceMoves attackingPieceMoves=piecesMoves.get(0);
-boolean[][] possibleMoves;
+byte[][] possibleMoves;
 //creating a dummy tiles
 //without the king which is in danger
 JButton[][] dummyTiles=new JButton[8][8];
