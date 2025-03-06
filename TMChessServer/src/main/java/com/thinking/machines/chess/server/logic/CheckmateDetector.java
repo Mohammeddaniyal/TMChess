@@ -165,6 +165,7 @@ public static boolean detectCheckmate(byte [][]board,byte color)
 {
 KingCastling kingCastling=new KingCastling();
 kingCastling.checkCastling=false;
+byte k=(color>0)?1:0;
 String k=color+"King";
 int kingRowIndex=0;
 int kingColumnIndex=0;
