@@ -3,7 +3,7 @@ import javax.swing.*;
 public class QueenMoveValidator
 {
 private QueenMoveValidator(){};
-public static boolean validateMove(int startRowIndex,int startColumnIndex,int destinationRowIndex,int destinationColumnIndex,byte[][] board)
+public static byte validateMove(int startRowIndex,int startColumnIndex,int destinationRowIndex,int destinationColumnIndex,byte[][] board)
 {
 //for vertical and horizontal movement starts here
 byte tile;
@@ -14,14 +14,14 @@ if(startRowIndex<destinationRowIndex)
 for(int e=startRowIndex+1;e<destinationRowIndex;e++)
 {
 tile=board[e][startColumnIndex];
-if(tile!=0) return false; // tile not empty
+if(tile!=0) return 0; // tile not empty
 }
 }else
 {
 for(int e=startRowIndex-1;e>destinationRowIndex;e--)
 {
 tile=board[e][startColumnIndex];
-if(tile!=0) return false; // tile not empty
+if(tile!=0) return 0; // tile not empty
 }
 }
 }else if(startRowIndex==destinationRowIndex)//horizontal movement
@@ -31,14 +31,14 @@ if(startColumnIndex<destinationColumnIndex)
 for(int f=startColumnIndex+1;f<destinationColumnIndex;f++)
 {
 tile=board[startRowIndex][f];
-if(tile!=0) return false;// tile not empty
+if(tile!=0) return 0;// tile not empty
 }
 }else
 {
 for(int f=startColumnIndex-1;f>destinationColumnIndex;f--)
 {
 tile=board[startRowIndex][f];
-if(tile!=0) return false;// tile not empty
+if(tile!=0) return 0;// tile not empty
 }
 }
 }
@@ -52,7 +52,7 @@ if(d1<0) d1=d1*(-1);
 if(d2<0) d2=d2*(-1);
 if(d1!=d2)
 {
-return false;
+return 0;
 }
 //validating path blocker
 
@@ -65,7 +65,7 @@ for(e=startRowIndex-1,f=startColumnIndex-1;e>destinationRowIndex;e--,f--)
 tile=board[e][f];
 if(tile!=0) 
 {
-return false;
+return 0;
 }
 }
 //path blocker for top-left ends here
@@ -77,7 +77,7 @@ for(e=startRowIndex-1,f=startColumnIndex+1;e>destinationRowIndex;e--,f++)
 tile=board[e][f];
 if(tile!=0)
 {
-return false;
+return 0;
 }
 }
 //path blocker for top-right ends here
@@ -89,7 +89,7 @@ for(e=startRowIndex+1,f=startColumnIndex-1;e<destinationRowIndex;e++,f--)
 tile=board[e][f];
 if(tile!=0) 
 {
-return false;
+return 0;
 }
 }
 //path blocker for bottom-left ends here
@@ -101,7 +101,7 @@ for(e=startRowIndex+1,f=startColumnIndex+1;e<destinationRowIndex;e++,f++)
 tile=board[e][f];
 if(tile!=0) 
 {
-return false;
+return 0;
 }
 }
 //path blocker for bottom-right ends here
@@ -109,6 +109,6 @@ return false;
 }
 //for diagonal movement ends here
 //movement validation part for Queen ends here
-return true;
+return 1;
 }
 }
