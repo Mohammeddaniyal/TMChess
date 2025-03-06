@@ -4,17 +4,14 @@ import com.thinking.machines.chess.server.models.KingCastling;
 import javax.swing.*;
 public class PossibleMoves
 {
-public static boolean[][] getPossibleMoves(JButton[][] tiles,int startRowIndex,int startColumnIndex,KingCastling kingCastling)
+public static byte[][] getPossibleMoves(byte [][]board,int startRowIndex,int startColumnIndex,KingCastling kingCastling)
 {
-boolean [][]possibleMoves=new boolean[8][8];
-String pieceName;
-pieceName=tiles[startRowIndex][startColumnIndex].getActionCommand();
-String sourceIconName=tiles[startRowIndex][startColumnIndex].getActionCommand();
-String targetIconName="";
+byte [][]possibleMoves=new byte[8][8];
+byte sourcePiece=board[startRowIndex][startColumnIndex];
+byte targetTile;
 int destinationRowIndex,destinationColumnIndex;
-String sourceIconPieceColor=sourceIconName.substring(0,5);
 boolean pawn=false;
-if(sourceIconName.equals("blackPawn") || sourceIconName.equals("whitePawn") )
+if(sourcePiece==1 || sourcePiece==-1)// either white pawn or black pawn
 {
 pawn=true;
 } 
@@ -24,51 +21,44 @@ destinationRowIndex=e;
 for(int f=0;f<8;f++)
 {
 destinationColumnIndex=f;
-targetIconName=tiles[destinationRowIndex][destinationColumnIndex].getActionCommand();
+targetTile=board[destinationRowIndex][destinationColumnIndex];
 String targetIconPieceColor="";
 boolean capture=false;
-if(targetIconName.equals("")==false)
+if(targetTile!=0)
 {
 capture=true;
-targetIconPieceColor=targetIconName.substring(0,5);
 }
-if(capture && targetIconPieceColor.equals(sourceIconPieceColor))
+//capturing of same color piece
+if(capture && ( (sourcePiece>0 && targetTile>0) || (sourcePiece<0 && targetTile<0) ) )
 {
-possibleMoves[destinationRowIndex][destinationColumnIndex]=false;
+possibleMoves[destinationRowIndex][destinationColumnIndex]=0;
 continue;
 }
-/*
-if(tiles[destinationRowIndex][destinationColumnIndex].getActionCommand().equals("")==false)
+if(sourcePiece==6 || sourcePiece==-6)
 {
-possibleMoves[destinationRowIndex][destinationColumnIndex]=false;
-continue;
-}
-*/
-if(pieceName.equals("blackKing") || pieceName.equals("whiteKing"))
-{
-possibleMoves[destinationRowIndex][destinationColumnIndex]=KingMoveValidator.validateMove(tiles,startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,kingCastling);
+possibleMoves[destinationRowIndex][destinationColumnIndex]=KingMoveValidator.validateMove(board,startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,kingCastling);
 //king validation part ends here
 }else
-if(pieceName.equals("whiteQueen") || pieceName.equals("blackQueen"))
+if(sourcePiece==5 || sourcePiece==-5)
 {
-possibleMoves[destinationRowIndex][destinationColumnIndex]=QueenMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,tiles);
+possibleMoves[destinationRowIndex][destinationColumnIndex]=QueenMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,board);
 }else
-if(pieceName.equals("whiteKnight") || pieceName.equals("blackKnight"))
+if(sourcePiece==2 || sourcePiece==-2)
 {
 possibleMoves[destinationRowIndex][destinationColumnIndex]=KnightMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex);
 }else
-if(pieceName.equals("whiteBishop") || pieceName.equals("blackBishop"))
+if(sourcePiece==3 || sourcePiece==-3)
 {
-possibleMoves[destinationRowIndex][destinationColumnIndex]=BishopMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,tiles);
+possibleMoves[destinationRowIndex][destinationColumnIndex]=BishopMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,board);
 //Bishop validation ends here
 }else
-if(pieceName.equals("whiteRook") || pieceName.equals("blackRook"))
+if(sourcePiece==4 || sourcePiece==-4)
 {
-possibleMoves[destinationRowIndex][destinationColumnIndex]=RookMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,tiles);
+possibleMoves[destinationRowIndex][destinationColumnIndex]=RookMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,board);
 }else 
-if(pieceName.equals("blackPawn") || pieceName.equals("whitePawn"))
+if(sourcePiece==1 || sourcePiece==-1)
 {
-possibleMoves[destinationRowIndex][destinationColumnIndex]=PawnMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,tiles);
+possibleMoves[destinationRowIndex][destinationColumnIndex]=PawnMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,board);
 }
 }//inner loop ends
 }//outer loop ends
