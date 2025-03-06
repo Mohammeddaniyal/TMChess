@@ -23,7 +23,7 @@ if(kingCastling.kingMoved==true || kingCastling.rightRookMoved==true)
 return 0;
 }
 //checking if tiles are empty
-if(board[0][5]!=0 || tiles[0][6]!=0 )
+if(board[0][5]!=0 || board[0][6]!=0 )
 {
 return 0;
 }
@@ -107,20 +107,20 @@ if(board[7][5]!=0 || board[7][6]!=0)
 return 0;
 }
 //checking is king is in checkmate or not
-ArrayList<PieceMoves> piecesMoves=CheckmateDetector.isPieceInDanger(tiles,"white",startRowIndex,startColumnIndex,false);
+ArrayList<PieceMoves> piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)1,startRowIndex,startColumnIndex,false);
 if(piecesMoves.size()!=0) 
 {
 return 0;
 }
-//not to check is tile f8 and g8 are not in any threat
-
-piecesMoves=CheckmateDetector.isPieceInDanger(tiles,"white",7,5,false);
+//now to check is tile f1 and g1 are not in any threat
+//for tile f1
+piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)1,7,5,false);
 if(piecesMoves.size()!=0)
 {
 return 0;
 }
-//for tile g8
-piecesMoves=CheckmateDetector.isPieceInDanger(tiles,"white",7,6,false);
+//for tile g1
+piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)1,7,6,false);
 if(piecesMoves.size()!=0)
 {
 return 0;
@@ -136,25 +136,25 @@ if(kingCastling.kingMoved==true || kingCastling.leftRookMoved==true)
 return 0;
 }
 //checking if tiles are empty
-if(tiles[7][1].getActionCommand().equals("")==false || tiles[7][2].getActionCommand().equals("")==false || tiles[7][3].getActionCommand().equals("")==false )
+if(board[7][1]!=0 || board[7][2]!=0 || board[7][3]!=0)
 {
 return 0;
 }
 //checking is king is in checkmate or not
-ArrayList<PieceMoves> piecesMoves=CheckmateDetector.isPieceInDanger(tiles,"white",startRowIndex,startColumnIndex,false);
+ArrayList<PieceMoves> piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)1,startRowIndex,startColumnIndex,false);
 if(piecesMoves.size()!=0) 
 {
 return 0;
 }
 //now to check is tile c1 and d1 are not in any threat
 
-piecesMoves=CheckmateDetector.isPieceInDanger(tiles,"white",7,2,false);
+piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)1,7,2,false);
 if(piecesMoves.size()!=0)
 {
 return 0;
 }
 //for tile g8
-piecesMoves=CheckmateDetector.isPieceInDanger(tiles,"white",7,3,false);
+piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)1,7,3,false);
 if(piecesMoves.size()!=0)
 {
 return 0;
