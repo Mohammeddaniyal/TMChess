@@ -290,7 +290,8 @@ return false;
 row=attackingPieceMoves.rowIndex;
 column=attackingPieceMoves.columnIndex;
 possibleMoves=attackingPieceMoves.possibleMoves;
-String opponentPieceName=tiles[row][column].getActionCommand();
+
+byte opponentPiece=board[row][column];
 //System.out.println("Attacking piece name : "+opponentPieceName);
 int attackingPieceRowIndex=row;
 int attackingPieceColumnIndex=column;
