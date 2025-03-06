@@ -29,7 +29,8 @@ return 0;
 }
 //checking is king is in checkmate or not
 //one of the rule of castling the king cannot be in check
-ArrayList<PieceMoves> piecesMoves=CheckmateDetector.isPieceInDanger(board,"black",startRowIndex,startColumnIndex,false);
+//passing 0 means color is black
+ArrayList<PieceMoves> piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)0,startRowIndex,startColumnIndex,false);
 if(piecesMoves.size()!=0) 
 {
 return 0;
@@ -38,13 +39,13 @@ return 0;
 //now to check is tile f8 and g8 are not in any threat
 
 //for tile f8
-piecesMoves=CheckmateDetector.isPieceInDanger(tiles,"black",0,5,false);
+piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)0,0,5,false);
 if(piecesMoves.size()!=0)
 {
 return 0;
 }
 //for tile g8
-piecesMoves=CheckmateDetector.isPieceInDanger(tiles,"black",0,6,false);
+piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)0,0,6,false);
 if(piecesMoves.size()!=0)
 {
 return 0;
@@ -60,7 +61,7 @@ if(kingCastling.kingMoved==true || kingCastling.leftRookMoved==true)
 return 0;
 }
 //checking if tiles are empty
-if(tiles[0][1].getActionCommand().equals("")==false || tiles[0][2].getActionCommand().equals("")==false || tiles[0][3].getActionCommand().equals("")==false )
+if(board[0][1]!=0 || board[0][2]!=0 || board[0][3]!=0)
 {
 return 0;
 }
