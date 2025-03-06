@@ -5,16 +5,16 @@ import javax.swing.*;
 import java.util.*;
 public class CheckmateDetector
 {
-public static boolean[][] getPossibleMoves(JButton[][] tiles,int startRowIndex,int startColumnIndex,KingCastling kingCastling)
+public static boolean[][] getPossibleMoves(byte[][] board,int startRowIndex,int startColumnIndex,KingCastling kingCastling)
 {
-boolean [][]possibleMoves=PossibleMoves.getPossibleMoves(tiles,startRowIndex,startColumnIndex,kingCastling);
+byte [][]possibleMoves=PossibleMoves.getPossibleMoves(board,startRowIndex,startColumnIndex,kingCastling);
 PossibleMovesIndex pieceValidIndex;
 ArrayList<PossibleMovesIndex> piecesValidIndexes=new ArrayList<>();
 for(int e=0;e<8;e++)
 {
 for(int f=0;f<8;f++)
 {
-if(possibleMoves[e][f]==true)
+if(possibleMoves[e][f]==1)//can move to this index
 {
 pieceValidIndex=new PossibleMovesIndex();
 pieceValidIndex.row=e;
@@ -26,15 +26,18 @@ piecesValidIndexes.add(pieceValidIndex);
 }//piece valid indexes loop ends here
 
 if(piecesValidIndexes.size()==0) return possibleMoves;
-boolean [][]validPossibleMoves=possibleMoves;
+byte [][]validPossibleMoves=possibleMoves;
 //find index of king
-String pieceName=tiles[startRowIndex][startColumnIndex].getActionCommand();
-String pieceColor=pieceName.substring(0,5);
-String kingName=pieceColor+"King";
+byte sourcePiece=board[startRowIndex][startColumnIndex];
+//+ve represents white pieces and vice versa 
+// 6 represent king
+byte kingPiece=(sourcePiece>0)?6:-6;
+
 int kingRowIndex=0;
 int kingColumnIndex=0;
 boolean pieceIsKing=false;
-if(pieceName.equals("whiteKing") || pieceName.equals("blackKing"))
+if(sourcePiece==kingPiece)
+//pieceName.equals("whiteKing") || pieceName.equals("blackKing"))
 {
 kingRowIndex=startRowIndex;
 kingColumnIndex=startColumnIndex;
@@ -46,7 +49,7 @@ for(int e=0;e<8;e++)
 {
 for(int f=0;f<8;f++)
 {
-if(tiles[e][f].getActionCommand().equals(kingName)) 
+if(board[e][f]==kingPiece) 
 {
 kingRowIndex=e;
 kingColumnIndex=f;
@@ -54,86 +57,78 @@ break;
 }
 }
 }
-}
+}//else ends
 
-
-JButton[][] dummyTiles=new JButton[8][8];
-JButton dummyTile;
-JButton tile;
-String tilePieceName;
+byte [][]dummyBoard=new byte[8][8];
+byte dummyTile;
+byte tile;
 for(int e=0;e<8;e++)
 {
 for(int f=0;f<8;f++)
 {
-tile=tiles[e][f];
-tilePieceName=tile.getActionCommand();
-dummyTile=new JButton();
-dummyTiles[e][f]=dummyTile;
+tile=board[e][f];
 if(e==startRowIndex && f==startColumnIndex)
 {
-dummyTile.setActionCommand("");
+dummyTile=0;
 }
 else
 {
-dummyTile.setActionCommand(tilePieceName);
+dummyTile=tile;
 }
+dummyBoard[e][f]=dummyTile;
 }
 }//creating dummy tiles(D.S) ends here
 
 int row;
 int column;
 ArrayList<PieceMoves> capturingPiecesMovesList;
+byte pieceColor=(sourcePiece>0)?1:0;
 for(PossibleMovesIndex pmi:piecesValidIndexes)
 {
 row=pmi.row;
 column=pmi.column;
-dummyTile=dummyTiles[row][column];
-String s=dummyTile.getActionCommand();
-dummyTile.setActionCommand(pieceName);
-if(pieceIsKing==false)capturingPiecesMovesList=isPieceInDanger(dummyTiles,pieceColor,kingRowIndex,kingColumnIndex,false);
-else capturingPiecesMovesList=isPieceInDanger(dummyTiles,pieceColor,row,column,false);
+dummyTile=dummyBoard[row][column];
+dummyBoard[row][column]=sourcePiece;
+if(pieceIsKing==false)capturingPiecesMovesList=isPieceInDanger(dummyBoard,pieceColor,kingRowIndex,kingColumnIndex,false);
+else capturingPiecesMovesList=isPieceInDanger(dummyBoard,pieceColor,row,column,false);
 for(PieceMoves pieceMoves:capturingPiecesMovesList)
 {
 possibleMoves=pieceMoves.possibleMoves;
 if(pieceIsKing==true)
 {
-if(possibleMoves[row][column]==true)
+if(possibleMoves[row][column]==1)
 {
-validPossibleMoves[row][column]=false;
+validPossibleMoves[row][column]=0;
 break;
 }
 }
 else
 {
-if(possibleMoves[kingRowIndex][kingColumnIndex]==true)
+if(possibleMoves[kingRowIndex][kingColumnIndex]==1)
 {
-validPossibleMoves[row][column]=false;
+validPossibleMoves[row][column]=0;
 break;
 }
 }//else ends 
 }//for loop ends(possibleMovesCapture)
-dummyTile.setActionCommand(s);
-s="";
+//put the piece on it's original position
+//or reset the dummyBoard as before after simulating
+dummyBoard[row][column]=dummyTile;
 }
 return validPossibleMoves;
 }
 
 
-public static ArrayList<PieceMoves> isPieceInDanger(JButton[][] tiles,String pieceColor,int rowIndex,int columnIndex,boolean includeAllValidPieces)
+public static ArrayList<PieceMoves> isPieceInDanger(byte [][]board,byte pieceColor,int rowIndex,int columnIndex,boolean includeAllValidPieces)
 {
-if(pieceColor==null)
-{
-JButton piece=tiles[rowIndex][columnIndex];
-String pieceName=piece.getActionCommand();
-pieceColor=pieceName.substring(0,5);
-}
+byte opponentPiece;
 JButton opponentPiece;
 String opponentPieceName;
 String opponentPieceColor;
 PieceMoves pieceMoves;
 ArrayList<PieceMoves> piecesMoves;
 piecesMoves=new ArrayList<>();
-boolean[][] possibleMoves;
+byte[][] possibleMoves;
 KingCastling kingCastling=new KingCastling();
 kingCastling.checkCastling=false;
 for(int e=0;e<8;e++)
