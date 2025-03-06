@@ -179,21 +179,21 @@ break;
 }
 }
 }
-ArrayList<PieceMoves> piecesMoves=isPieceInDanger(board,null,kingRowIndex,kingColumnIndex,true);
+ArrayList<PieceMoves> piecesMoves=isPieceInDanger(board,color,kingRowIndex,kingColumnIndex,true);
 if(piecesMoves.size()==0) 
 {
 //System.out.println(kingName+" not in danger");
 return false;
 }
 
-boolean [][]kingPossibleMoves=PossibleMoves.getPossibleMoves(tiles,kingRowIndex,kingColumnIndex,kingCastling);
+byte [][]kingPossibleMoves=PossibleMoves.getPossibleMoves(board,kingRowIndex,kingColumnIndex,kingCastling);
 PossibleMovesIndex kingValidIndex;
 ArrayList<PossibleMovesIndex> kingValidIndexes=new ArrayList<>();
 for(int e=0;e<8;e++)
 {
 for(int f=0;f<8;f++)
 {
-if(kingPossibleMoves[e][f]==true)
+if(kingPossibleMoves[e][f]==1)
 {
 kingValidIndex=new PossibleMovesIndex();
 //System.out.println("King can move to tile : "+e+"/"+f);
