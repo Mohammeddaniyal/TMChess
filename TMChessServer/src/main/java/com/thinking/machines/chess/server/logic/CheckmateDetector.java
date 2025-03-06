@@ -148,7 +148,7 @@ if((opponentPiece<0 && pieceColor==0) || (opponentPiece>0 && pieceColor==1))
  continue;
 }
 possibleMoves=PossibleMoves.getPossibleMoves(board,e,f,kingCastling);
-if(possibleMoves[rowIndex][columnIndex]==true)
+if(possibleMoves[rowIndex][columnIndex]==1)
 {
 pieceMoves=new PieceMoves();
 pieceMoves.possibleMoves=possibleMoves;
