@@ -300,7 +300,7 @@ boolean blockOpponentPiece=false;
 boolean knightPiece=false;
 PossibleMovesIndex attackingPiecePossibleMovesIndex;
 ArrayList<PossibleMovesIndex> attackingPiecePossibleMovesIndexes=new ArrayList<>();
-if(opponentPieceName.equals("blackKnight") || opponentPieceName.equals("whiteKinght"))
+if(opponentPiece==2 || opponentPiece==-2)
 {
 //System.out.println("Attacking piece is knight");
 knightPiece=true;
@@ -312,7 +312,7 @@ for(int e=0;e<8;e++)
 {
 for(int f=0;f<8;f++)
 {
-if(possibleMoves[e][f]==true)
+if(possibleMoves[e][f]==1)
 {
 attackingPiecePossibleMovesIndex=new PossibleMovesIndex();
 attackingPiecePossibleMovesIndex.row=e;
