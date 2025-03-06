@@ -347,22 +347,22 @@ break;
 if(knightPiece==false)
 {
 //creating dummyTiles
-dummyTiles=generateDummyTiles(tiles,tilePieceName);
+dummyBoard=generateDummyBoard(board,piece);
 ArrayList<PossibleMovesIndex> friendlyPiecePossibleMovesIndexes=getPossibleMovesIndexesList(possibleMoves);
 for(PossibleMovesIndex pmi:friendlyPiecePossibleMovesIndexes)
 {
 row1=pmi.row;
 column1=pmi.column;
-dummyTiles[row1][column1].setActionCommand(tilePieceName);
+dummyBoard[row1][column1]=piece;
 
-boolean[][] opponentPiecePossibleMoves=PossibleMoves.getPossibleMoves(dummyTiles,attackingPieceRowIndex,attackingPieceColumnIndex,kingCastling);
-if(opponentPiecePossibleMoves[kingRowIndex][kingColumnIndex]==false)
+byte[][] opponentPiecePossibleMoves=PossibleMoves.getPossibleMoves(dummyBoard,attackingPieceRowIndex,attackingPieceColumnIndex,kingCastling);
+if(opponentPiecePossibleMoves[kingRowIndex][kingColumnIndex]==0)
 {
 //the piece is blocked
 //System.out.println("the piece is blocked by : "+tilePieceName);
 blockOpponentPiece=true;
 break; 
-}	
+}
 /*
 ArrayList<PieceMoves> blockingPiece=isPieceInDanger(dummyTiles,kingRowIndex,kingColumnIndex);
 if(blockingPiece.size()==0)
@@ -372,7 +372,7 @@ blockOpponentPiece=true;
 break; 
 }
 */
-dummyTiles[row1][column1].setActionCommand("");
+dummyTiles[row1][column1]=0;
 }
 if(blockOpponentPiece==true) break;//done
 }
@@ -393,28 +393,17 @@ return true;
 //System.out.println("NO THREAT");
 return false;
 }
-private static JButton[][] generateDummyTiles(JButton[][] tiles,String pieceNameNotToInclude)
+private static byte[][] generateDummyTiles(byte[][] board,byte pieceNotToInclude)
 {
-JButton[][] dummyTiles=new JButton[8][8];
-JButton dummyTile;
-JButton tile;
-String tilePieceName;
+byte [][]dummyBoard=new byte[8][8];
+byte dummyTile;
+byte tile;
 for(int e=0;e<8;e++)
 {
 for(int f=0;f<8;f++)
 {
-tile=tiles[e][f];
-tilePieceName=tile.getActionCommand();
-dummyTile=new JButton();
-dummyTiles[e][f]=dummyTile;
-if(tilePieceName.equals(pieceNameNotToInclude))
-{
-dummyTile.setActionCommand("");
-}
-else
-{
-dummyTile.setActionCommand(tilePieceName);
-}
+tile=board[e][f];
+dummyTiles[e][f]=(tile!=pieceNotToInclude)?tile:0;
 }
 }//creating dummy tiles(D.S) ends here
 return dummyTiles;
