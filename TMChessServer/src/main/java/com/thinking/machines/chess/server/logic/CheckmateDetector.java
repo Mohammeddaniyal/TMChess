@@ -324,15 +324,17 @@ attackingPiecePossibleMovesIndexes.add(attackingPiecePossibleMovesIndex);
 }//attacking piece (possible moves indexes)
 int row1=0;
 int column1=0;
+byte piece;
 for(int e=0;e<8;e++)
 {
 for(int f=0;f<8;f++)
 {
-tile=tiles[e][f];
+piece=board[e][f];
+if(piece==0) continue;
 tilePieceName=tile.getActionCommand();
 if(tilePieceName.equals("")) continue;
-if(tilePieceName.substring(0,5).equals(kingColor)==false) continue;//in case of oppoent piece
-if(tilePieceName.equals(k)) continue;//k contains name of king like(blackKing / whiteKing)
+if( (piece<0 && color>0) || (piece>0 && color<0)) continue; //in case of opponent piece
+if(piece==kingPiece) continue;//k contains name of king like(blackKing / whiteKing)
 possibleMoves=PossibleMoves.getPossibleMoves(tiles,e,f,kingCastling);
 if(possibleMoves[attackingPieceRowIndex][attackingPieceColumnIndex]==true)
 {
