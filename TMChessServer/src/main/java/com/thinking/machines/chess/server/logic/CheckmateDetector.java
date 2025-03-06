@@ -165,7 +165,7 @@ public static boolean detectCheckmate(byte [][]board,byte color)
 {
 KingCastling kingCastling=new KingCastling();
 kingCastling.checkCastling=false;
-byte kingPiece=(color>0)?1:0;
+byte kingPiece=(color>0)?6:-6;
 int kingRowIndex=0;
 int kingColumnIndex=0;
 for(int e=0;e<8;e++)
@@ -180,7 +180,7 @@ break;
 }
 }
 }
-
+kingPiece
 JButton king=tiles[kingRowIndex][kingColumnIndex];
 String kingName=king.getActionCommand();
 String kingColor=kingName.substring(0,5);
