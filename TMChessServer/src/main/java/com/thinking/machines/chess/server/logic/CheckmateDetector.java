@@ -137,7 +137,6 @@ if(opponentPiece==0)
 {
 continue;
 }
-opponentPieceColor=opponentPieceName.substring(0,5);
 
 if((opponentPiece<0 && pieceColor==0) || (opponentPiece>0 && pieceColor==1))
 {
@@ -180,11 +179,7 @@ break;
 }
 }
 }
-kingPiece
-JButton king=tiles[kingRowIndex][kingColumnIndex];
-String kingName=king.getActionCommand();
-String kingColor=kingName.substring(0,5);
-ArrayList<PieceMoves> piecesMoves=isPieceInDanger(tiles,null,kingRowIndex,kingColumnIndex,true);
+ArrayList<PieceMoves> piecesMoves=isPieceInDanger(board,null,kingRowIndex,kingColumnIndex,true);
 if(piecesMoves.size()==0) 
 {
 //System.out.println(kingName+" not in danger");
