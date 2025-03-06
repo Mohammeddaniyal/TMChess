@@ -331,8 +331,6 @@ for(int f=0;f<8;f++)
 {
 piece=board[e][f];
 if(piece==0) continue;
-tilePieceName=tile.getActionCommand();
-if(tilePieceName.equals("")) continue;
 if( (piece<0 && color>0) || (piece>0 && color<0)) continue; //in case of opponent piece
 if(piece==kingPiece) continue;//kingPiece represents either (blackKing or whiteKing)
 possibleMoves=PossibleMoves.getPossibleMoves(board,e,f,kingCastling);
