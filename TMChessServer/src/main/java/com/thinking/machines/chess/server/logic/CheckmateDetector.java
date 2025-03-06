@@ -82,7 +82,7 @@ dummyBoard[e][f]=dummyTile;
 int row;
 int column;
 ArrayList<PieceMoves> capturingPiecesMovesList;
-byte pieceColor=(sourcePiece>0)?1:0;
+byte pieceColor=(byte)((sourcePiece>0)?1:0);
 for(PossibleMovesIndex pmi:piecesValidIndexes)
 {
 row=pmi.row;
