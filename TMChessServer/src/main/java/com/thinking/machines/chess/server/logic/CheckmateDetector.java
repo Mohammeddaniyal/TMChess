@@ -219,25 +219,20 @@ PieceMoves attackingPieceMoves=piecesMoves.get(0);
 byte[][] possibleMoves;
 //creating a dummy tiles
 //without the king which is in danger
-JButton[][] dummyTiles=new JButton[8][8];
-JButton dummyTile;
-JButton tile;
-String tilePieceName;
+byte [][]dummyBoard=new byte[8][8];
+byte tile;
 for(int e=0;e<8;e++)
 {
 for(int f=0;f<8;f++)
 {
-tile=tiles[e][f];
-tilePieceName=tile.getActionCommand();
-dummyTile=new JButton();
-dummyTiles[e][f]=dummyTile;
+tile=board[e][f];
 if(e==kingRowIndex && f==kingColumnIndex)
 {
-dummyTile.setActionCommand("");
+dummyBoard[e][f]=0;
 }
 else
 {
-dummyTile.setActionCommand(tilePieceName);
+dummyBoard[e][f]=tile;
 }
 }
 }//creating dummy tiles(D.S) ends here
