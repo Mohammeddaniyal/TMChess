@@ -220,6 +220,7 @@ byte[][] possibleMoves;
 //creating a dummy tiles
 //without the king which is in danger
 byte [][]dummyBoard=new byte[8][8];
+byte dummyTile;
 byte tile;
 for(int e=0;e<8;e++)
 {
@@ -235,7 +236,7 @@ else
 dummyBoard[e][f]=tile;
 }
 }
-}//creating dummy tiles(D.S) ends here
+}//creating dummy board(D.S) ends here
 int kingValidIndexesCount=kingValidIndexes.size();
 int row,column;
 ArrayList<PieceMoves> capturingPiecesMovesList;
@@ -244,17 +245,16 @@ for(PossibleMovesIndex kvi:kingValidIndexes)
 {
 row=kvi.row;
 column=kvi.column;
-dummyTile=dummyTiles[row][column];
-String s=dummyTile.getActionCommand();
-dummyTile.setActionCommand(kingName);
-capturingPiecesMovesList=isPieceInDanger(dummyTiles,null,row,column,true);
+dummyTile=dummyBoard[row][column];
+dummyBoard[row][column]=kingPiece;
+capturingPiecesMovesList=isPieceInDanger(dummyBoard,color,row,column,true);
 //System.out.println("Simulating king at : "+row+"/"+column+" size of capturing pieces : "+capturingPiecesMovesList.size());
 for(PieceMoves pieceMoves:capturingPiecesMovesList)
 {
 possibleMoves=pieceMoves.possibleMoves;
 //System.out.println("Attacking piece name : "+tiles[row][column].getActionCommand()+row+"/"+column);
 //System.out.println("value at 2/6 "+possibleMoves[2][6]);
-if(possibleMoves[row][column]==true)
+if(possibleMoves[row][column]==1)
 {
 //System.out.println("This tile is not safe for king : "+row+"/"+column);
 kvi.safe=false;
@@ -265,8 +265,7 @@ if(kvi.safe==true)
 {
 kingSafeIndexes.add(kvi);
 }
-dummyTile.setActionCommand(s);
-s="";
+dummyBoard[row][column]=dummyTile;
 }
 boolean safeTile=true;
 if(kingSafeIndexes.size()==0)
