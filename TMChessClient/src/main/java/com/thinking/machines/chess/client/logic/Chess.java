@@ -1,4 +1,5 @@
 package com.thinking.machines.chess.client.logic;
+import com.thinking.machines.nframework.client.*;
 import com.thinking.machines.chess.common.GameInit;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -57,15 +58,27 @@ private ImageIcon whitePawnIcon;
 private UNDOMove undoMove;
 private boolean undoMoveValid=false;
 private int startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex;
-public Chess(GameInit gameInit)
+
+private javax.swing.Timer canIPlayTimer;
+private javax.swing.Timer getOpponentMoveTimer;
+private void addActionListeners()
 {
+canIPlayTimer=new javax.swing.Timer(1000,new ActionListener(){
+public void actionPerformed(ActionEvent ev)
+{
+
+}
+});
+}
+public Chess(NFrameworkClient client,GameInit gameInit)
+{
+addActionListeners();
+this.client=client;
 this.gameInit=gameInit;
 undoMove=new UNDOMove();
 tiles=new JButton[8][8];
 boardPanel=new JPanel();
 boardPanel.setLayout(new GridLayout(8,8));
-//container=getContentPane();
-//container.setLayout(new BorderLayout());
 setLayout(new BorderLayout());
 JButton tile;
 blackTile=new ImageIcon(this.getClass().getResource("/icons/lightBlack_tile.png"));
