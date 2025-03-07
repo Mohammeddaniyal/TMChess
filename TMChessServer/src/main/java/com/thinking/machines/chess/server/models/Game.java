@@ -10,4 +10,6 @@ public byte[][] board;
 public byte[][] possibleMoves;
 public byte activePlayer;
 public List<Move> moves;
+public KingCastling whiteKingCastling;
+public KingCastling blackKingCastling;
 }
