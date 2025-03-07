@@ -6,7 +6,7 @@ import java.util.*;
 public class KingMoveValidator
 {
 private KingMoveValidator(){};
-public static byte validateMove(byte[][] board,int startRowIndex,int startColumnIndex,int destinationRowIndex,int destinationColumnIndex,KingCastling kingCastling)
+public static byte validateMove(byte[][] board,byte startRowIndex,byte startColumnIndex,byte destinationRowIndex,byte destinationColumnIndex,KingCastling kingCastling)
 {
 //castling part
 if(kingCastling.checkCastling==true)
@@ -17,7 +17,7 @@ if(kingPiece==-6)//black king
 //king's side castling move arrived
 if(startRowIndex==0 && startColumnIndex==4 && destinationRowIndex==0 && destinationColumnIndex==6)
 {
-System.out.println("black (right)rook moved : "+kingCastling.rightRookMoved);
+System.out.prbyteln("black (right)rook moved : "+kingCastling.rightRookMoved);
 if(kingCastling.kingMoved==true || kingCastling.rightRookMoved==true)
 {
 return 0;
@@ -95,7 +95,7 @@ if(kingPiece==6)// white King
 //king's side castling move arrived
 if(startRowIndex==7 && startColumnIndex==4 && destinationRowIndex==7 && destinationColumnIndex==6)
 {
-System.out.println("white (right)rook moved : "+kingCastling.rightRookMoved);
+System.out.prbyteln("white (right)rook moved : "+kingCastling.rightRookMoved);
 if(kingCastling.kingMoved==true || kingCastling.rightRookMoved==true)
 {
 return 0;
@@ -167,7 +167,7 @@ return 1;
 }//castling part ends here
 
 
-int d=0;
+byte d=0;
 if(startColumnIndex==destinationColumnIndex)//moving one step veritcally
 {
 d=(startRowIndex<destinationRowIndex)?destinationRowIndex-startRowIndex:startRowIndex-destinationRowIndex;
@@ -179,8 +179,8 @@ if(d!=1) return 0;
 }
 else//moving one step diagonally
 {
-int d1=(startRowIndex<destinationRowIndex)?destinationRowIndex-startRowIndex:startRowIndex-destinationRowIndex;
-int d2=(startColumnIndex<destinationColumnIndex)?destinationColumnIndex-startColumnIndex:startColumnIndex-destinationColumnIndex;
+byte d1=(startRowIndex<destinationRowIndex)?destinationRowIndex-startRowIndex:startRowIndex-destinationRowIndex;
+byte d2=(startColumnIndex<destinationColumnIndex)?destinationColumnIndex-startColumnIndex:startColumnIndex-destinationColumnIndex;
 if(d1!=1 || d2!=1) 
 {
 return 0;
