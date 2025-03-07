@@ -17,7 +17,7 @@ if(kingPiece==-6)//black king
 //king's side castling move arrived
 if(startRowIndex==0 && startColumnIndex==4 && destinationRowIndex==0 && destinationColumnIndex==6)
 {
-System.out.prbyteln("black (right)rook moved : "+kingCastling.rightRookMoved);
+System.out.println("black (right)rook moved : "+kingCastling.rightRookMoved);
 if(kingCastling.kingMoved==true || kingCastling.rightRookMoved==true)
 {
 return 0;
@@ -39,13 +39,13 @@ return 0;
 //now to check is tile f8 and g8 are not in any threat
 
 //for tile f8
-piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)0,0,5,false);
+piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)0,(byte)0,(byte)5,false);
 if(piecesMoves.size()!=0)
 {
 return 0;
 }
 //for tile g8
-piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)0,0,6,false);
+piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)0,(byte)0,(byte)6,false);
 if(piecesMoves.size()!=0)
 {
 return 0;
@@ -73,13 +73,13 @@ return 0;
 }
 //now to check is tile c1 and d1 are not in any threat
 
-piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)0,0,2,false);
+piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)0,(byte)0,(byte)2,false);
 if(piecesMoves.size()!=0)
 {
 return 0;
 }
 //for tile g8
-piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)0,0,3,false);
+piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)0,(byte)0,(byte)3,false);
 if(piecesMoves.size()!=0)
 {
 return 0;
