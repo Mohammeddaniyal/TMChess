@@ -1,4 +1,5 @@
 package com.thinking.machines.chess.server;
+import com.thinking.machines.chess.server.handler.MoveHandler;
 import com.thinking.machines.chess.server.models.Game;
 import com.thinking.machines.chess.server.logic.BoardInitializer;
 import com.thinking.machines.chess.common.*;
@@ -222,7 +223,7 @@ public byte[][] getPossibleMoves(String gameId,byte fromX,byte fromY)
 {
 Game game=games.get(gameId);
 if(game==null) return new byte[8][8];
-return MoveHandler.getPossibleMoves(game.board,fromX,fromY,game.kingCastling);
+return MoveHandler.getPossibleMoves(game,fromX,fromY);
 }
 public void submitMove(String byUsername,byte piece,int fromX,int fromY,int toX,int toY)
 {
