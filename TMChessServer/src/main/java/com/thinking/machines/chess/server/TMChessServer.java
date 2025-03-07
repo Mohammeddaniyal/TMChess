@@ -212,14 +212,22 @@ GameInit gameInit=this.gameInits.get(username);
 if(gameInit!=null)this.gameInits.remove(username);
 return gameInit;
 }
-public boolean canIPlay(String gameId,String username)
+public boolean canIPlay(String gameId,byte playerColor)
 {
-return false;
+Game game=games.get(gameId);
+if(game==null) return false;
+return game.activePlayer==playerColor;
+}
+public byte[][] getPossibleMoves(String gameId,byte fromX,byte fromY)
+{
+Game game=games.get(gameId);
+if(game==null) return new byte[8][8];
+return MoveHandler.getPossibleMoves(game.board,fromX,fromY,game.kingCastling);
 }
 public void submitMove(String byUsername,byte piece,int fromX,int fromY,int toX,int toY)
 {
 }
-public Move getOpponentsMove(String username)
+public Move getOpponentMove(String username)
 {
 return null;
 }
