@@ -4,21 +4,21 @@ import com.thinking.machines.chess.server.models.KingCastling;
 import javax.swing.*;
 public class PossibleMoves
 {
-public static byte[][] getPossibleMoves(byte [][]board,int startRowIndex,int startColumnIndex,KingCastling kingCastling)
+public static byte[][] getPossibleMoves(byte [][]board,byte startRowIndex,byte startColumnIndex,KingCastling kingCastling)
 {
 byte [][]possibleMoves=new byte[8][8];
 byte sourcePiece=board[startRowIndex][startColumnIndex];
 byte targetTile;
-int destinationRowIndex,destinationColumnIndex;
+byte destinationRowIndex,destinationColumnIndex;
 boolean pawn=false;
 if(sourcePiece==1 || sourcePiece==-1)// either white pawn or black pawn
 {
 pawn=true;
 } 
-for(int e=0;e<8;e++)
+for(byte e=0;e<8;e++)
 {
 destinationRowIndex=e;
-for(int f=0;f<8;f++)
+for(byte f=0;f<8;f++)
 {
 destinationColumnIndex=f;
 targetTile=board[destinationRowIndex][destinationColumnIndex];
