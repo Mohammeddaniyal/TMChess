@@ -7,6 +7,7 @@ import java.awt.event.*;
 import java.util.*;
 public class Chess extends JPanel implements ActionListener
 {
+private NFrameworkClient client;
 private GameInit gameInit;
 class UNDOMove
 {
@@ -372,9 +373,7 @@ if(possibleMoves[e][f]==false) continue;
 validTile=tiles[e][f];
 //validTile.setBorder(BorderFactory.createDashedBorder(Color.RED,30,10));
 Color c;
-//c=new Color(32,178,170);
 c=Color.GREEN;
-//c=new Color(144,238,144);
 //validTile.setBackground(c);
 validTile.setBorder(BorderFactory.createLineBorder(c,3));
 }
@@ -415,6 +414,9 @@ reset();
 return;
 }
 //boolean validMove=validMovement(sourceIconName);
+
+//place a call to server side method to get validation of the move
+
 boolean validMove=possibleMoves[this.destinationRowIndex][this.destinationColumnIndex];
 if(validMove==false) 
 {
