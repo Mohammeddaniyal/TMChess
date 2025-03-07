@@ -1,5 +1,5 @@
 package com.thinking.machines.chess.server.handler;
-import com.thinking.machines.chess.server.models.Game;
+import com.thinking.machines.chess.server.models.*;
 import com.thinking.machines.chess.server.logic.*;
 import com.thinking.machines.chess.common.Move;
 public class MoveHandler
