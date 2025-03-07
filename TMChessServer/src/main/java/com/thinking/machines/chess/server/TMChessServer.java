@@ -213,12 +213,14 @@ GameInit gameInit=this.gameInits.get(username);
 if(gameInit!=null)this.gameInits.remove(username);
 return gameInit;
 }
+@Path("/canIPlay")
 public boolean canIPlay(String gameId,byte playerColor)
 {
 Game game=games.get(gameId);
 if(game==null) return false;
 return game.activePlayer==playerColor;
 }
+@Path("/getPossibleMoves")
 public byte[][] getPossibleMoves(String gameId,byte fromX,byte fromY)
 {
 Game game=games.get(gameId);
