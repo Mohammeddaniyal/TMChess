@@ -7,6 +7,7 @@ public String id;
 public String player1;
 public String player2;
 public byte[][] board;
+public byte[][] possibleMoves;
 public byte activePlayer;
 public List<Move> moves;
 }
