@@ -11,14 +11,14 @@ if(startColumnIndex==destinationColumnIndex)//vertical movement
 {
 if(startRowIndex<destinationRowIndex)	
 {
-for(byte e=startRowIndex+1;e<destinationRowIndex;e++)
+for(byte e=(byte)(startRowIndex+1);e<destinationRowIndex;e++)
 {
 tile=board[e][startColumnIndex];
 if(tile!=0) return 0; // tile not empty
 }
 }else
 {
-for(byte e=startRowIndex-1;e>destinationRowIndex;e--)
+for(byte e=(byte)(startRowIndex-1);e>destinationRowIndex;e--)
 {
 tile=board[e][startColumnIndex];
 if(tile!=0) return 0; // tile not empty
@@ -28,14 +28,14 @@ if(tile!=0) return 0; // tile not empty
 {
 if(startColumnIndex<destinationColumnIndex)
 {
-for(byte f=startColumnIndex+1;f<destinationColumnIndex;f++)
+for(byte f=(byte)(startColumnIndex+1);f<destinationColumnIndex;f++)
 {
 tile=board[startRowIndex][f];
 if(tile!=0) return 0;// tile not empty
 }
 }else
 {
-for(byte f=startColumnIndex-1;f>destinationColumnIndex;f--)
+for(byte f=(byte)(startColumnIndex-1);f>destinationColumnIndex;f--)
 {
 tile=board[startRowIndex][f];
 if(tile!=0) return 0;// tile not empty
@@ -46,10 +46,10 @@ if(tile!=0) return 0;// tile not empty
 //for diagonal movement starts here
 else
 {
-byte d1=startRowIndex-destinationRowIndex;
-byte d2=startColumnIndex-destinationColumnIndex;
-if(d1<0) d1=d1*(-1);
-if(d2<0) d2=d2*(-1);
+byte d1=(byte)(startRowIndex-destinationRowIndex);
+byte d2=(byte)(startColumnIndex-destinationColumnIndex);
+if(d1<0) d1=(byte)(d1*(-1));
+if(d2<0) d2=(byte)(d2*(-1));
 if(d1!=d2)
 {
 return 0;
@@ -60,7 +60,7 @@ return 0;
 byte e,f;
 if(destinationRowIndex<startRowIndex && destinationColumnIndex<startColumnIndex)
 {
-for(e=startRowIndex-1,f=startColumnIndex-1;e>destinationRowIndex;e--,f--)
+for(e=(byte)(startRowIndex-1),f=(byte)(startColumnIndex-1);e>destinationRowIndex;e--,f--)
 {
 tile=board[e][f];
 if(tile!=0) 
@@ -72,7 +72,7 @@ return 0;
 }else //path blocker for top-right
 if(destinationRowIndex<startRowIndex && startColumnIndex<destinationColumnIndex)
 {
-for(e=startRowIndex-1,f=startColumnIndex+1;e>destinationRowIndex;e--,f++)
+for(e=(byte)(startRowIndex-1),f=(byte)(startColumnIndex+1);e>destinationRowIndex;e--,f++)
 {
 tile=board[e][f];
 if(tile!=0)
@@ -84,7 +84,7 @@ return 0;
 }else//path blocker for bottom-left
 if(startRowIndex<destinationRowIndex && destinationColumnIndex<startColumnIndex)
 {
-for(e=startRowIndex+1,f=startColumnIndex-1;e<destinationRowIndex;e++,f--)
+for(e=(byte)(startRowIndex+1),f=(byte)(startColumnIndex-1);e<destinationRowIndex;e++,f--)
 {
 tile=board[e][f];
 if(tile!=0) 
@@ -96,7 +96,7 @@ return 0;
 }else//path blocker for bottom-right
 if(startRowIndex<destinationRowIndex && startColumnIndex<destinationColumnIndex)
 {
-for(e=startRowIndex+1,f=startColumnIndex+1;e<destinationRowIndex;e++,f++)
+for(e=(byte)(startRowIndex+1),f=(byte)(startColumnIndex+1);e<destinationRowIndex;e++,f++)
 {
 tile=board[e][f];
 if(tile!=0) 
