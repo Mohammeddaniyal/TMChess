@@ -5,14 +5,14 @@ import javax.swing.*;
 import java.util.*;
 public class CheckmateDetector
 {
-public static byte[][] getPossibleMoves(byte[][] board,int startRowIndex,int startColumnIndex,KingCastling kingCastling)
+public static byte[][] getPossibleMoves(byte[][] board,byte startRowIndex,byte startColumnIndex,KingCastling kingCastling)
 {
 byte [][]possibleMoves=PossibleMoves.getPossibleMoves(board,startRowIndex,startColumnIndex,kingCastling);
 PossibleMovesIndex pieceValidIndex;
 ArrayList<PossibleMovesIndex> piecesValidIndexes=new ArrayList<>();
-for(int e=0;e<8;e++)
+for(byte e=0;e<8;e++)
 {
-for(int f=0;f<8;f++)
+for(byte f=0;f<8;f++)
 {
 if(possibleMoves[e][f]==1)//can move to this index
 {
@@ -33,8 +33,8 @@ byte sourcePiece=board[startRowIndex][startColumnIndex];
 // 6 represent king
 byte kingPiece=(byte)((sourcePiece>0)?6:-6);
 
-int kingRowIndex=0;
-int kingColumnIndex=0;
+byte kingRowIndex=0;
+byte kingColumnIndex=0;
 boolean pieceIsKing=false;
 if(sourcePiece==kingPiece)
 //pieceName.equals("whiteKing") || pieceName.equals("blackKing"))
@@ -45,9 +45,9 @@ pieceIsKing=true;
 }
 else
 {
-for(int e=0;e<8;e++)
+for(byte e=0;e<8;e++)
 {
-for(int f=0;f<8;f++)
+for(byte f=0;f<8;f++)
 {
 if(board[e][f]==kingPiece) 
 {
@@ -62,9 +62,9 @@ break;
 byte [][]dummyBoard=new byte[8][8];
 byte dummyTile;
 byte tile;
-for(int e=0;e<8;e++)
+for(byte e=0;e<8;e++)
 {
-for(int f=0;f<8;f++)
+for(byte f=0;f<8;f++)
 {
 tile=board[e][f];
 if(e==startRowIndex && f==startColumnIndex)
@@ -79,8 +79,8 @@ dummyBoard[e][f]=dummyTile;
 }
 }//creating dummy tiles(D.S) ends here
 
-int row;
-int column;
+byte row;
+byte column;
 ArrayList<PieceMoves> capturingPiecesMovesList;
 byte pieceColor=(byte)((sourcePiece>0)?1:0);
 for(PossibleMovesIndex pmi:piecesValidIndexes)
@@ -119,7 +119,7 @@ return validPossibleMoves;
 }
 
 
-public static ArrayList<PieceMoves> isPieceInDanger(byte [][]board,byte pieceColor,int rowIndex,int columnIndex,boolean includeAllValidPieces)
+public static ArrayList<PieceMoves> isPieceInDanger(byte [][]board,byte pieceColor,byte rowIndex,byte columnIndex,boolean includeAllValidPieces)
 {
 byte opponentPiece;
 PieceMoves pieceMoves;
@@ -128,9 +128,9 @@ piecesMoves=new ArrayList<>();
 byte[][] possibleMoves;
 KingCastling kingCastling=new KingCastling();
 kingCastling.checkCastling=false;
-for(int e=0;e<8;e++)
+for(byte e=0;e<8;e++)
 {
-for(int f=0;f<8;f++)
+for(byte f=0;f<8;f++)
 {
 opponentPiece=board[e][f];
 if(opponentPiece==0)
@@ -165,11 +165,11 @@ public static boolean detectCheckmate(byte [][]board,byte color)
 KingCastling kingCastling=new KingCastling();
 kingCastling.checkCastling=false;
 byte kingPiece=(byte)((color>0)?6:-6);
-int kingRowIndex=0;
-int kingColumnIndex=0;
-for(int e=0;e<8;e++)
+byte kingRowIndex=0;
+byte kingColumnIndex=0;
+for(byte e=0;e<8;e++)
 {
-for(int f=0;f<8;f++)
+for(byte f=0;f<8;f++)
 {
 if(board[e][f]==kingPiece)
 {
@@ -189,9 +189,9 @@ return false;
 byte [][]kingPossibleMoves=PossibleMoves.getPossibleMoves(board,kingRowIndex,kingColumnIndex,kingCastling);
 PossibleMovesIndex kingValidIndex;
 ArrayList<PossibleMovesIndex> kingValidIndexes=new ArrayList<>();
-for(int e=0;e<8;e++)
+for(byte e=0;e<8;e++)
 {
-for(int f=0;f<8;f++)
+for(byte f=0;f<8;f++)
 {
 if(kingPossibleMoves[e][f]==1)
 {
@@ -222,9 +222,9 @@ byte[][] possibleMoves;
 byte [][]dummyBoard=new byte[8][8];
 byte dummyTile;
 byte tile;
-for(int e=0;e<8;e++)
+for(byte e=0;e<8;e++)
 {
-for(int f=0;f<8;f++)
+for(byte f=0;f<8;f++)
 {
 tile=board[e][f];
 if(e==kingRowIndex && f==kingColumnIndex)
@@ -238,7 +238,7 @@ dummyBoard[e][f]=tile;
 }
 }//creating dummy board(D.S) ends here
 int kingValidIndexesCount=kingValidIndexes.size();
-int row,column;
+byte row,column;
 ArrayList<PieceMoves> capturingPiecesMovesList;
 ArrayList<PossibleMovesIndex> kingSafeIndexes=new ArrayList<>();
 for(PossibleMovesIndex kvi:kingValidIndexes)
@@ -293,8 +293,8 @@ possibleMoves=attackingPieceMoves.possibleMoves;
 
 byte opponentPiece=board[row][column];
 //System.out.println("Attacking piece name : "+opponentPieceName);
-int attackingPieceRowIndex=row;
-int attackingPieceColumnIndex=column;
+byte attackingPieceRowIndex=row;
+byte attackingPieceColumnIndex=column;
 boolean captureOpponentPiece=false;
 boolean blockOpponentPiece=false;
 boolean knightPiece=false;
@@ -308,9 +308,9 @@ knightPiece=true;
 
 else
 {
-for(int e=0;e<8;e++)
+for(byte e=0;e<8;e++)
 {
-for(int f=0;f<8;f++)
+for(byte f=0;f<8;f++)
 {
 if(possibleMoves[e][f]==1)
 {
@@ -322,12 +322,12 @@ attackingPiecePossibleMovesIndexes.add(attackingPiecePossibleMovesIndex);
 }//inner loop
 }//outer loop
 }//attacking piece (possible moves indexes)
-int row1=0;
-int column1=0;
+byte row1=0;
+byte column1=0;
 byte piece;
-for(int e=0;e<8;e++)
+for(byte e=0;e<8;e++)
 {
-for(int f=0;f<8;f++)
+for(byte f=0;f<8;f++)
 {
 piece=board[e][f];
 if(piece==0) continue;
@@ -396,9 +396,9 @@ private static byte[][] generateDummyBoard(byte[][] board,byte pieceNotToInclude
 byte [][]dummyBoard=new byte[8][8];
 byte dummyTile;
 byte tile;
-for(int e=0;e<8;e++)
+for(byte e=0;e<8;e++)
 {
-for(int f=0;f<8;f++)
+for(byte f=0;f<8;f++)
 {
 tile=board[e][f];
 dummyBoard[e][f]=(tile!=pieceNotToInclude)?tile:0;
@@ -410,9 +410,9 @@ private static ArrayList<PossibleMovesIndex> getPossibleMovesIndexesList(byte []
 {
 ArrayList<PossibleMovesIndex> possibleMovesIndexes=new ArrayList<>();
 PossibleMovesIndex possibleMovesIndex;
-for(int e=0;e<8;e++)
+for(byte e=0;e<8;e++)
 {
-for(int f=0;f<8;f++)
+for(byte f=0;f<8;f++)
 {
 if(possibleMoves[e][f]==1)
 {
