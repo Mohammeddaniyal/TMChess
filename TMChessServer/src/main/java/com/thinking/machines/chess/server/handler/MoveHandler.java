@@ -4,7 +4,7 @@ import com.thinking.machines.chess.server.logic.*;
 import com.thinking.machines.chess.common.Move;
 public class MoveHandler
 {
-private void updateCastlingStatus(KingCastling kingCastling,byte piece)
+private void updateCastlingStatus(Game game,byte piece,byte fromX,byte fromY)
 {
 if(piece==6 || piece==-6)//king
 {
