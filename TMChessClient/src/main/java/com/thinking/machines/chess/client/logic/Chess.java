@@ -1,6 +1,6 @@
 package com.thinking.machines.chess.client.logic;
 import com.thinking.machines.nframework.client.*;
-import com.thinking.machines.chess.common.GameInit;
+import com.thinking.machines.chess.common.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
@@ -10,6 +10,7 @@ public class Chess extends JPanel implements ActionListener
 {
 private NFrameworkClient client;
 private GameInit gameInit;
+String username;
 class UNDOMove
 {
 public JButton tile1,tile2;
@@ -31,7 +32,7 @@ private boolean black=false;
 private ButtonPanel buttonPanel;
 private JPanel boardPanel;
 private JButton[][] tiles;
-private boolean[][] possibleMoves;
+private byte[][] possibleMoves;
 private ImageIcon blackTile;
 private ImageIcon whiteTile;
 private Container container;
@@ -58,23 +59,51 @@ private ImageIcon whitePawnIcon;
 private UNDOMove undoMove;
 private boolean undoMoveValid=false;
 private int startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex;
-
-private javax.swing.Timer canIPlayTimer;
 private javax.swing.Timer getOpponentMoveTimer;
+private boolean canIPlay;
+private void canIPlay()
+{
+try
+{
+this.canIPlay=(boolean)client.execute("/TMChessServer/canIPlay",gameInit.gameId,gameInit.playerColor);
+System.out.println(canIPlay);
+if(!canIPlay)
+{
+//getOpponentMoveTimer.start();
+System.out.println("Switched of canIPlayTimer and switched on getOpponentMoveTimer");
+}
+else
+{
+JOptionPane.showMessageDialog(Chess.this,"You are first "+username);
+}
+}catch(Throwable t)
+{
+JOptionPane.showMessageDialog(Chess.this,t.getMessage());
+}
+
+}
 private void addActionListeners()
 {
-canIPlayTimer=new javax.swing.Timer(1000,new ActionListener(){
-public void actionPerformed(ActionEvent ev)
+getOpponentMoveTimer=new javax.swing.Timer(1000,ev->{
+try
 {
-
+Move move=(Move)client.execute("/TMChessServer/getOpponentMove",gameInit.gameId,username);
+if(move==null)
+{
+return;
+}
+}catch(Throwable t)
+{
+JOptionPane.showMessageDialog(Chess.this,t.getMessage());
 }
 });
 }
-public Chess(NFrameworkClient client,GameInit gameInit)
+public Chess(NFrameworkClient client,GameInit gameInit,String username)
 {
 addActionListeners();
 this.client=client;
 this.gameInit=gameInit;
+this.username=username;
 undoMove=new UNDOMove();
 tiles=new JButton[8][8];
 boardPanel=new JPanel();
@@ -153,9 +182,11 @@ buttonPanel=new ButtonPanel();
 //container.add(buttonPanel,BorderLayout.EAST);
 add(boardPanel,BorderLayout.CENTER);
 add(buttonPanel,BorderLayout.EAST);
-
 setLocation(x,y);
 setVisible(true);
+
+
+canIPlay();
 }
 private void reset()
 {
@@ -203,7 +234,7 @@ tileBorder=darkTileBorder;
 tiles[e][f].setBackground(tileColor);
 tiles[e][f].setBorder(tileBorder);
 //tiles[e][f].setBorder(UIManager.getBorder("Button.border"));
-possibleMoves[e][f]=false;
+possibleMoves[e][f]=0;
 }
 }
 }
@@ -307,7 +338,14 @@ return tile;
 
 public void actionPerformed(ActionEvent ev)
 {
-
+if(!canIPlay)
+{
+JButton button=(JButton)ev.getSource();
+button.setBorder(UIManager.getBorder("Button.border"));//for making the button border as the default as system
+button.setEnabled(false);//doing this trick to remove foucs from button
+button.setEnabled(true);
+return;
+}
 boolean found=false;
 JButton tile=null;
 int e=0;
@@ -374,6 +412,17 @@ if(pieceName.equals("whiteKing"))
 }else if(pieceName.equals("blackKing"))
 {
 }
+
+
+try
+{
+System.out.println("Getting possibleMoves");
+possibleMoves=(byte[][])client.execute("/TMChessServer/getPossibleMoves",gameInit.gameId,(byte)startRowIndex,(byte)startColumnIndex);
+}catch(Throwable t)
+{
+JOptionPane.showMessageDialog(Chess.this,t);
+}
+
 //possibleMoves=CheckmateDetector.getPossibleMoves(tiles,startRowIndex,startColumnIndex,kingCastling);
 
 JButton validTile;
@@ -382,7 +431,7 @@ for(e=0;e<8;e++)
 for(f=0;f<8;f++)
 {
 //System.out.print(possibleMoves[e][f]+"  ");
-if(possibleMoves[e][f]==false) continue;
+if(possibleMoves[e][f]==0) continue;
 validTile=tiles[e][f];
 //validTile.setBorder(BorderFactory.createDashedBorder(Color.RED,30,10));
 Color c;
@@ -430,8 +479,8 @@ return;
 
 //place a call to server side method to get validation of the move
 
-boolean validMove=possibleMoves[this.destinationRowIndex][this.destinationColumnIndex];
-if(validMove==false) 
+byte validMove=possibleMoves[this.destinationRowIndex][this.destinationColumnIndex];
+if(validMove==0) 
 {
 this.sourceTile.setBorder(UIManager.getBorder("Button.border"));
 targetTile.setEnabled(false);
