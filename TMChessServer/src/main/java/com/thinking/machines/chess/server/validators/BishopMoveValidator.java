@@ -2,13 +2,13 @@ package com.thinking.machines.chess.server.validators;
 import javax.swing.*;
 public class BishopMoveValidator
 {
-public static byte validateMove(int startRowIndex,int startColumnIndex,int destinationRowIndex,int destinationColumnIndex,byte [][]board)
+public static byte validateMove(byte startRowIndex,byte startColumnIndex,byte destinationRowIndex,byte destinationColumnIndex,byte [][]board)
 {
 //restricting vertical and horizontal movement of the (bishop)
 if((startRowIndex==destinationRowIndex && startColumnIndex!=destinationColumnIndex) || (startRowIndex!=destinationRowIndex && startColumnIndex==destinationColumnIndex)) return 0; 
 //validating movement of bishop diagonally on the same tile
-int d1=startRowIndex-destinationRowIndex;
-int d2=startColumnIndex-destinationColumnIndex;
+byte d1=startRowIndex-destinationRowIndex;
+byte d2=startColumnIndex-destinationColumnIndex;
 if(d1<0) d1=d1*(-1);
 if(d2<0) d2=d2*(-1);
 if(d1!=d2)
@@ -17,7 +17,7 @@ return 0;
 }
 //validating path blocker
 byte tile;
-int e,f;
+byte e,f;
 if(destinationRowIndex<startRowIndex && destinationColumnIndex<startColumnIndex)
 {
 for(e=startRowIndex-1,f=startColumnIndex-1;e>destinationRowIndex;e--,f--)
