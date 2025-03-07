@@ -3,7 +3,7 @@ import javax.swing.*;
 public class QueenMoveValidator
 {
 private QueenMoveValidator(){};
-public static byte validateMove(int startRowIndex,int startColumnIndex,int destinationRowIndex,int destinationColumnIndex,byte[][] board)
+public static byte validateMove(byte startRowIndex,byte startColumnIndex,byte destinationRowIndex,byte destinationColumnIndex,byte[][] board)
 {
 //for vertical and horizontal movement starts here
 byte tile;
@@ -11,14 +11,14 @@ if(startColumnIndex==destinationColumnIndex)//vertical movement
 {
 if(startRowIndex<destinationRowIndex)	
 {
-for(int e=startRowIndex+1;e<destinationRowIndex;e++)
+for(byte e=startRowIndex+1;e<destinationRowIndex;e++)
 {
 tile=board[e][startColumnIndex];
 if(tile!=0) return 0; // tile not empty
 }
 }else
 {
-for(int e=startRowIndex-1;e>destinationRowIndex;e--)
+for(byte e=startRowIndex-1;e>destinationRowIndex;e--)
 {
 tile=board[e][startColumnIndex];
 if(tile!=0) return 0; // tile not empty
@@ -28,14 +28,14 @@ if(tile!=0) return 0; // tile not empty
 {
 if(startColumnIndex<destinationColumnIndex)
 {
-for(int f=startColumnIndex+1;f<destinationColumnIndex;f++)
+for(byte f=startColumnIndex+1;f<destinationColumnIndex;f++)
 {
 tile=board[startRowIndex][f];
 if(tile!=0) return 0;// tile not empty
 }
 }else
 {
-for(int f=startColumnIndex-1;f>destinationColumnIndex;f--)
+for(byte f=startColumnIndex-1;f>destinationColumnIndex;f--)
 {
 tile=board[startRowIndex][f];
 if(tile!=0) return 0;// tile not empty
@@ -46,8 +46,8 @@ if(tile!=0) return 0;// tile not empty
 //for diagonal movement starts here
 else
 {
-int d1=startRowIndex-destinationRowIndex;
-int d2=startColumnIndex-destinationColumnIndex;
+byte d1=startRowIndex-destinationRowIndex;
+byte d2=startColumnIndex-destinationColumnIndex;
 if(d1<0) d1=d1*(-1);
 if(d2<0) d2=d2*(-1);
 if(d1!=d2)
@@ -57,7 +57,7 @@ return 0;
 //validating path blocker
 
 //path blocker for top-left
-int e,f;
+byte e,f;
 if(destinationRowIndex<startRowIndex && destinationColumnIndex<startColumnIndex)
 {
 for(e=startRowIndex-1,f=startColumnIndex-1;e>destinationRowIndex;e--,f--)
