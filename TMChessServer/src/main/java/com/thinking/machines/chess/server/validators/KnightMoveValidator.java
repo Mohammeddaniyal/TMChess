@@ -1,11 +1,11 @@
 package com.thinking.machines.chess.server.validators;
 public class KnightMoveValidator
 {
-public static byte validateMove(int startRowIndex,int startColumnIndex,int destinationRowIndex,int destinationColumnIndex)
+public static byte validateMove(byte startRowIndex,byte startColumnIndex,byte destinationRowIndex,byte destinationColumnIndex)
 {
 //mandatoring knight to move in L-shape movement
-int d1=(startRowIndex<destinationRowIndex)?destinationRowIndex-startRowIndex:startRowIndex-destinationRowIndex;
-int d2=(startColumnIndex<destinationColumnIndex)?destinationColumnIndex-startColumnIndex:startColumnIndex-destinationColumnIndex;
+byte d1=(startRowIndex<destinationRowIndex)?destinationRowIndex-startRowIndex:startRowIndex-destinationRowIndex;
+byte d2=(startColumnIndex<destinationColumnIndex)?destinationColumnIndex-startColumnIndex:startColumnIndex-destinationColumnIndex;
 if(d1!=1 && d1!=2) return 0;
 if(d1==1)//two square right or left and one square bottom or top
 {
