@@ -95,7 +95,7 @@ if(kingPiece==6)// white King
 //king's side castling move arrived
 if(startRowIndex==7 && startColumnIndex==4 && destinationRowIndex==7 && destinationColumnIndex==6)
 {
-System.out.prbyteln("white (right)rook moved : "+kingCastling.rightRookMoved);
+System.out.println("white (right)rook moved : "+kingCastling.rightRookMoved);
 if(kingCastling.kingMoved==true || kingCastling.rightRookMoved==true)
 {
 return 0;
@@ -114,13 +114,13 @@ return 0;
 }
 //now to check is tile f1 and g1 are not in any threat
 //for tile f1
-piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)1,7,5,false);
+piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)1,(byte)7,(byte)5,false);
 if(piecesMoves.size()!=0)
 {
 return 0;
 }
 //for tile g1
-piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)1,7,6,false);
+piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)1,(byte)7,(byte)6,false);
 if(piecesMoves.size()!=0)
 {
 return 0;
@@ -148,13 +148,13 @@ return 0;
 }
 //now to check is tile c1 and d1 are not in any threat
 
-piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)1,7,2,false);
+piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)1,(byte)7,(byte)2,false);
 if(piecesMoves.size()!=0)
 {
 return 0;
 }
 //for tile g8
-piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)1,7,3,false);
+piecesMoves=CheckmateDetector.isPieceInDanger(board,(byte)1,(byte)7,(byte)3,false);
 if(piecesMoves.size()!=0)
 {
 return 0;
@@ -170,17 +170,17 @@ return 1;
 byte d=0;
 if(startColumnIndex==destinationColumnIndex)//moving one step veritcally
 {
-d=(startRowIndex<destinationRowIndex)?destinationRowIndex-startRowIndex:startRowIndex-destinationRowIndex;
+d=(byte)((startRowIndex<destinationRowIndex)?destinationRowIndex-startRowIndex:startRowIndex-destinationRowIndex);
 if(d!=1) return 0;
 }else if(startRowIndex==destinationRowIndex)//moving one step horizontally
 {
-d=(startColumnIndex<destinationColumnIndex)?destinationColumnIndex-startColumnIndex:startColumnIndex-destinationColumnIndex;
+d=(byte)((startColumnIndex<destinationColumnIndex)?destinationColumnIndex-startColumnIndex:startColumnIndex-destinationColumnIndex);
 if(d!=1) return 0;
 }
 else//moving one step diagonally
 {
-byte d1=(startRowIndex<destinationRowIndex)?destinationRowIndex-startRowIndex:startRowIndex-destinationRowIndex;
-byte d2=(startColumnIndex<destinationColumnIndex)?destinationColumnIndex-startColumnIndex:startColumnIndex-destinationColumnIndex;
+byte d1=(byte)((startRowIndex<destinationRowIndex)?destinationRowIndex-startRowIndex:startRowIndex-destinationRowIndex);
+byte d2=(byte)((startColumnIndex<destinationColumnIndex)?destinationColumnIndex-startColumnIndex:startColumnIndex-destinationColumnIndex);
 if(d1!=1 || d2!=1) 
 {
 return 0;
