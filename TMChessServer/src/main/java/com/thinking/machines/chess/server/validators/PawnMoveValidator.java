@@ -2,7 +2,7 @@ package com.thinking.machines.chess.server.validators;
 import javax.swing.*;
 public class PawnMoveValidator
 {
-public static byte validateMove(int startRowIndex,int startColumnIndex,int destinationRowIndex,int destinationColumnIndex,byte[][] board)
+public static byte  validateMove(byte startRowIndex,byte startColumnIndex,byte destinationRowIndex,byte destinationColumnIndex,byte [][] board)
 {
 byte sourcePiece=board[startRowIndex][startColumnIndex];
 boolean capture=false;
@@ -20,7 +20,7 @@ if(destinationRowIndex-startRowIndex==2)//2 square tile forward validation
 {
 //not allowing to jump from a piece if it is in path of the pawn
 
-byte tile=board[startRowIndex+1][startColumnIndex];
+byte  tile=board[startRowIndex+1][startColumnIndex];
 if(tile!=0) return 0;
 if(board[startRowIndex+2][startColumnIndex]!=0)return 0;
 }
@@ -43,7 +43,7 @@ return 0;
 //capture  part of pawn(en passant)diagonal right or left
 if( (startRowIndex+1==destinationRowIndex) && ((startColumnIndex-1==destinationColumnIndex) || (startColumnIndex+1==destinationColumnIndex)) )
 {
-byte targetPiece=board[destinationRowIndex][destinationColumnIndex];
+byte  targetPiece=board[destinationRowIndex][destinationColumnIndex];
 if(targetPiece==0) return 0;// no piece to capture by which en passant can be performed
 if( (sourcePiece>0 && targetPiece>0) || (sourcePiece<0 && targetPiece<0))
 {
@@ -70,7 +70,7 @@ if(startRowIndex==6)//at begining allowing 2 steps
 if(startRowIndex-destinationRowIndex==2)//2 square tile forward validation
 {
 //not allowing to jump from a piece if it is in path of the pawn
-byte tile=board[startRowIndex-1][startColumnIndex];
+byte  tile=board[startRowIndex-1][startColumnIndex];
 //checking the path isn't blocked
 if(tile!=0) return 0;
 if(board[startRowIndex-2][startColumnIndex]!=0)return 0;
@@ -95,7 +95,7 @@ return 0;
 //capture  enpassant
 if( (startRowIndex-1==destinationRowIndex) && ((startColumnIndex-1==destinationColumnIndex) || (startColumnIndex+1==destinationColumnIndex)) )
 {
-byte targetPiece=board[destinationRowIndex][destinationColumnIndex];
+byte  targetPiece=board[destinationRowIndex][destinationColumnIndex];
 if(targetPiece==0) return 0;
 if( (sourcePiece>0 && targetPiece>0) || (sourcePiece<0 && targetPiece<0))
 {
