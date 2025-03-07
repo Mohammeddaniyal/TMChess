@@ -19,7 +19,7 @@ if((fromX==7 && fromY==0) || (fromX==0 && fromY==0))
 {
 kingCastling.leftRookMoved=true;
 }
-else if((fromX=7 && fromY==7) || (fromX==0 && fromY==7))
+else if((fromX==7 && fromY==7) || (fromX==0 && fromY==7))
 {
 kingCastling.rightRookMoved=true;
 }
@@ -63,7 +63,7 @@ kingCastling=game.whiteKingCastling;
 {
 kingCastling=game.blackKingCastling;
 }
-if(game.kingCastling.checkCastling)//only when castling is possible
+if(kingCastling.checkCastling)//only when castling is possible
 {
 //remove game after testing
 updateCastlingStatus(kingCastling,game,sourcePiece,fromX,fromY);
