@@ -129,6 +129,8 @@ game.board=BoardInitializer.initializeBoard();
 game.activePlayer=(byte)random.nextInt(2); //Generates 0 or 1 
 game.moves=new LinkedList<Move>();
 
+this.games.put(uuid,game);
+
 GameInit gameInit=new GameInit();
 gameInit.gameId=uuid;
 gameInit.playerColor=playerColor1;
@@ -217,7 +219,11 @@ return gameInit;
 public boolean canIPlay(String gameId,byte playerColor)
 {
 Game game=games.get(gameId);
-if(game==null) return false;
+if(game==null) 
+{
+System.out.println("game is null");
+return false;
+}
 return game.activePlayer==playerColor;
 }
 @Path("/getPossibleMoves")
@@ -230,6 +236,7 @@ return MoveHandler.getPossibleMoves(game,fromX,fromY);
 public void submitMove(String byUsername,byte piece,int fromX,int fromY,int toX,int toY)
 {
 }
+
 public Move getOpponentMove(String username)
 {
 return null;
