@@ -256,7 +256,7 @@ game.moves.add(move);
 game.activePlayer=(byte)((playerColor==1)?0:1);
 return moveResponse;
 }
-@Path("/getOpponentMoves")
+@Path("/getOpponentMove")
 public Move getOpponentMove(String gameId,byte playerColor)
 {
 Game game=games.get(gameId);
