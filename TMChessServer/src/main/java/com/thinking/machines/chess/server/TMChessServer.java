@@ -233,6 +233,7 @@ Game game=games.get(gameId);
 if(game==null) return new byte[8][8];
 return MoveHandler.getPossibleMoves(game,fromX,fromY);
 }
+@Path("/submitMove")
 public MoveResponse submitMove(String gameId,Move m)
 {
 Game game=games.get(gameId);
