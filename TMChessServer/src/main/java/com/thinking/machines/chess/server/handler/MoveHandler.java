@@ -2,6 +2,7 @@ package com.thinking.machines.chess.server.handler;
 import com.thinking.machines.chess.server.models.*;
 import com.thinking.machines.chess.server.logic.*;
 import com.thinking.machines.chess.common.Move;
+import com.thinking.machines.chess.common.MoveResponse;
 public class MoveHandler
 {
 private static void updateCastlingStatus(KingCastling kingCastling,Game game,byte piece,byte fromX,byte fromY)
@@ -41,7 +42,7 @@ kingCastling=game.whiteKingCastling;
 {
 kingCastling=game.blackKingCastling;
 }
-byte possibleMoves=CheckmateDetector.getPossibleMoves(game.board,fromX,fromY,kingCastling);
+byte [][]possibleMoves=CheckmateDetector.getPossibleMoves(game.board,fromX,fromY,kingCastling);
 game.possibleMoves=possibleMoves;
 return possibleMoves;
 }
@@ -60,54 +61,13 @@ moveResponse.isValid=0;
 moveResponse.castlingType=0;
 }
 moveResponse.isValid=1;
+moveResponse.castlingType=0;
 //if move is valid update the current board state
 byte sourcePiece=game.board[fromX][fromY];
 game.board[fromX][fromY]=0;
 game.board[toX][toY]=sourcePiece;
 
-//now check if the move was castling
-if(game.castlingType==0)//no castling happened
-{
-//do nothing
-}else
-{
-if(game.castlingType==1)//white king side castling 
-{
-fromX=7;
-fromY=7;
-toX=7;
-toY=5;
-moveResponse.castlingType=1;
-}else if(game.castlingType==2)//white queen side castling
-{
-fromX=7;
-toX=7;
-fromY=0;
-toY=3;
-moveResponse.castlingType=2;
-}else if(game.castlingType==3)//black king side castling
-{
-fromX=0;
-toX=0;
-fromY=7;
-toY=5;
-moveResponse.castlingType=3;
-}else if(game.castlingType==4)//black queen side castling
-{
-fromX=0;
-toX=0;
-fromY=0;
-toY=3;
-moveResponse.castlingType=4;
-}//now update the board state
-move.castlingType=moveResponse.castlingType;
-sourcePiece=game.board[fromX][fromY];
-game.board[fromX][fromY]=0;
-game.board[toX][toY]=sourcePiece;
-}
 
-//after completion of move track whether castling can still be allowed or not 
-//to track whether king or either rook moved or not
 KingCastling kingCastling;
 if(game.board[fromX][fromY]==6)//white king
 {
@@ -116,6 +76,60 @@ kingCastling=game.whiteKingCastling;
 {
 kingCastling=game.blackKingCastling;
 }
+
+
+//now check if the move was castling
+if(move.castlingType==0)//no castling happened
+{
+//do nothing
+}else if(kingCastling.checkCastling)//checking if castling is possible or not
+{
+kingCastling.checkCastling=false;
+kingCastling.kingMoved=true;
+if(move.castlingType==1)//white king side castling 
+{
+fromX=7;
+fromY=7;
+toX=7;
+toY=5;
+moveResponse.castlingType=1;
+kingCastling.rightRookMoved=true;
+}else if(move.castlingType==2)//white queen side castling
+{
+fromX=7;
+toX=7;
+fromY=0;
+toY=3;
+moveResponse.castlingType=2;
+kingCastling.rightLeftMoved=true;
+}else if(move.castlingType==3)//black king side castling
+{
+fromX=0;
+toX=0;
+fromY=7;
+toY=5;
+moveResponse.castlingType=3;
+kingCastling.rightRookMoved=true;
+}else if(move.castlingType==4)//black queen side castling
+{
+fromX=0;
+toX=0;
+fromY=0;
+toY=3;
+moveResponse.castlingType=4;
+kingCastling.leftRookMoved=true;
+}//now update the board state
+move.castlingType=moveResponse.castlingType;
+sourcePiece=game.board[fromX][fromY];
+game.board[fromX][fromY]=0;
+game.board[toX][toY]=sourcePiece;
+return moveResponse;
+}
+
+//in case of castling no need to check this because we know that king and either rook is moved
+//so i handled that on castlingCheck 
+//after completion of move track whether castling can still be allowed or not 
+//to track whether king or either rook moved or not
 if(kingCastling.checkCastling)//only when castling is possible
 {
 //remove game after testing
