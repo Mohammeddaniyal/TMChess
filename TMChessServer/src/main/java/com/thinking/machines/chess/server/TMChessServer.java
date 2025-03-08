@@ -19,8 +19,6 @@ static private Map<String,Message> invitationsTimeout;
 static private Map<String,List<String>> userExpiredInvitations;
 static private Map<String,GameInit> gameInits;
 static private Map<String,Game> games;
-static private final byte WHITE=1;
-static private final byte BLACK=0;
 static
 {
 populateDataStructures();
@@ -233,12 +231,47 @@ Game game=games.get(gameId);
 if(game==null) return new byte[8][8];
 return MoveHandler.getPossibleMoves(game,fromX,fromY);
 }
-public void submitMove(String byUsername,byte piece,int fromX,int fromY,int toX,int toY)
+public MoveResponse submitMove(String gameId,Move m)
 {
+Game game=games.get(gameId);
+if(game==null) return null;
+Move move==new Move();
+move.player=m.player;
+move.piece=m.piece;
+move.fromX=m.fromX;
+move.fromY=m.fromY;
+move.toX=m.toX;
+move.toY=m.toY;
+move.isLastMove=m.isLastMove;
+move.castlingType=m.castlingType;
+MoveResponse moveResponse=MoveHandler.validateMove(game,move);
+if(moveResponse.isValid==0) return false;
+byte playerColor=move.player;
+//update the move in list
+game.moves.add(move);
+//switch the player
+game.activePlayer=(playerColor==1)?0:1;
+return moveResponse;
 }
 
-public Move getOpponentMove(String username)
+public Move getOpponentMove(String gameId,byte playerColor)
 {
-return null;
+Game game=games.get(gameId);
+if(game==null) return null;
+while(true)
+{
+if(game.activePlayer!=playerColor)
+{
+try
+{
+Thread.sleep(500);
+}catch(InterruptedException interruptedException)
+{
+//do nothing
+}
+}
+break;
+}
+return game.moves.get(game.moves.size()-1);
 }
 }
