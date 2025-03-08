@@ -21,7 +21,7 @@ public int row1,row2,column1,column2;
 public boolean castling;
 public boolean pawnPromotion;
 }
-private Map<byte,String> pieceNamesMap;
+private Map<Byte,String> pieceNamesMap;
 private boolean whiteKingMoved=false;
 private boolean rightWhiteRookMoved=false;
 private boolean leftWhiteRookMoved=false;
@@ -110,7 +110,7 @@ private String getPieceName(byte piece)
 {
 String pieceName=(piece>0)?"white":"black";
 piece*=-1;
-pieceName+pieceNamesMap.get((byte)piece);
+pieceName=piece+pieceNamesMap.get((byte)piece);
 System.out.println("getPieceName method : (pieceName) "+pieceName);
 return pieceName;
 }
