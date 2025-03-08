@@ -58,7 +58,7 @@ private ImageIcon whiteKingIcon;
 private ImageIcon whitePawnIcon;
 private UNDOMove undoMove;
 private boolean undoMoveValid=false;
-private int startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex;
+private byte startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex;
 private javax.swing.Timer getOpponentMoveTimer;
 private boolean canIPlay;
 private void canIPlay()
@@ -69,7 +69,7 @@ this.canIPlay=(boolean)client.execute("/TMChessServer/canIPlay",gameInit.gameId,
 System.out.println(canIPlay);
 if(!canIPlay)
 {
-//getOpponentMoveTimer.start();
+getOpponentMoveTimer.start();
 System.out.println("Switched of canIPlayTimer and switched on getOpponentMoveTimer");
 }
 else
@@ -92,6 +92,7 @@ if(move==null)
 {
 return;
 }
+((javax.swing.Timer)ev.getSource()).stop();
 }catch(Throwable t)
 {
 JOptionPane.showMessageDialog(Chess.this,t.getMessage());
@@ -348,8 +349,8 @@ return;
 }
 boolean found=false;
 JButton tile=null;
-int e=0;
-int f=0;
+byte e=0;
+byte f=0;
 for(e=0;e<8;e++)
 {
 for(f=0;f<8;f++)
@@ -475,12 +476,33 @@ targetTile.setEnabled(true);
 reset();
 return;
 }
+
+
 //boolean validMove=validMovement(sourceIconName);
 
 //place a call to server side method to get validation of the move
-
-byte validMove=possibleMoves[this.destinationRowIndex][this.destinationColumnIndex];
-if(validMove==0) 
+MoveResponse moveResponse;
+byte validMove=0;
+byte castlingType=0;
+try
+{
+Move move=new Move();
+move.player=gameInit.playerColor;
+move.piece=gameInit.board[startRowIndex][startColumnIndex];
+move.fromX=(byte)startRowIndex;
+move.fromY=(byte)startColumnIndex;
+move.toX=(byte)destinationRowIndex;
+move.toY=(byte)destinationColumnIndex;
+move.isLastMove=m.isLastMove;
+move.castlingType=m.castlingType;
+moveResponse=(boolean)client.execute("/TMChessServer/submitMove",gameInit.gameId,move);
+}catch(Throwable t)
+{
+JOptionPane.showMessageDialog(Chess.this,t.getMessage());
+}
+validMove=moveResponse.isValid;
+castlingType=moveResponse.castlingType;
+if(validMove==0)
 {
 this.sourceTile.setBorder(UIManager.getBorder("Button.border"));
 targetTile.setEnabled(false);
@@ -489,21 +511,12 @@ reset();
 return;
 }
 this.sourceTile.setBorder(BorderFactory.createLineBorder(Color.GREEN,3));
-undoMove.name1=this.sourceTile.getActionCommand();
-undoMove.name2=this.targetTile.getActionCommand();
-undoMove.tileColor1=this.sourceTile.getBackground();
-undoMove.tileColor2=this.targetTile.getBackground();
-undoMove.row1=this.startRowIndex;
-undoMove.row2=this.destinationRowIndex;
-undoMove.column1=this.startColumnIndex;
-undoMove.column2=this.destinationColumnIndex;
-undoMove.castling=false;
-undoMove.pawnPromotion=false;
 movePiece(sourceIconName);
-
-if(white && undoMoveValid==false)buttonPanel.setUNDOEnable(true);
-else if(black && undoMoveValid==true) buttonPanel.setUNDOEnable(true);
+updateBoardState(move,castlingType);
 this.sourceTile.setBorder(UIManager.getBorder("Button.border"));
+
+
+/*
 //pawn promotion case
 if(sourceIconName.equals("whitePawn") && this.destinationRowIndex==0)
 {
@@ -575,7 +588,9 @@ this.targetTile=tiles[destinationRowIndex][destinationColumnIndex];
 movePiece("blackRook");
 }
 }
+*/
 
+/*
 //switching black/white turn
 if(white) 
 {
@@ -662,8 +677,55 @@ return;
 white=true;
 black=false;
 }
+*/
 reset();
+
 }
+
+
+}
+private void updateBoardState(Move move,byte castlingType)
+{
+byte fromX=move.fromX;
+byte fromY=move.fromY;
+byte toX=move.toX;
+byte toY=move.toY;
+
+gameInit.board[fromX][fromY]=0;
+gameInit.board[toX][toY]=move.piece;
+
+if(castlingType!=0)
+{
+if(castlingType==1)//white king side castling 
+{
+fromX=7;
+fromY=7;
+toX=7;
+toY=5;
+}else if(castlingType==2)//white queen side castling
+{
+fromX=7;
+toX=7;
+fromY=0;
+toY=3;
+}else if(castlingType==3)//black king side castling
+{
+fromX=0;
+toX=0;
+fromY=7;
+toY=5;
+}else if(castlingType==4)//black queen side castling
+{
+fromX=0;
+toX=0;
+fromY=0;
+toY=3;
+}//now update the board state
+byte piece=gameInit.board[fromX][fromY];
+gameInit.board[fromX][fromY]=0;
+gameInit.board[toX][toY]=piece;
+}
+
 }
 private void undoMove()
 {
