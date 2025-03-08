@@ -116,7 +116,7 @@ return pieceName;
 }
 private void populateDataStructures()
 {
-this.pieceNamesMap=Map.ofEntires(
+this.pieceNamesMap=Map.ofEntries(
 Map.entry((byte)1,"Pawn"),
 Map.entry((byte)2,"Knight"),
 Map.entry((byte)3,"Bishop"),
