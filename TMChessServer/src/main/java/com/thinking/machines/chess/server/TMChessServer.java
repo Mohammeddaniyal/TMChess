@@ -252,7 +252,7 @@ byte playerColor=move.player;
 //update the move in list
 game.moves.add(move);
 //switch the player
-game.activePlayer=(playerColor==1)?0:1;
+game.activePlayer=(byte)((playerColor==1)?0:1);
 return moveResponse;
 }
 
