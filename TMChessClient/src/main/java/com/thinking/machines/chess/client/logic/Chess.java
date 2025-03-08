@@ -96,13 +96,14 @@ return;
 ((javax.swing.Timer)ev.getSource()).stop();
 String pieceName=getPieceName(move.piece);
 
+SwingUtilities.invokeLater(()->{
 this.sourceTile=tiles[move.fromX][move.fromY];
 this.targetTile=tiles[move.toX][move.toY];
-SwingUtilities.invokeLater(()->{
 movePiece(pieceName);
 updateBoardState(move);
 });
 reset();
+canIPlay=true;
 }catch(Throwable t)
 {
 JOptionPane.showMessageDialog(Chess.this,t.getMessage());
@@ -726,7 +727,7 @@ black=false;
 reset();
 
 }
-
+canIPlay=false;
 }
 private byte getCastlingType(byte kingPiece)
 {
