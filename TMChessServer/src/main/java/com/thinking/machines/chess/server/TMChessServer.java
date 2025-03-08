@@ -247,7 +247,7 @@ move.toY=m.toY;
 move.isLastMove=m.isLastMove;
 move.castlingType=m.castlingType;
 MoveResponse moveResponse=MoveHandler.validateMove(game,move);
-if(moveResponse.isValid==0) return false;
+if(moveResponse.isValid==0) return moveResponse;
 byte playerColor=move.player;
 //update the move in list
 game.moves.add(move);
