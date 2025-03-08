@@ -95,8 +95,11 @@ return;
 }
 ((javax.swing.Timer)ev.getSource()).stop();
 String pieceName=getPieceName(move.piece);
+
+SwingUtilities.invokeLater(()->{
 movePiece(pieceName);
 updateBoardState(move);
+});
 }catch(Throwable t)
 {
 JOptionPane.showMessageDialog(Chess.this,t.getMessage());
