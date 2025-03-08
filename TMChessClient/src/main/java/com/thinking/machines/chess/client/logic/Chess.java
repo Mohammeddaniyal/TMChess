@@ -531,7 +531,7 @@ move.castlingType=(byte)getCastlingType((byte)6);
 move.castlingType=(byte)getCastlingType((byte)-6);
 }
 
-moveResponse=(boolean)client.execute("/TMChessServer/submitMove",gameInit.gameId,move);
+moveResponse=(MoveResponse)client.execute("/TMChessServer/submitMove",gameInit.gameId,move);
 }catch(Throwable t)
 {
 JOptionPane.showMessageDialog(Chess.this,t.getMessage());
