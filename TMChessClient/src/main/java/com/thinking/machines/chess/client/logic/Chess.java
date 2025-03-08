@@ -21,6 +21,7 @@ public int row1,row2,column1,column2;
 public boolean castling;
 public boolean pawnPromotion;
 }
+private Map<byte,String> pieceNamesMap;
 private boolean whiteKingMoved=false;
 private boolean rightWhiteRookMoved=false;
 private boolean leftWhiteRookMoved=false;
@@ -93,15 +94,38 @@ if(move==null)
 return;
 }
 ((javax.swing.Timer)ev.getSource()).stop();
+String pieceName=getPieceName(move.piece);
+movePiece(pieceName);
+updateBoardState(move);
 }catch(Throwable t)
 {
 JOptionPane.showMessageDialog(Chess.this,t.getMessage());
 }
 });
 }
+private String getPieceName(byte piece)
+{
+String pieceName=(piece>0)?"white":"black";
+piece*=-1;
+pieceName+pieceNamesMap.get((byte)piece);
+System.out.println("getPieceName method : (pieceName) "+pieceName);
+return pieceName;
+}
+private void populateDataStructures()
+{
+this.pieceNamesMap=new HashMap<>(){{
+put((byte)1,"Pawn");
+put((byte)2,"Knight");
+put((byte)3,"Bishop");
+put((byte)4,"Rook");
+put((byte)5,"Queen");
+put((byte)6,"King");
+}};
+}
 public Chess(NFrameworkClient client,GameInit gameInit,String username)
 {
 addActionListeners();
+populateDataStructures();
 this.client=client;
 this.gameInit=gameInit;
 this.username=username;
@@ -424,7 +448,6 @@ possibleMoves=(byte[][])client.execute("/TMChessServer/getPossibleMoves",gameIni
 JOptionPane.showMessageDialog(Chess.this,t);
 }
 
-//possibleMoves=CheckmateDetector.getPossibleMoves(tiles,startRowIndex,startColumnIndex,kingCastling);
 
 JButton validTile;
 for(e=0;e<8;e++)
@@ -512,7 +535,11 @@ return;
 }
 this.sourceTile.setBorder(BorderFactory.createLineBorder(Color.GREEN,3));
 movePiece(sourceIconName);
-updateBoardState(move,castlingType);
+move.castlingType=castlingType;
+//if castling case yes, then updateBoardState will handle the byte[][] board
+//as well as the updation of GUI
+updateBoardState(move);
+
 this.sourceTile.setBorder(UIManager.getBorder("Button.border"));
 
 
@@ -684,13 +711,13 @@ reset();
 
 
 }
-private void updateBoardState(Move move,byte castlingType)
+private void updateBoardState(Move move)
 {
 byte fromX=move.fromX;
 byte fromY=move.fromY;
 byte toX=move.toX;
 byte toY=move.toY;
-
+byte castlingType=move.castlingType;
 gameInit.board[fromX][fromY]=0;
 gameInit.board[toX][toY]=move.piece;
 
