@@ -19,6 +19,8 @@ static private Map<String,Message> invitationsTimeout;
 static private Map<String,List<String>> userExpiredInvitations;
 static private Map<String,GameInit> gameInits;
 static private Map<String,Game> games;
+static private final byte WHITE=1;
+static private final byte BLACK=0;
 static
 {
 populateDataStructures();
