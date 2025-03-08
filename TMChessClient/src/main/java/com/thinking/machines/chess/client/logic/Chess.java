@@ -88,7 +88,7 @@ private void addActionListeners()
 getOpponentMoveTimer=new javax.swing.Timer(1000,ev->{
 try
 {
-Move move=(Move)client.execute("/TMChessServer/getOpponentMove",gameInit.gameId,username);
+Move move=(Move)client.execute("/TMChessServer/getOpponentMove",gameInit.gameId,gameInit.playerColor);
 if(move==null)
 {
 return;
@@ -109,8 +109,8 @@ JOptionPane.showMessageDialog(Chess.this,t.getMessage());
 private String getPieceName(byte piece)
 {
 String pieceName=(piece>0)?"white":"black";
-piece*=-1;
-pieceName=piece+pieceNamesMap.get((byte)piece);
+if(piece<0)piece*=-1;
+pieceName=pieceName+pieceNamesMap.get((byte)piece);
 System.out.println("getPieceName method : (pieceName) "+pieceName);
 return pieceName;
 }
@@ -532,9 +532,10 @@ move.castlingType=(byte)getCastlingType((byte)-6);
 
 try
 {
-moveResponse=(MoveResponse)client.execute("/TMChessServer/submitMove",gameInit.gameId,move);
+moveResponse=(MoveResponse)client.execute("/TMChessServer/submitMove",move,gameInit.gameId);
 }catch(Throwable t)
 {
+System.out.println("SUBMIT MOVE EXCEPTION");
 JOptionPane.showMessageDialog(Chess.this,t.getMessage());
 }
 validMove=moveResponse.isValid;
