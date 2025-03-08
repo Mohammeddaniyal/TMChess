@@ -9,7 +9,7 @@ public byte fromY;
 public byte toX;
 public byte toY;
 public byte isLastMove;
-public byte castlingType=-1;
+public byte castlingType=0;
 //0 represents no castling
 //1 white kingside
 //2 white queenside castling
