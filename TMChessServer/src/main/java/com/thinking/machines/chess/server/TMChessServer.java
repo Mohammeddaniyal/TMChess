@@ -235,7 +235,7 @@ public MoveResponse submitMove(String gameId,Move m)
 {
 Game game=games.get(gameId);
 if(game==null) return null;
-Move move==new Move();
+Move move=new Move();
 move.player=m.player;
 move.piece=m.piece;
 move.fromX=m.fromX;
