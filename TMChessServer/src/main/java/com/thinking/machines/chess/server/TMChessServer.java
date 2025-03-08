@@ -1,6 +1,7 @@
 package com.thinking.machines.chess.server;
 import com.thinking.machines.chess.server.handler.MoveHandler;
 import com.thinking.machines.chess.server.models.Game;
+import com.thinking.machines.chess.server.models.KingCastling;
 import com.thinking.machines.chess.server.logic.BoardInitializer;
 import com.thinking.machines.chess.common.*;
 import com.thinking.machines.nframework.server.*;
@@ -129,6 +130,9 @@ game.board=BoardInitializer.initializeBoard();
 game.activePlayer=(byte)random.nextInt(2); //Generates 0 or 1 
 game.moves=new LinkedList<Move>();
 
+game.whiteKingCastling=new KingCastling();
+game.blackKingCastling=new KingCastling();
+
 this.games.put(uuid,game);
 
 GameInit gameInit=new GameInit();
@@ -249,7 +253,10 @@ move.toX=m.toX;
 move.toY=m.toY;
 move.isLastMove=m.isLastMove;
 move.castlingType=m.castlingType;
+System.out.println("111");
 MoveResponse moveResponse=MoveHandler.validateMove(game,move);
+System.out.println("222");
+System.out.println("Move response "+moveResponse.isValid);
 if(moveResponse.isValid==0) return moveResponse;
 byte playerColor=move.player;
 //update the move in list
@@ -269,7 +276,6 @@ if(game.activePlayer!=playerColor)
 {
 try
 {
-System.out.println("not active player : "+playerColor);
 Thread.sleep(500);
 continue;
 }catch(InterruptedException interruptedException)
