@@ -224,6 +224,7 @@ if(game==null)
 System.out.println("game is null");
 return false;
 }
+System.out.println("Active player : "+game.activePlayer);
 return game.activePlayer==playerColor;
 }
 @Path("/getPossibleMoves")
@@ -234,8 +235,9 @@ if(game==null) return new byte[8][8];
 return MoveHandler.getPossibleMoves(game,fromX,fromY);
 }
 @Path("/submitMove")
-public MoveResponse submitMove(String gameId,Move m)
+public MoveResponse submitMove(Move m,String gameId)
 {
+System.out.println("Hi");
 Game game=games.get(gameId);
 if(game==null) return null;
 Move move=new Move();
@@ -253,7 +255,6 @@ byte playerColor=move.player;
 //update the move in list
 game.moves.add(move);
 //switch the player
-
 game.activePlayer=(byte)((playerColor==1)?0:1);
 return moveResponse;
 }
@@ -268,7 +269,9 @@ if(game.activePlayer!=playerColor)
 {
 try
 {
+System.out.println("not active player : "+playerColor);
 Thread.sleep(500);
+continue;
 }catch(InterruptedException interruptedException)
 {
 //do nothing
@@ -276,6 +279,8 @@ Thread.sleep(500);
 }
 break;
 }
-return game.moves.get(game.moves.size()-1);
+int size=game.moves.size();
+int lastMoveIndex=(size>0)?size-1:0;
+return game.moves.get(lastMoveIndex);
 }
 }
