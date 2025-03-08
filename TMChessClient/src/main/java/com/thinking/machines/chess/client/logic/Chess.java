@@ -507,11 +507,9 @@ return;
 //boolean validMove=validMovement(sourceIconName);
 
 //place a call to server side method to get validation of the move
-MoveResponse moveResponse;
+MoveResponse moveResponse=null;
 byte validMove=0;
 byte castlingType=0;
-try
-{
 Move move=new Move();
 move.player=gameInit.playerColor;
 move.piece=gameInit.board[startRowIndex][startColumnIndex];
@@ -531,6 +529,9 @@ move.castlingType=(byte)getCastlingType((byte)6);
 move.castlingType=(byte)getCastlingType((byte)-6);
 }
 
+
+try
+{
 moveResponse=(MoveResponse)client.execute("/TMChessServer/submitMove",gameInit.gameId,move);
 }catch(Throwable t)
 {
