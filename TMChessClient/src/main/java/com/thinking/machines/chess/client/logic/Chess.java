@@ -713,6 +713,7 @@ reset();
 }
 private void updateBoardState(Move move)
 {
+
 byte fromX=move.fromX;
 byte fromY=move.fromY;
 byte toX=move.toX;
@@ -751,8 +752,16 @@ toY=3;
 byte piece=gameInit.board[fromX][fromY];
 gameInit.board[fromX][fromY]=0;
 gameInit.board[toX][toY]=piece;
+this.startRowIndex=fromX;
+this.startColumnIndex=fromY;
+this.destinationRowIndex=toX;
+this.destinationColumnIndex=toY;
+this.sourceTile=tiles[startRowIndex][startColumnIndex];
+this.targetTile=tiles[destinationRowIndex][destinationColumnIndex];
+String pieceName=((castlingType>2)?"white":"black")+"Rook";
+System.out.println("Castling Case : "+pieceName);
+movePiece(pieceName);
 }
-
 }
 private void undoMove()
 {
