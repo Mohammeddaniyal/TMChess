@@ -41,17 +41,70 @@ kingCastling=game.whiteKingCastling;
 {
 kingCastling=game.blackKingCastling;
 }
-return CheckmateDetector.getPossibleMoves(game.board,fromX,fromY,kingCastling);
+byte possibleMoves=CheckmateDetector.getPossibleMoves(game.board,fromX,fromY,kingCastling);
+game.possibleMoves=possibleMoves;
+return possibleMoves;
 }
-public static byte validateMove(Game game,Move move)
+public static MoveResponse validateMove(Game game,Move move)
 {
-byte board[][]=game.board;
+MoveResponse moveResponse=new MoveResponse();
 byte fromX=move.fromX;
 byte fromY=move.fromY;
 byte toX=move.toX;
 byte toY=move.toY;
+byte validMove=game.possibleMoves[toX][toY];
 
-byte sourcePiece=board[fromX][fromY];
+if(validMove==0) 
+{
+moveResponse.isValid=0;
+moveResponse.castlingType=0;
+}
+moveResponse.isValid=1;
+//if move is valid update the current board state
+byte sourcePiece=game.board[fromX][fromY];
+game.board[fromX][fromY]=0;
+game.board[toX][toY]=sourcePiece;
+
+//now check if the move was castling
+if(game.castlingType==0)//no castling happened
+{
+//do nothing
+}else
+{
+if(game.castlingType==1)//white king side castling 
+{
+fromX=7;
+fromY=7;
+toX=7;
+toY=5;
+moveResponse.castlingType=1;
+}else if(game.castlingType==2)//white queen side castling
+{
+fromX=7;
+toX=7;
+fromY=0;
+toY=3;
+moveResponse.castlingType=2;
+}else if(game.castlingType==3)//black king side castling
+{
+fromX=0;
+toX=0;
+fromY=7;
+toY=5;
+moveResponse.castlingType=3;
+}else if(game.castlingType==4)//black queen side castling
+{
+fromX=0;
+toX=0;
+fromY=0;
+toY=3;
+moveResponse.castlingType=4;
+}//now update the board state
+move.castlingType=moveResponse.castlingType;
+sourcePiece=game.board[fromX][fromY];
+game.board[fromX][fromY]=0;
+game.board[toX][toY]=sourcePiece;
+}
 
 //after completion of move track whether castling can still be allowed or not 
 //to track whether king or either rook moved or not
@@ -68,6 +121,6 @@ if(kingCastling.checkCastling)//only when castling is possible
 //remove game after testing
 updateCastlingStatus(kingCastling,game,sourcePiece,fromX,fromY);
 }
-return 1;
+return moveResponse;
 }
 }
