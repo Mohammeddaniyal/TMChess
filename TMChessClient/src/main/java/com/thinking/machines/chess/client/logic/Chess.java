@@ -519,8 +519,18 @@ move.fromX=(byte)startRowIndex;
 move.fromY=(byte)startColumnIndex;
 move.toX=(byte)destinationRowIndex;
 move.toY=(byte)destinationColumnIndex;
-move.isLastMove=m.isLastMove;
-move.castlingType=m.castlingType;
+move.isLastMove=-1;
+move.castlingType=0;
+
+//now to check if user did castling
+if(move.piece==6)
+{
+move.castlingType=(byte)getCastlingType((byte)6);
+}else if(move.piece==-6)
+{
+move.castlingType=(byte)getCastlingType((byte)-6);
+}
+
 moveResponse=(boolean)client.execute("/TMChessServer/submitMove",gameInit.gameId,move);
 }catch(Throwable t)
 {
@@ -712,7 +722,33 @@ reset();
 
 }
 
-
+}
+private byte getCastlingType(byte kingPiece)
+{
+byte castlingType=0;
+if(kingPiece==6 && this.startRowIndex==7 && this.startColumnIndex==4 )
+{
+if(this.destinationRowIndex==7 && this.destinationColumnIndex==6)
+{
+castlingType=1;
+}
+else if(this.destinationRowIndex==7 && this.destinationColumnIndex==2)
+{
+castlingType=2;
+}
+}
+else if(kingPiece==-6 && this.startRowIndex==0 && this.startColumnIndex==4)
+{
+if(this.destinationRowIndex==0 && this.destinationColumnIndex==6)
+{
+castlingType=3;
+}
+else if(this.destinationRowIndex==0 && this.destinationColumnIndex==2)
+{
+castlingType=4;
+}
+}
+return castlingType;
 }
 private void updateBoardState(Move move)
 {
