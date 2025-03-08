@@ -424,14 +424,14 @@ return;
 }
 this.sourceTile=tile;
 String pieceColor=this.sourceTile.getActionCommand().substring(0,5);
-if(this.white && pieceColor.equals("black")) 
+if(gameInit.playerColor==1 && pieceColor.equals("black")) 
 {
-System.out.println("white turn,Not black");
+System.out.println("you're white,Not black");
 return;
 }
-else if(this.black && pieceColor.equals("white")) 
+else if(this.gameInit.playerColor==0 && pieceColor.equals("white")) 
 {
-System.out.println("black turn,Not white");
+System.out.println("you're white,Not white");
 return;
 }
 startRowIndex=e;
@@ -561,6 +561,8 @@ updateBoardState(move);
 
 this.sourceTile.setBorder(UIManager.getBorder("Button.border"));
 
+canIPlay=false;
+getOpponentMoveTimer.start();
 
 /*
 //pawn promotion case
@@ -727,7 +729,6 @@ black=false;
 reset();
 
 }
-canIPlay=false;
 }
 private byte getCastlingType(byte kingPiece)
 {
