@@ -116,14 +116,14 @@ return pieceName;
 }
 private void populateDataStructures()
 {
-this.pieceNamesMap=new HashMap<>(){{
-put((byte)1,"Pawn");
-put((byte)2,"Knight");
-put((byte)3,"Bishop");
-put((byte)4,"Rook");
-put((byte)5,"Queen");
-put((byte)6,"King");
-}};
+this.pieceNamesMap=Map.ofEntires(
+Map.entry((byte)1,"Pawn");
+Map.entry((byte)2,"Knight");
+Map.entry((byte)3,"Bishop");
+Map.entry((byte)4,"Rook");
+Map.entry((byte)5,"Queen");
+Map.entry((byte)6,"King");
+);
 }
 public Chess(NFrameworkClient client,GameInit gameInit,String username)
 {
