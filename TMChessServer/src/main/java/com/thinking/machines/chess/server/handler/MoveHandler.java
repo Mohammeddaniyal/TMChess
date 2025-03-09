@@ -90,6 +90,12 @@ byte sourcePiece=game.board[fromX][fromY];
 //check for pawn promotion
 if(sourcePiece==1 && toX==0) //white pawn
 {
+//now change the value of sourcePiece
+if(move.pawnPromoteTo==0)
+{
+moveResponse.isValid=0;
+return moveResponse;
+}
 }else if(sourcePiece==-1 && toX==7)//black pawn
 {
 }
