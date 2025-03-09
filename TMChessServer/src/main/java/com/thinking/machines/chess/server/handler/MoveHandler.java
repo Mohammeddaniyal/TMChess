@@ -69,10 +69,7 @@ return moveResponse;
 
 moveResponse.isValid=1;
 moveResponse.castlingType=0;
-
-
-
-
+moveResponse.pawnPromoteTo=0;
 
 KingCastling kingCastling;
 if(game.board[fromX][fromY]==6)//white king
@@ -97,6 +94,7 @@ moveResponse.isValid=0;
 return moveResponse;
 }
 sourcePiece=move.pawnPromoteTo;
+moveResponse.pawnPromoteTo=move.pawnPromoteTo;
 System.out.println("PAWN PROMOTING TO : "+sourcePiece);
 }else if(sourcePiece==-1 && toX==7)//black pawn
 {
@@ -106,6 +104,7 @@ moveResponse.isValid=0;
 return moveResponse;
 }
 sourcePiece=move.pawnPromoteTo;
+moveResponse.pawnPromoteTo=move.pawnPromoteTo;
 System.out.println("PAWN PROMOTING TO : "+sourcePiece);
 }
 game.board[fromX][fromY]=0;
