@@ -533,15 +533,18 @@ move.castlingType=(byte)getCastlingType((byte)6);
 move.castlingType=(byte)getCastlingType((byte)-6);
 }
 
+PawnPromotionDialog pawnPromotionDialog=null;
+
 //now to check pawn promotion case
 //pawn promotion case
 if(move.piece==1 && this.destinationRowIndex==0)
 {
-//move.pawnPromotionTo=promotePawn("white");
+pawnPromotionDialog=new PawnPromotionDialog("white");
+move.pawnPromotionTo=pawnPromotionDialog.getSelectedPiece();
 }
 else if(move.piece==-1 && this.destinationRowIndex==7)
 {
-//move.pawnPromotionTo=promotePawn("black");
+pawnPromotionDialog=new PawnPromotionDialog("white");//move.pawnPromotionTo=promotePawn("black");
 }
 
 
@@ -1028,46 +1031,6 @@ targetTile.add(new JLabel(pieceIcon));
 targetTile.setEnabled(false);
 targetTile.setEnabled(true);
 }
-private boolean validMovement(String sourceIconName)
-{
-/*
-if(sourceIconName.equals("blackKing") || sourceIconName.equals("whiteKing"))
-{
-KingCastling kingCastling=null;
-if(sourceIconName.equals("whiteKing"))
-{
-kingCastling=whiteKingCastling;
-}else if(sourceIconName.equals("blackKing"))
-{
-kingCastling=blackKingCastling;
-}
-return KingMoveValidator.validateMove(tiles,startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,kingCastling);
-//king validation part ends here
-}else
-if(sourceIconName.equals("whiteQueen") || sourceIconName.equals("blackQueen"))
-{
-return QueenMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,tiles);
-}else
-if(sourceIconName.equals("whiteKnight") || sourceIconName.equals("blackKnight"))
-{
-return KnightMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex);
-}else
-if(sourceIconName.equals("whiteBishop") || sourceIconName.equals("blackBishop"))
-{
-return BishopMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,tiles);
-//Bishop validation ends here
-}else
-if(sourceIconName.equals("whiteRook") || sourceIconName.equals("blackRook"))
-{
-return RookMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,tiles);
-}else 
-if(sourceIconName.equals("blackPawn") || sourceIconName.equals("whitePawn"))
-{
-return PawnMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,tiles);
-}
-*/
-return true;
-}
 
 private class PawnPromotionDialog
 {
@@ -1194,7 +1157,6 @@ promoteToName="blackQueen";
 promoteToIcon=blackQueenIcon;
 selectedPiece=-5;
 }
-
 
 JOptionPane.showMessageDialog(Chess.this,panel,"Choose a piece",JOptionPane.PLAIN_MESSAGE);
 }
