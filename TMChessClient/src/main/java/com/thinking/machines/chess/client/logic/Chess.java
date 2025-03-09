@@ -99,8 +99,18 @@ String pieceName=getPieceName(move.piece);
 SwingUtilities.invokeLater(()->{
 this.sourceTile=tiles[move.fromX][move.fromY];
 this.targetTile=tiles[move.toX][move.toY];
-movePiece(pieceName);
 updateBoardState(move);
+if(move.pawnPromotionTo!=0)
+{
+String promoteToName=this.sourceTile.getActionCommand();
+ImageIcon promoteToIcon=getPieceIconByName(promoteToName); 
+PawnPromotionDialog pawnPromotionDialog=new PawnPromotionDialog(promoteToName,promoteToIcon);
+pawnPromotionDialog.promotePawn();
+}
+else
+{
+movePiece(pieceName);
+}
 });
 reset();
 canIPlay=true;
@@ -514,6 +524,7 @@ return;
 MoveResponse moveResponse=null;
 byte validMove=0;
 byte castlingType=0;
+byte pawnPromotionTo=0;
 Move move=new Move();
 move.player=gameInit.playerColor;
 move.piece=gameInit.board[startRowIndex][startColumnIndex];
@@ -544,7 +555,8 @@ move.pawnPromotionTo=pawnPromotionDialog.getSelectedPiece();
 }
 else if(move.piece==-1 && this.destinationRowIndex==7)
 {
-pawnPromotionDialog=new PawnPromotionDialog("white");//move.pawnPromotionTo=promotePawn("black");
+pawnPromotionDialog=new PawnPromotionDialog("white");
+move.pawnPromotionTo=pawnPromotionDialog.getSelectedPiece();
 }
 
 
@@ -557,7 +569,6 @@ System.out.println("SUBMIT MOVE EXCEPTION");
 JOptionPane.showMessageDialog(Chess.this,t.getMessage());
 }
 validMove=moveResponse.isValid;
-castlingType=moveResponse.castlingType;
 if(validMove==0)
 {
 this.sourceTile.setBorder(UIManager.getBorder("Button.border"));
@@ -566,13 +577,17 @@ targetTile.setEnabled(true);
 reset();
 return;
 }
+castlingType=moveResponse.castlingType;
+pawnPromotionTo=moveResponse.pawnPromotionTo;
 this.sourceTile.setBorder(BorderFactory.createLineBorder(Color.GREEN,3));
 movePiece(sourceIconName);
 move.castlingType=castlingType;
+move.pawnPromotionTo=pawnPromotionTo;
 //if castling case yes, then updateBoardState will handle the byte[][] board
 //as well as the updation of GUI
-updateBoardState(move);
 
+updateBoardState(move);
+if(pawnPromotionTo!=0 && pawnPromotionDialog!=null) pawnPromotionDialog.promotePawn();
 this.sourceTile.setBorder(UIManager.getBorder("Button.border"));
 
 canIPlay=false;
@@ -768,8 +783,17 @@ byte fromY=move.fromY;
 byte toX=move.toX;
 byte toY=move.toY;
 byte castlingType=move.castlingType;
+byte pawnPromotionTo=move.pawnPromotionTo;
+if(pawnPromotionTo!=0)
+{
+gameInit.board[fromX][fromY]=0;
+gameInit.board[toX][toY]=pawnPromotionTo;
+return;
+}
 gameInit.board[fromX][fromY]=0;
 gameInit.board[toX][toY]=move.piece;
+
+
 
 if(castlingType!=0)
 {
@@ -1037,6 +1061,11 @@ private class PawnPromotionDialog
 String promoteToName;
 ImageIcon promoteToIcon;
 byte selectedPiece;
+PawnPromotionDialog(String promoteToName,ImageIcon promoteToIcon)
+{
+this.promoteToName=promoteToName;
+this.promoteToIcon=promoteToIcon;
+}
 PawnPromotionDialog(String color)
 {
 JPanel panel=new JPanel();
