@@ -68,11 +68,6 @@ return moveResponse;
 
 moveResponse.isValid=1;
 moveResponse.castlingType=0;
-//if move is valid update the current board state
-byte sourcePiece=game.board[fromX][fromY];
-game.board[fromX][fromY]=0;
-game.board[toX][toY]=sourcePiece;
-
 
 KingCastling kingCastling;
 if(game.board[fromX][fromY]==6)//white king
@@ -82,6 +77,14 @@ kingCastling=game.whiteKingCastling;
 {
 kingCastling=game.blackKingCastling;
 }
+
+
+//if move is valid update the current board state
+byte sourcePiece=game.board[fromX][fromY];
+game.board[fromX][fromY]=0;
+game.board[toX][toY]=sourcePiece;
+
+
 
 System.out.println("Castling became false and also it affected in (white)"+game.whiteKingCastling.checkCastling);
 System.out.println("Castling became false and also it affected in (black)"+game.blackKingCastling.checkCastling);
