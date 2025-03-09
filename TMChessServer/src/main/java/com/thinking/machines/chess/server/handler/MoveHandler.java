@@ -96,10 +96,18 @@ if(move.pawnPromoteTo==0)
 moveResponse.isValid=0;
 return moveResponse;
 }
+sourcePiece=move.pawnPromoteTo;
+System.out.println("PAWN PROMOTING TO : "+sourcePiece);
 }else if(sourcePiece==-1 && toX==7)//black pawn
 {
+if(move.pawnPromoteTo==0)
+{
+moveResponse.isValid=0;
+return moveResponse;
 }
-
+sourcePiece=move.pawnPromoteTo;
+System.out.println("PAWN PROMOTING TO : "+sourcePiece);
+}
 game.board[fromX][fromY]=0;
 game.board[toX][toY]=sourcePiece;
 
