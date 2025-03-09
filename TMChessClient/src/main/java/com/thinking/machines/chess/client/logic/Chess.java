@@ -796,6 +796,7 @@ fromY=0;
 toY=3;
 }//now update the board state
 byte piece=gameInit.board[fromX][fromY];
+System.out.println("KING CASTLING rook : "+piece);
 gameInit.board[fromX][fromY]=0;
 gameInit.board[toX][toY]=piece;
 this.startRowIndex=fromX;
