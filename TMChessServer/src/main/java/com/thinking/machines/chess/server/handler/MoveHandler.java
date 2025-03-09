@@ -86,10 +86,6 @@ game.board[toX][toY]=sourcePiece;
 
 
 
-System.out.println("Castling became false and also it affected in (white)"+game.whiteKingCastling.checkCastling);
-System.out.println("Castling became false and also it affected in (black)"+game.blackKingCastling.checkCastling);
-System.out.println("General varibale KING Castling "+kingCastling.checkCastling);
-
 //now check if the move was castling
 if(move.castlingType==0)//no castling happened
 {
@@ -135,8 +131,6 @@ move.castlingType=moveResponse.castlingType;
 sourcePiece=game.board[fromX][fromY];
 game.board[fromX][fromY]=0;
 game.board[toX][toY]=sourcePiece;
-System.out.println("Castling became false and also it affected in (white)"+game.whiteKingCastling.checkCastling);
-System.out.println("Castling became false and also it affected in (black)"+game.blackKingCastling.checkCastling);
 return moveResponse;
 }
 
