@@ -25,12 +25,15 @@ else if((fromX==7 && fromY==7) || (fromX==0 && fromY==7))
 kingCastling.rightRookMoved=true;
 }
 }
+
 if(kingCastling.leftRookMoved==true && kingCastling.rightRookMoved==true)
 {
 kingCastling.checkCastling=false;
 System.out.println("Castling became false and also it affected in (white)"+game.whiteKingCastling.checkCastling);
 System.out.println("Castling became false and also it affected in (black)"+game.blackKingCastling.checkCastling);
 }
+
+
 }
 public static byte[][] getPossibleMoves(Game game,byte fromX,byte fromY)
 {
@@ -48,6 +51,7 @@ return possibleMoves;
 }
 public static MoveResponse validateMove(Game game,Move move)
 {
+
 MoveResponse moveResponse=new MoveResponse();
 byte fromX=move.fromX;
 byte fromY=move.fromY;
@@ -59,7 +63,9 @@ if(validMove==0)
 {
 moveResponse.isValid=0;
 moveResponse.castlingType=0;
+return moveResponse;
 }
+
 moveResponse.isValid=1;
 moveResponse.castlingType=0;
 //if move is valid update the current board state
@@ -77,6 +83,9 @@ kingCastling=game.whiteKingCastling;
 kingCastling=game.blackKingCastling;
 }
 
+System.out.println("Castling became false and also it affected in (white)"+game.whiteKingCastling.checkCastling);
+System.out.println("Castling became false and also it affected in (black)"+game.blackKingCastling.checkCastling);
+System.out.println("General varibale KING Castling "+kingCastling.checkCastling);
 
 //now check if the move was castling
 if(move.castlingType==0)//no castling happened
@@ -101,7 +110,7 @@ toX=7;
 fromY=0;
 toY=3;
 moveResponse.castlingType=2;
-kingCastling.rightLeftMoved=true;
+kingCastling.leftRookMoved=true;
 }else if(move.castlingType==3)//black king side castling
 {
 fromX=0;
@@ -123,6 +132,8 @@ move.castlingType=moveResponse.castlingType;
 sourcePiece=game.board[fromX][fromY];
 game.board[fromX][fromY]=0;
 game.board[toX][toY]=sourcePiece;
+System.out.println("Castling became false and also it affected in (white)"+game.whiteKingCastling.checkCastling);
+System.out.println("Castling became false and also it affected in (black)"+game.blackKingCastling.checkCastling);
 return moveResponse;
 }
 
@@ -133,8 +144,10 @@ return moveResponse;
 if(kingCastling.checkCastling)//only when castling is possible
 {
 //remove game after testing
+
 updateCastlingStatus(kingCastling,game,sourcePiece,fromX,fromY);
 }
+
 return moveResponse;
 }
 }
