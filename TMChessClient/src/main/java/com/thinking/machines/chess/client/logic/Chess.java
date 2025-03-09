@@ -805,7 +805,7 @@ this.destinationRowIndex=toX;
 this.destinationColumnIndex=toY;
 this.sourceTile=tiles[startRowIndex][startColumnIndex];
 this.targetTile=tiles[destinationRowIndex][destinationColumnIndex];
-String pieceName=((castlingType>2)?"white":"black")+"Rook";
+String pieceName=((castlingType>2)?"black":"white")+"Rook";
 System.out.println("Castling Case : "+pieceName);
 movePiece(pieceName);
 }
