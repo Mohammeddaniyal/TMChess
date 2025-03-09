@@ -533,6 +533,17 @@ move.castlingType=(byte)getCastlingType((byte)6);
 move.castlingType=(byte)getCastlingType((byte)-6);
 }
 
+//now to check pawn promotion case
+//pawn promotion case
+if(move.piece==1 && this.destinationRowIndex==0)
+{
+//move.pawnPromotionTo=promotePawn("white");
+}
+else if(move.piece==-1 && this.destinationRowIndex==7)
+{
+//move.pawnPromotionTo=promotePawn("black");
+}
+
 
 try
 {
@@ -565,17 +576,6 @@ canIPlay=false;
 getOpponentMoveTimer.start();
 
 /*
-//pawn promotion case
-if(sourceIconName.equals("whitePawn") && this.destinationRowIndex==0)
-{
-undoMove.pawnPromotion=true;
-promotePawn("white");
-}
-else if(sourceIconName.equals("blackPawn") && this.destinationRowIndex==7)
-{
-undoMove.pawnPromotion=true;
-promotePawn("black");
-}
 
 //king castling
 if(sourceIconName.equals("whiteKing"))
@@ -1068,10 +1068,14 @@ return PawnMoveValidator.validateMove(startRowIndex,startColumnIndex,destination
 */
 return true;
 }
-private void promotePawn(String color)
+
+private class PawnPromotionDialog
 {
-String promoteTo[]={""};
-ImageIcon image[]={null};
+String promoteToName;
+ImageIcon promoteToIcon;
+byte selectedPiece;
+PawnPromotionDialog(String color)
+{
 JPanel panel=new JPanel();
 panel.setLayout(new GridLayout(4,1,5,0));
 panel.setBackground(new Color(240,240,240));
@@ -1096,25 +1100,29 @@ whiteKnight.setBackground(Color.WHITE);
 whiteKnight.setPreferredSize(new Dimension(80,50));
 
 whiteQueen.addActionListener((ev)->{
-promoteTo[0]="whiteQueen";
-image[0]=whiteQueenIcon;
+promoteToName="whiteQueen";
+promoteToIcon=whiteQueenIcon;
+selectedPiece=5;
 });
 
 whiteBishop.addActionListener(new ActionListener(){
 public void actionPerformed(ActionEvent ev)
 {
-promoteTo[0]="whiteBishop";
-image[0]=whiteBishopIcon;
+promoteToName="whiteBishop";
+promoteToIcon=whiteBishopIcon;
+selectedPiece=3;
 }
 });
 
 whiteRook.addActionListener((ev)->{
-promoteTo[0]="whiteRook";
-image[0]=whiteRookIcon;
+promoteToName="whiteRook";
+promoteToIcon=whiteRookIcon;
+selectedPiece=4;
 });
 whiteKnight.addActionListener((ev)->{
-promoteTo[0]="whiteKnight";
-image[0]=whiteKnightIcon;
+promoteToName="whiteKnight";
+promoteToIcon=whiteKnightIcon;
+selectedPiece=2;
 });
 
 JButton blackQueen=new JButton(blackQueenIcon);
@@ -1138,36 +1146,42 @@ blackKnight.setBackground(Color.WHITE);
 blackKnight.setPreferredSize(new Dimension(80,50));
 
 blackQueen.addActionListener((ev)->{
-promoteTo[0]="blackQueen";
-image[0]=blackQueenIcon;
+promoteToName="blackQueen";
+promoteToIcon=blackQueenIcon;
+selectedPiece=-5;
 });
 
 blackBishop.addActionListener(new ActionListener(){
 public void actionPerformed(ActionEvent ev)
 {
-promoteTo[0]="blackBishop";
-image[0]=blackBishopIcon;
+promoteToName="blackBishop";
+promoteToIcon=blackBishopIcon;
+selectedPiece=-3;
 }
 });
 
 blackRook.addActionListener((ev)->{
-promoteTo[0]="blackRook";
-image[0]=blackRookIcon;
+promoteToName="blackRook";
+promoteToIcon=blackRookIcon;
+selectedPiece=-4;
 });
 blackKnight.addActionListener((ev)->{
-promoteTo[0]="blackKnight";
-image[0]=blackKnightIcon;
+promoteToName="blackKnight";
+promoteToIcon=blackKnightIcon;
+selectedPiece=-2;
 });
 
-	
+
 if(color.equals("white"))
 {
 panel.add(whiteQueen);
 panel.add(whiteBishop);
 panel.add(whiteRook);
 panel.add(whiteKnight);
-promoteTo[0]="whiteQueen";
-image[0]=whiteQueenIcon;
+//default value
+promoteToName="whiteQueen";
+promoteToIcon=whiteQueenIcon;
+selectedPiece=5;
 }
 else
 {
@@ -1175,23 +1189,38 @@ panel.add(blackQueen);
 panel.add(blackBishop);
 panel.add(blackRook);
 panel.add(blackKnight);
-promoteTo[0]="blackQueen";
-image[0]=blackQueenIcon;
+//default value
+promoteToName="blackQueen";
+promoteToIcon=blackQueenIcon;
+selectedPiece=-5;
 }
 
 
-JOptionPane.showMessageDialog(this,panel,"Choose a piece",JOptionPane.PLAIN_MESSAGE);
-JButton pawn=this.tiles[this.destinationRowIndex][this.destinationColumnIndex];
+JOptionPane.showMessageDialog(Chess.this,panel,"Choose a piece",JOptionPane.PLAIN_MESSAGE);
+}
+
+public byte getSelectedPiece()
+{
+return this.selectedPiece;
+}
+
+public void promotePawn()
+{
+JButton pawn=Chess.this.tiles[Chess.this.destinationRowIndex][Chess.this.destinationColumnIndex];
 pawn.removeAll();
 pawn.setActionCommand("");
 pawn.repaint();
 pawn.revalidate();
-pawn.setActionCommand(promoteTo[0]);
+pawn.setActionCommand(promoteToName);
 pawn.setLayout(new BorderLayout());
-pawn.add(new JLabel(image[0]));
+pawn.add(new JLabel(promoteToIcon));
 pawn.repaint();
 pawn.revalidate();
 }
+
+}// pawnPromotionDialog class ends
+
+
 
 private class ButtonPanel extends JPanel implements ActionListener
 {
