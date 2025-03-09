@@ -228,7 +228,7 @@ if(game==null)
 System.out.println("game is null");
 return false;
 }
-System.out.println("Active player : "+game.activePlayer);
+
 return game.activePlayer==playerColor;
 }
 @Path("/getPossibleMoves")
@@ -241,7 +241,7 @@ return MoveHandler.getPossibleMoves(game,fromX,fromY);
 @Path("/submitMove")
 public MoveResponse submitMove(Move m,String gameId)
 {
-System.out.println("Hi");
+
 Game game=games.get(gameId);
 if(game==null) return null;
 Move move=new Move();
@@ -253,10 +253,10 @@ move.toX=m.toX;
 move.toY=m.toY;
 move.isLastMove=m.isLastMove;
 move.castlingType=m.castlingType;
-System.out.println("111");
+move. pawnPromotionTo=m. pawnPromotionTo;
 MoveResponse moveResponse=MoveHandler.validateMove(game,move);
-System.out.println("222");
-System.out.println("Move response "+moveResponse.isValid);
+
+
 if(moveResponse.isValid==0) return moveResponse;
 byte playerColor=move.player;
 //update the move in list
