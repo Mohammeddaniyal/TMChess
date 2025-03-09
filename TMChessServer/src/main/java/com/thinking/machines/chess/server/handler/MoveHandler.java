@@ -63,11 +63,16 @@ if(validMove==0)
 {
 moveResponse.isValid=0;
 moveResponse.castlingType=0;
+moveResponse.pawnPromotionTo=0;
 return moveResponse;
 }
 
 moveResponse.isValid=1;
 moveResponse.castlingType=0;
+
+
+
+
 
 KingCastling kingCastling;
 if(game.board[fromX][fromY]==6)//white king
@@ -81,9 +86,16 @@ kingCastling=game.blackKingCastling;
 
 //if move is valid update the current board state
 byte sourcePiece=game.board[fromX][fromY];
+
+//check for pawn promotion
+if(sourcePiece==1 && toX==0) //white pawn
+{
+}else if(sourcePiece==-1 && toX==7)//black pawn
+{
+}
+
 game.board[fromX][fromY]=0;
 game.board[toX][toY]=sourcePiece;
-
 
 
 //now check if the move was castling
