@@ -107,12 +107,17 @@ updateBoardState(move);
 movePiece(pieceName);
 if(move.pawnPromotionTo!=0)
 {
-System.out.println("HELLLLLO : "+move.pawnPromotionTo);
 String promoteToName=getPieceName(move.pawnPromotionTo);
 ImageIcon promoteToIcon=getPieceIconByName(promoteToName); 
 PawnPromotionDialog pawnPromotionDialog=new PawnPromotionDialog(promoteToName,promoteToIcon);
 pawnPromotionDialog.promotePawn();
 }
+if(move.isLastMove==1)
+{
+gameFinished();
+}
+
+
 });
 reset();
 canIPlay=true;
@@ -473,16 +478,13 @@ for(e=0;e<8;e++)
 {
 for(f=0;f<8;f++)
 {
-//System.out.print(possibleMoves[e][f]+"  ");
 if(possibleMoves[e][f]==0) continue;
 validTile=tiles[e][f];
 //validTile.setBorder(BorderFactory.createDashedBorder(Color.RED,30,10));
 Color c;
 c=Color.GREEN;
-//validTile.setBackground(c);
 validTile.setBorder(BorderFactory.createLineBorder(c,3));
 }
-//System.out.println();
 }
 
 }
@@ -519,8 +521,6 @@ reset();
 return;
 }
 
-
-//boolean validMove=validMovement(sourceIconName);
 
 //place a call to server side method to get validation of the move
 MoveResponse moveResponse=null;
@@ -592,71 +592,30 @@ updateBoardState(move);
 if(pawnPromotionTo!=0 && pawnPromotionDialog!=null) pawnPromotionDialog.promotePawn();
 this.sourceTile.setBorder(UIManager.getBorder("Button.border"));
 
+
+//checking is king in danger or not
+try
+{
+byte isLastMove=(byte)client.execute("/TMChessServer/detectCheckmate",gameInit.gameId);
+if(isLastMove==1)
+{
+reset();
+JOptionPane.showMessageDialog(this,"White wins!","Game over",JOptionPane.INFORMATION_MESSAGE);
+setEnabled(false);
+return;
+}
+}catch(Throwable t)
+{
+JOptionPane.showMessageDialog(this,t.getMessage());
+}
+
+
+
+
+
+
 canIPlay=false;
 getOpponentMoveTimer.start();
-
-/*
-
-//king castling
-if(sourceIconName.equals("whiteKing"))
-{
-if(whiteKingMoved==false && destinationColumnIndex==6)
-{
-//king's side castling
-undoMove.castling=true;
-System.out.println("King's side castling case (white)");
-this.startRowIndex=7;
-this.startColumnIndex=7;
-this.destinationRowIndex=7;
-this.destinationColumnIndex=5;
-this.sourceTile=tiles[startRowIndex][startColumnIndex];
-this.targetTile=tiles[destinationRowIndex][destinationColumnIndex];
-movePiece("whiteRook");
-}
-else if(whiteKingMoved==false && destinationColumnIndex==2)
-{
-//queen's side castling
-undoMove.castling=true;
-System.out.println("queen's side castling case (white)");
-this.startRowIndex=7;
-this.startColumnIndex=0;
-this.destinationRowIndex=7;
-this.destinationColumnIndex=3;
-this.sourceTile=tiles[startRowIndex][startColumnIndex];
-this.targetTile=tiles[destinationRowIndex][destinationColumnIndex];
-movePiece("whiteRook");
-}
-}
-else if(sourceIconName.equals("blackKing"))
-{
-if(blackKingMoved==false && destinationColumnIndex==6)
-{
-//king's side castling
-undoMove.castling=true;
-System.out.println("King's side castling case (black)");
-this.startRowIndex=0;
-this.startColumnIndex=7;
-this.destinationRowIndex=0;
-this.destinationColumnIndex=5;
-this.sourceTile=tiles[startRowIndex][startColumnIndex];
-this.targetTile=tiles[destinationRowIndex][destinationColumnIndex];
-movePiece("blackRook");
-}
-else if(blackKingMoved==false && destinationColumnIndex==2)
-{
-//queen's side castling
-undoMove.castling=true;
-System.out.println("queen's side castling case (black)");
-this.startRowIndex=0;
-this.startColumnIndex=0;
-this.destinationRowIndex=0;
-this.destinationColumnIndex=3;
-this.sourceTile=tiles[startRowIndex][startColumnIndex];
-this.targetTile=tiles[destinationRowIndex][destinationColumnIndex];
-movePiece("blackRook");
-}
-}
-*/
 
 /*
 //switching black/white turn
