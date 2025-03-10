@@ -1,4 +1,4 @@
- package com.thinking.machines.chess.common;
+package com.thinking.machines.chess.common;
 public class MoveResponse implements java.io.Serializable
 {
 public byte isValid;
@@ -9,9 +9,11 @@ public byte castlingType=0;
 //3 black king side
 //4 black queen side
 public byte pawnPromotionTo=0;
-//0 represents no promotion
-//1 promote to Queen
-//2 promote to Rook
+//for white 
+//1 represents no promotion(pawn)
+//6 promote to Queen
+//4 promote to Rook
 //3 promote to Bishop
-//4 promote to Knight
+//2 promote to Knight
+//for black all negative values
 }
