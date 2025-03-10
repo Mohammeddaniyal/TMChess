@@ -527,6 +527,7 @@ MoveResponse moveResponse=null;
 byte validMove=0;
 byte castlingType=0;
 byte pawnPromotionTo=0;
+byte isLastMove=0;
 Move move=new Move();
 move.player=gameInit.playerColor;
 move.piece=gameInit.board[startRowIndex][startColumnIndex];
@@ -581,6 +582,7 @@ return;
 }
 castlingType=moveResponse.castlingType;
 pawnPromotionTo=moveResponse.pawnPromotionTo;
+isLastMove=moveResponse.isLastMove;
 this.sourceTile.setBorder(BorderFactory.createLineBorder(Color.GREEN,3));
 movePiece(sourceIconName);
 move.castlingType=castlingType;
@@ -593,20 +595,13 @@ if(pawnPromotionTo!=0 && pawnPromotionDialog!=null) pawnPromotionDialog.promoteP
 this.sourceTile.setBorder(UIManager.getBorder("Button.border"));
 
 
-//checking is king in danger or not
-try
-{
-byte isLastMove=(byte)client.execute("/TMChessServer/detectCheckmate",gameInit.gameId);
+//checking if this was the last move
 if(isLastMove==1)
 {
 reset();
-JOptionPane.showMessageDialog(this,"White wins!","Game over",JOptionPane.INFORMATION_MESSAGE);
+JOptionPane.showMessageDialog(this,"You won!","Game over",JOptionPane.INFORMATION_MESSAGE);
 setEnabled(false);
 return;
-}
-}catch(Throwable t)
-{
-JOptionPane.showMessageDialog(this,t.getMessage());
 }
 
 
