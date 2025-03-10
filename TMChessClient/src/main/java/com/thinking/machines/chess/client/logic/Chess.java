@@ -107,6 +107,7 @@ updateBoardState(move);
 movePiece(pieceName);
 if(move.pawnPromotionTo!=0)
 {
+System.out.println("HELLLLLO : "+move.pawnPromotionTo);
 String promoteToName=this.sourceTile.getActionCommand();
 ImageIcon promoteToIcon=getPieceIconByName(promoteToName); 
 PawnPromotionDialog pawnPromotionDialog=new PawnPromotionDialog(promoteToName,promoteToIcon);
@@ -556,7 +557,7 @@ move.pawnPromotionTo=pawnPromotionDialog.getSelectedPiece();
 }
 else if(move.piece==-1 && this.destinationRowIndex==7)
 {
-pawnPromotionDialog=new PawnPromotionDialog("white");
+pawnPromotionDialog=new PawnPromotionDialog("black");
 move.pawnPromotionTo=(byte)pawnPromotionDialog.getSelectedPiece();
 }
 
