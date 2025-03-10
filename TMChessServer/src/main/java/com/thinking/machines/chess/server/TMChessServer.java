@@ -221,7 +221,10 @@ while(true)
 gameInit=this.gameInits.get(username);
 if(gameInit==null)
 {
+try
+{
 Thread.sleep(500);
+}catch(Exception e){}
 continue;
 }
 break;
