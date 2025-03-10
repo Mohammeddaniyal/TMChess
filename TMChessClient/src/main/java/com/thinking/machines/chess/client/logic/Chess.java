@@ -105,10 +105,13 @@ this.destinationRowIndex=move.toX;
 this.destinationColumnIndex=move.toY;
 updateBoardState(move);
 movePiece(pieceName);
+if(move.pawnPromotionTo!=0)
+{
 String promoteToName=this.sourceTile.getActionCommand();
 ImageIcon promoteToIcon=getPieceIconByName(promoteToName); 
 PawnPromotionDialog pawnPromotionDialog=new PawnPromotionDialog(promoteToName,promoteToIcon);
 pawnPromotionDialog.promotePawn();
+}
 });
 reset();
 canIPlay=true;
