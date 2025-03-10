@@ -88,11 +88,21 @@ byte sourcePiece=game.board[fromX][fromY];
 if(sourcePiece==1 && toX==0) //white pawn
 {
 //now change the value of sourcePiece
-sourcePiece=move. pawnPromotionTo;
-moveResponse. pawnPromotionTo=move. pawnPromotionTo;
+if(move.pawnPromotionTo==0)
+{
+moveResponse.isValid=0;
+return moveResponse;
+}
+sourcePiece=move.pawnPromotionTo;
+moveResponse.pawnPromotionTo=move.pawnPromotionTo;
 System.out.println("PAWN PROMOTING TO : "+sourcePiece);
 }else if(sourcePiece==-1 && toX==7)//black pawn
 {
+if(move.pawnPromotionTo==0)
+{
+moveResponse.isValid=0;
+return moveResponse;
+}
 sourcePiece=move. pawnPromotionTo;
 moveResponse. pawnPromotionTo=move. pawnPromotionTo;
 System.out.println("PAWN PROMOTING TO : "+sourcePiece);
