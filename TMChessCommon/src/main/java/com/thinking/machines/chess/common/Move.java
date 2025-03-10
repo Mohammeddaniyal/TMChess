@@ -15,7 +15,7 @@ public byte castlingType=0;
 //2 white queenside castling
 //3 black king side
 //4 black queen side
-public byte pawnPromotionTo=1;
+public byte pawnPromotionTo=0;
 //for white 
 //1 represents no promotion(pawn)
 //6 promote to Queen
