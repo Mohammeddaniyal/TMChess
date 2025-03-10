@@ -108,7 +108,7 @@ movePiece(pieceName);
 if(move.pawnPromotionTo!=0)
 {
 System.out.println("HELLLLLO : "+move.pawnPromotionTo);
-String promoteToName=this.sourceTile.getActionCommand();
+String promoteToName=getPieceName(move.pawnPromotionTo);
 ImageIcon promoteToIcon=getPieceIconByName(promoteToName); 
 PawnPromotionDialog pawnPromotionDialog=new PawnPromotionDialog(promoteToName,promoteToIcon);
 pawnPromotionDialog.promotePawn();
@@ -550,12 +550,12 @@ PawnPromotionDialog pawnPromotionDialog=null;
 
 //now to check pawn promotion case
 //pawn promotion case
-if(move.piece==1 && this.destinationRowIndex==0)
+if(move.piece==1 && this.destinationRowIndex==0 && possibleMoves[move.toX][move.toY]==1)
 {
 pawnPromotionDialog=new PawnPromotionDialog("white");
 move.pawnPromotionTo=pawnPromotionDialog.getSelectedPiece();
 }
-else if(move.piece==-1 && this.destinationRowIndex==7)
+else if(move.piece==-1 && this.destinationRowIndex==7 && possibleMoves[move.toX][move.toY]==1)
 {
 pawnPromotionDialog=new PawnPromotionDialog("black");
 move.pawnPromotionTo=(byte)pawnPromotionDialog.getSelectedPiece();
