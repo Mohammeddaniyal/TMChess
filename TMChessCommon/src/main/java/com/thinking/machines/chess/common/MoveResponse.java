@@ -2,6 +2,7 @@ package com.thinking.machines.chess.common;
 public class MoveResponse implements java.io.Serializable
 {
 public byte isValid;
+public byte isLastMove=0;
 public byte castlingType=0;
 //0 represents no castling
 //1 white kingside
