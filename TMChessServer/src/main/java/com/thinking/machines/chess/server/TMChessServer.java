@@ -256,7 +256,8 @@ move. pawnPromotionTo=m. pawnPromotionTo;
 MoveResponse moveResponse=MoveHandler.validateMove(game,move);
 if(moveResponse.isValid==0) return moveResponse;
 byte isLastMove=MoveHandler.detectCheckmate(game);
-move.isLastMove=moveResponse.isLastMove;
+move.isLastMove=isLastMove;
+moveResponse.isLastMove=isLastMove;
 //update the move in list
 game.moves.add(move);
 //switch the player
