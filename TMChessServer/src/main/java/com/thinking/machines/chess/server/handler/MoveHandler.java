@@ -172,4 +172,10 @@ updateCastlingStatus(kingCastling,game,sourcePiece,fromX,fromY);
 
 return moveResponse;
 }
+public byte detectCheckmate(Game game)
+{
+byte opponent=(game.activePlayer==1)?0:1;
+boolean isCheckmate=CheckmateDetector.detectCheckmate(game.board,opponent);
+return (byte)(isCheckmate?1:0);
+}
 }
