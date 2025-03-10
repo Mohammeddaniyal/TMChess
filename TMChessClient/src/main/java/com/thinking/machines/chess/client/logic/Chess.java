@@ -114,10 +114,11 @@ pawnPromotionDialog.promotePawn();
 }
 if(move.isLastMove==1)
 {
-gameFinished();
+reset();
+JOptionPane.showMessageDialog(this,"You Lost!","Game over",JOptionPane.INFORMATION_MESSAGE);
+setEnabled(false);
+return;
 }
-
-
 });
 reset();
 canIPlay=true;
