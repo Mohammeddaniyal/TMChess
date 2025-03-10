@@ -215,9 +215,10 @@ return null;
 @Path("/getGameInit")
 public GameInit getPlayerIdentity(String username)
 {
+GameInit gameInit=null;
 while(true)
 {
-GameInit gameInit=this.gameInits.get(username);
+gameInit=this.gameInits.get(username);
 if(gameInit==null)
 {
 Thread.sleep(500);
