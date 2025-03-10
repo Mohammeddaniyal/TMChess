@@ -1,7 +1,6 @@
 package com.thinking.machines.chess.server.logic;
 import com.thinking.machines.chess.server.validators.*;
 import com.thinking.machines.chess.server.models.*;
-import javax.swing.*;
 import java.util.*;
 public class CheckmateDetector
 {
@@ -182,7 +181,7 @@ break;
 ArrayList<PieceMoves> piecesMoves=isPieceInDanger(board,color,kingRowIndex,kingColumnIndex,true);
 if(piecesMoves.size()==0) 
 {
-//System.out.println(kingName+" not in danger");
+System.out.println("King piece : "+kingPiece+" not in danger");
 return false;
 }
 
@@ -275,7 +274,7 @@ for(PossibleMovesIndex kvi:kingValidIndexes)
 {
 //System.out.println(kvi.row+"/"+kvi.column);
 }
-//System.out.println("Checkmate detected(no safe tile) to move");
+System.out.println("Checkmate detected(no safe tile) to move");
 }
 else
 {
@@ -285,6 +284,7 @@ for(PossibleMovesIndex kvi:kingSafeIndexes)
 {
 //System.out.println(kvi.row+"/"+kvi.column);
 }
+System.out.println("HELLLLELEo");
 return false;
 }
 row=attackingPieceMoves.rowIndex;
@@ -292,7 +292,7 @@ column=attackingPieceMoves.columnIndex;
 possibleMoves=attackingPieceMoves.possibleMoves;
 
 byte opponentPiece=board[row][column];
-//System.out.println("Attacking piece name : "+opponentPieceName);
+System.out.println("Attacking piece name : "+opponentPiece);
 byte attackingPieceRowIndex=row;
 byte attackingPieceColumnIndex=column;
 boolean captureOpponentPiece=false;
@@ -302,7 +302,7 @@ PossibleMovesIndex attackingPiecePossibleMovesIndex;
 ArrayList<PossibleMovesIndex> attackingPiecePossibleMovesIndexes=new ArrayList<>();
 if(opponentPiece==2 || opponentPiece==-2)
 {
-//System.out.println("Attacking piece is knight");
+System.out.println("Attacking piece is knight");
 knightPiece=true;
 }
 
@@ -331,13 +331,14 @@ for(byte f=0;f<8;f++)
 {
 piece=board[e][f];
 if(piece==0) continue;
-if( (piece<0 && color>0) || (piece>0 && color<0)) continue; //in case of opponent piece
+if( (piece<0 && color==1) || (piece>0 && color==0)) continue; //in case of opponent piece
+
 if(piece==kingPiece) continue;//kingPiece represents either (blackKing or whiteKing)
 possibleMoves=PossibleMoves.getPossibleMoves(board,e,f,kingCastling);
 if(possibleMoves[attackingPieceRowIndex][attackingPieceColumnIndex]==1)
 {
 // the which is threating the king can be captured
-//System.out.println("Threating piece can be captured by : "+tilePieceName);
+System.out.println("Threating piece can be captured by : "+piece);
 captureOpponentPiece=true;
 break;
 }
@@ -346,6 +347,9 @@ if(knightPiece==false)
 {
 //creating dummyTiles
 dummyBoard=generateDummyBoard(board,piece);
+for (byte[] rows : dummyBoard) {
+    System.out.println(Arrays.toString(rows));
+}
 ArrayList<PossibleMovesIndex> friendlyPiecePossibleMovesIndexes=getPossibleMovesIndexesList(possibleMoves);
 for(PossibleMovesIndex pmi:friendlyPiecePossibleMovesIndexes)
 {
@@ -357,7 +361,7 @@ byte[][] opponentPiecePossibleMoves=PossibleMoves.getPossibleMoves(dummyBoard,at
 if(opponentPiecePossibleMoves[kingRowIndex][kingColumnIndex]==0)
 {
 //the piece is blocked
-//System.out.println("the piece is blocked by : "+tilePieceName);
+System.out.println("the piece is blocked by : "+piece);
 blockOpponentPiece=true;
 break; 
 }
@@ -372,7 +376,11 @@ break;
 */
 dummyBoard[row1][column1]=0;
 }
-if(blockOpponentPiece==true) break;//done
+if(blockOpponentPiece==true) 
+{
+System.out.println("BLOCKED");
+break;//done
+}
 }
 }
 }// part of blocking or capturing end's here	
@@ -388,7 +396,12 @@ if(blockOpponentPiece==false)
 return true;
 }
 */
-//System.out.println("NO THREAT");
+System.out.println("NO THREAT");
+
+for (byte[] rows : board) {
+    System.out.println(Arrays.toString(rows));
+}
+
 return false;
 }
 private static byte[][] generateDummyBoard(byte[][] board,byte pieceNotToInclude)
