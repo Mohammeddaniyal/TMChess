@@ -329,7 +329,7 @@ countdownLabel.setText("Play!");
 ChessUI.this.container.removeAll();
 
 
-Chess chessPanel=new Chess(client,gameInit);
+Chess chessPanel=new Chess(client,gameInit,username);
 ChessUI.this.container.add(chessPanel,BorderLayout.CENTER);
 ChessUI.this.repaint();
 ChessUI.this.revalidate();
