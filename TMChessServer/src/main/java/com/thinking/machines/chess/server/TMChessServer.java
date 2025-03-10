@@ -289,5 +289,4 @@ int size=game.moves.size();
 int lastMoveIndex=(size>0)?size-1:0;
 return game.moves.get(lastMoveIndex);
 }
-@Path("/detectCheckmate")
 }
