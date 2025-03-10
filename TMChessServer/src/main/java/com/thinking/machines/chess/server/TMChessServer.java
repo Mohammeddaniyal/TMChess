@@ -255,12 +255,12 @@ move.castlingType=m.castlingType;
 move. pawnPromotionTo=m. pawnPromotionTo;
 MoveResponse moveResponse=MoveHandler.validateMove(game,move);
 if(moveResponse.isValid==0) return moveResponse;
-
+byte isLastMove=MoveHandler.detectCheckmate(game);
 move.isLastMove=moveResponse.isLastMove;
-byte playerColor=move.player;
 //update the move in list
 game.moves.add(move);
 //switch the player
+byte playerColor=move.player;
 game.activePlayer=(byte)((playerColor==1)?0:1);
 return moveResponse;
 }
