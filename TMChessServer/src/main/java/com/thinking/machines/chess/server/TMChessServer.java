@@ -241,7 +241,6 @@ return MoveHandler.getPossibleMoves(game,fromX,fromY);
 @Path("/submitMove")
 public MoveResponse submitMove(Move m,String gameId)
 {
-
 Game game=games.get(gameId);
 if(game==null) return null;
 Move move=new Move();
@@ -255,9 +254,9 @@ move.isLastMove=m.isLastMove;
 move.castlingType=m.castlingType;
 move. pawnPromotionTo=m. pawnPromotionTo;
 MoveResponse moveResponse=MoveHandler.validateMove(game,move);
-
-
 if(moveResponse.isValid==0) return moveResponse;
+
+move.isLastMove=moveResponse.isLastMove;
 byte playerColor=move.player;
 //update the move in list
 game.moves.add(move);
