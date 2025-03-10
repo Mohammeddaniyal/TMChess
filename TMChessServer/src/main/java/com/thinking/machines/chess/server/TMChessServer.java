@@ -215,7 +215,16 @@ return null;
 @Path("/getGameInit")
 public GameInit getPlayerIdentity(String username)
 {
+while(true)
+{
 GameInit gameInit=this.gameInits.get(username);
+if(gameInit==null)
+{
+Thread.sleep(500);
+continue;
+}
+break;
+}
 if(gameInit!=null)this.gameInits.remove(username);
 return gameInit;
 }
