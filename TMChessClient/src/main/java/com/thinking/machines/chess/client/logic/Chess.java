@@ -99,18 +99,16 @@ String pieceName=getPieceName(move.piece);
 SwingUtilities.invokeLater(()->{
 this.sourceTile=tiles[move.fromX][move.fromY];
 this.targetTile=tiles[move.toX][move.toY];
+this.startRowIndex=move.fromX;
+this.startColumnIndex=move.fromY;
+this.destinationRowIndex=move.toX;
+this.destinationColumnIndex=move.toY;
 updateBoardState(move);
-if(move.pawnPromotionTo!=0)
-{
+movePiece(pieceName);
 String promoteToName=this.sourceTile.getActionCommand();
 ImageIcon promoteToIcon=getPieceIconByName(promoteToName); 
 PawnPromotionDialog pawnPromotionDialog=new PawnPromotionDialog(promoteToName,promoteToIcon);
 pawnPromotionDialog.promotePawn();
-}
-else
-{
-movePiece(pieceName);
-}
 });
 reset();
 canIPlay=true;
@@ -556,7 +554,7 @@ move.pawnPromotionTo=pawnPromotionDialog.getSelectedPiece();
 else if(move.piece==-1 && this.destinationRowIndex==7)
 {
 pawnPromotionDialog=new PawnPromotionDialog("white");
-move.pawnPromotionTo=pawnPromotionDialog.getSelectedPiece();
+move.pawnPromotionTo=(byte)pawnPromotionDialog.getSelectedPiece();
 }
 
 
