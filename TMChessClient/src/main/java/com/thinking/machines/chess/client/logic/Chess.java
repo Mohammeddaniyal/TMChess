@@ -112,6 +112,7 @@ ImageIcon promoteToIcon=getPieceIconByName(promoteToName);
 PawnPromotionDialog pawnPromotionDialog=new PawnPromotionDialog(promoteToName,promoteToIcon);
 pawnPromotionDialog.promotePawn();
 }
+System.out.println("Last move : "+move.isLastMove);
 if(move.isLastMove==1)
 {
 reset();
