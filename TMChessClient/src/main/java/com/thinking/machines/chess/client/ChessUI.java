@@ -316,7 +316,6 @@ public void actionPerformed(ActionEvent ev)
 if(counter>0)
 {
 SwingUtilities.invokeLater(()->{
-System.out.println(counter);
 countdownLabel.setText("Game starting in : "+counter--);
 ChessUI.this.repaint();
 ChessUI.this.revalidate();
@@ -329,7 +328,7 @@ countdownLabel.setText("Play!");
 ChessUI.this.container.removeAll();
 
 
-Chess chessPanel=new Chess(client,gameInit,username);
+Chess chessPanel=new Chess(this,client,gameInit,username);
 ChessUI.this.container.add(chessPanel,BorderLayout.CENTER);
 ChessUI.this.repaint();
 ChessUI.this.revalidate();
@@ -340,6 +339,19 @@ ChessUI.this.revalidate();
 
 countdownTimer.start();
 }
+
+
+public void resetFrame()
+{
+ChessUI.this.container.removeAll();
+container.setLayout(new BorderLayout());
+layeredPane.add(countdownLabel,JLayeredPane.POPUP_LAYER);
+container.add(layeredPane,BorderLayout.CENTER);
+container.add(p1,BorderLayout.EAST);
+this.repaint();
+this.revalidate();
+}
+
 
 // inner classes starts here //
 class AvailableMembersListModel extends AbstractTableModel
