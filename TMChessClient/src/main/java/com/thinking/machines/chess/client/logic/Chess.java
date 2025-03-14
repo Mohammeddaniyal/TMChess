@@ -1,5 +1,6 @@
  package com.thinking.machines.chess.client.logic;
 import com.thinking.machines.nframework.client.*;
+import com.thinking.machines.chess.client.ChessUI;
 import com.thinking.machines.chess.common.*;
 import javax.swing.*;
 import javax.swing.border.*;
