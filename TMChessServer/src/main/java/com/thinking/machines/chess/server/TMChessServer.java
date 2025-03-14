@@ -284,20 +284,9 @@ public Move getOpponentMove(String gameId,byte playerColor)
 {
 Game game=games.get(gameId);
 if(game==null) return null;
-while(true)
-{
 if(game.activePlayer!=playerColor)
 {
-try
-{
-Thread.sleep(500);
-continue;
-}catch(InterruptedException interruptedException)
-{
-//do nothing
-}
-}
-break;
+return null;
 }
 int size=game.moves.size();
 int lastMoveIndex=(size>0)?size-1:0;
