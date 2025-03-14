@@ -347,9 +347,6 @@ if(knightPiece==false)
 {
 //creating dummyTiles
 dummyBoard=generateDummyBoard(board,piece);
-for (byte[] rows : dummyBoard) {
-    System.out.println(Arrays.toString(rows));
-}
 ArrayList<PossibleMovesIndex> friendlyPiecePossibleMovesIndexes=getPossibleMovesIndexesList(possibleMoves);
 for(PossibleMovesIndex pmi:friendlyPiecePossibleMovesIndexes)
 {
@@ -361,7 +358,7 @@ byte[][] opponentPiecePossibleMoves=PossibleMoves.getPossibleMoves(dummyBoard,at
 if(opponentPiecePossibleMoves[kingRowIndex][kingColumnIndex]==0)
 {
 //the piece is blocked
-System.out.println("the piece is blocked by : "+piece);
+//System.out.println("the piece is blocked by : "+piece);
 blockOpponentPiece=true;
 break; 
 }
@@ -378,7 +375,7 @@ dummyBoard[row1][column1]=0;
 }
 if(blockOpponentPiece==true) 
 {
-System.out.println("BLOCKED");
+//System.out.println("BLOCKED");
 break;//done
 }
 }
@@ -396,11 +393,8 @@ if(blockOpponentPiece==false)
 return true;
 }
 */
-System.out.println("NO THREAT");
+//System.out.println("NO THREAT");
 
-for (byte[] rows : board) {
-    System.out.println(Arrays.toString(rows));
-}
 
 return false;
 }
