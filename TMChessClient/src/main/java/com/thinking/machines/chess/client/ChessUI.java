@@ -14,6 +14,7 @@ public class ChessUI extends JFrame
 private String username;
 private GameInit gameInit;
 private JLabel countdownLabel;
+private JPanel p1;
 private JLayeredPane layeredPane;
 private JTable availableMembersList;
 private JScrollPane availableMembersListScrollPane;
@@ -26,6 +27,8 @@ private javax.swing.Timer invitationsClearUpTimer;
 private javax.swing.Timer getInvitationStatusTimer;
 private Container container;
 private NFrameworkClient client;
+private enum MODE{VIEW,GAME};
+private MODE mode;
 public ChessUI(String username)
 {
 super("Member : "+username);
@@ -41,6 +44,7 @@ setLocation(d.width/2-width/2,d.height/2-height/2);
 }
 private void initComponents()
 {
+this.mode=MODE.VIEW;
 layeredPane=new JLayeredPane();
 layeredPane.setPreferredSize(new Dimension(400,300));
 countdownLabel=new JLabel("Game",SwingConstants.CENTER);
@@ -63,7 +67,7 @@ this.client=new NFrameworkClient();
 
 JButton availableMembersButton=new JButton("Members");
 JButton invitationsInboxButton=new JButton("Invitation");
-JPanel p1=new JPanel();
+p1=new JPanel();
 p1.setLayout(new GridLayout(5,1));
 p1.add(new JLabel("		"));
 p1.add(new JLabel("Members"));
@@ -226,6 +230,8 @@ JOptionPane.showMessageDialog(ChessUI.this,t);
 addWindowListener(new WindowAdapter(){
 public void windowClosing(WindowEvent e)
 {
+if(ChessUI.this.mode==MODE.VIEW)
+{
 try
 {
 client.execute("/TMChessServer/logout",username);
@@ -235,6 +241,14 @@ JOptionPane.showMessageDialog(ChessUI.this,t.toString());
 }
 System.exit(0);
 }
+else if(ChessUI.this.mode==MODE.GAME)
+{
+System.out.println("Resetting frame");
+resetFrame();
+}
+
+}
+
 });
 
 //now all setup, let us start the timer
@@ -327,8 +341,8 @@ SwingUtilities.invokeLater(()->{
 countdownLabel.setText("Play!");
 ChessUI.this.container.removeAll();
 
-
-Chess chessPanel=new Chess(this,client,gameInit,username);
+ChessUI.this.mode=MODE.GAME;
+Chess chessPanel=new Chess(ChessUI.this,client,gameInit,username);
 ChessUI.this.container.add(chessPanel,BorderLayout.CENTER);
 ChessUI.this.repaint();
 ChessUI.this.revalidate();
