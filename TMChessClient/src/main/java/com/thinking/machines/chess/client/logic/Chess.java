@@ -1,4 +1,4 @@
-package com.thinking.machines.chess.client.logic;
+ package com.thinking.machines.chess.client.logic;
 import com.thinking.machines.nframework.client.*;
 import com.thinking.machines.chess.common.*;
 import javax.swing.*;
@@ -10,6 +10,7 @@ public class Chess extends JPanel implements ActionListener
 {
 private NFrameworkClient client;
 private GameInit gameInit;
+private ChessUI chessUI;
 String username;
 class UNDOMove
 {
@@ -118,6 +119,9 @@ if(move.isLastMove==1)
 reset();
 JOptionPane.showMessageDialog(this,"You Lost!","Game over",JOptionPane.INFORMATION_MESSAGE);
 setEnabled(false);
+SwingUtilities.invokeLater(()->{
+chessUI.resetFrame();
+});
 return;
 }
 });
@@ -148,10 +152,11 @@ Map.entry((byte)5,"Queen"),
 Map.entry((byte)6,"King")
 );
 }
-public Chess(NFrameworkClient client,GameInit gameInit,String username)
+public Chess(ChessUI chessUI,NFrameworkClient client,GameInit gameInit,String username)
 {
 addActionListeners();
 populateDataStructures();
+this.chessUI=chessUI;
 this.client=client;
 this.gameInit=gameInit;
 this.username=username;
@@ -602,7 +607,9 @@ if(isLastMove==1)
 {
 reset();
 JOptionPane.showMessageDialog(this,"You won!","Game over",JOptionPane.INFORMATION_MESSAGE);
-setEnabled(false);
+SwingUtilities.invokeLater(()->{
+chessUI.resetFrame();
+});
 return;
 }
 
