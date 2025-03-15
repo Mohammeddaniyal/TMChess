@@ -162,6 +162,7 @@ try
 {
 gameInit=(GameInit)client.execute("/TMChessServer/getGameInit",username);
 JOptionPane.showMessageDialog(ChessUI.this,"Game id : "+gameInit.gameId+" and player color : "+gameInit.playerColor);
+availableMembersListModel.enableInviteButtons();
 }catch(Throwable t)
 {
 JOptionPane.showMessageDialog(ChessUI.this,t.getMessage());
@@ -247,6 +248,7 @@ JOptionPane.showMessageDialog(ChessUI.this,t.toString());
 else if(ChessUI.this.mode==MODE.GAME)
 {
 System.out.println("Resetting frame");
+ChessUI.this.mode=MODE.VIEW;
 resetFrame();
 }
 }
@@ -607,9 +609,7 @@ ChessUI.this.sendInvitationReply(message);
 
 try
 {
-//done
 gameInit=(GameInit)client.execute("/TMChessServer/getGameInit",username);
-//ChessUI.this.gameId=(String)client.execute("/TMChessServer/getGameId",username);
 JOptionPane.showMessageDialog(ChessUI.this,"Game id : "+gameInit.gameId+" and player color : "+gameInit.playerColor);
 }catch(Throwable t)
 {
@@ -619,7 +619,10 @@ JOptionPane.showMessageDialog(ChessUI.this,t.getMessage());
 SwingUtilities.invokeLater(()->{
 ChessUI.this.startGameCountdown();
 });
-
+this.members.remove(row);
+this.acceptButtons.remove(row);
+this.rejectButtons.remove(row);
+this.fireTableDataChanged();
 
 }else if(text.equalsIgnoreCase("Accept"))
 {
