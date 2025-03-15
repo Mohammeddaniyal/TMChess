@@ -72,6 +72,7 @@ this.canIPlay=(boolean)client.execute("/TMChessServer/canIPlay",gameInit.gameId,
 System.out.println(canIPlay);
 if(!canIPlay)
 {
+
 getOpponentMoveTimer.start();
 System.out.println("Switched of canIPlayTimer and switched on getOpponentMoveTimer");
 }
@@ -87,14 +88,17 @@ JOptionPane.showMessageDialog(Chess.this,t.getMessage());
 }
 private void addActionListeners()
 {
+
 getOpponentMoveTimer=new javax.swing.Timer(1000,ev->{
 try
 {
 Move move=(Move)client.execute("/TMChessServer/getOpponentMove",gameInit.gameId,gameInit.playerColor);
 if(move==null)
 {
+try{Thread.sleep(100);}catch(Exception e){}
 return;
 }
+
 ((javax.swing.Timer)ev.getSource()).stop();
 String pieceName=getPieceName(move.piece);
 
@@ -119,10 +123,10 @@ if(move.isLastMove==1)
 {
 reset();
 JOptionPane.showMessageDialog(this,"You Lost!","Game over",JOptionPane.INFORMATION_MESSAGE);
-setEnabled(false);
 SwingUtilities.invokeLater(()->{
 chessUI.resetFrame();
 });
+
 return;
 }
 });
@@ -157,8 +161,8 @@ public Chess(ChessUI chessUI,NFrameworkClient client,GameInit gameInit,String us
 {
 addActionListeners();
 populateDataStructures();
-this.chessUI=chessUI;
 this.client=client;
+this.chessUI=chessUI;
 this.gameInit=gameInit;
 this.username=username;
 undoMove=new UNDOMove();
@@ -241,8 +245,6 @@ add(boardPanel,BorderLayout.CENTER);
 add(buttonPanel,BorderLayout.EAST);
 setLocation(x,y);
 setVisible(true);
-
-
 canIPlay();
 }
 private void reset()
@@ -621,7 +623,6 @@ return;
 
 canIPlay=false;
 getOpponentMoveTimer.start();
-
 /*
 //switching black/white turn
 if(white) 
