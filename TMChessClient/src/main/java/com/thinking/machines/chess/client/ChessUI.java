@@ -15,6 +15,7 @@ private String username;
 private GameInit gameInit;
 private JLabel countdownLabel;
 private JPanel p1;
+private Chess chessPanel;
 private JLayeredPane layeredPane;
 private JTable availableMembersList;
 private JScrollPane availableMembersListScrollPane;
@@ -36,6 +37,7 @@ this.username=username;
 initComponents();
 setAppearence();
 addListeners();
+setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 Dimension d=Toolkit.getDefaultToolkit().getScreenSize();
 int width=650;
 int height=600;
@@ -235,18 +237,18 @@ if(ChessUI.this.mode==MODE.VIEW)
 try
 {
 client.execute("/TMChessServer/logout",username);
+System.exit(0);
 }catch(Throwable t)
 {
+System.exit(0);
 JOptionPane.showMessageDialog(ChessUI.this,t.toString());
 }
-System.exit(0);
 }
 else if(ChessUI.this.mode==MODE.GAME)
 {
 System.out.println("Resetting frame");
 resetFrame();
 }
-
 }
 
 });
@@ -342,7 +344,7 @@ countdownLabel.setText("Play!");
 ChessUI.this.container.removeAll();
 
 ChessUI.this.mode=MODE.GAME;
-Chess chessPanel=new Chess(ChessUI.this,client,gameInit,username);
+chessPanel=new Chess(ChessUI.this,client,gameInit,username);
 ChessUI.this.container.add(chessPanel,BorderLayout.CENTER);
 ChessUI.this.repaint();
 ChessUI.this.revalidate();
@@ -357,6 +359,7 @@ countdownTimer.start();
 
 public void resetFrame()
 {
+System.out.println("resssssssttting");
 ChessUI.this.container.removeAll();
 container.setLayout(new BorderLayout());
 layeredPane.add(countdownLabel,JLayeredPane.POPUP_LAYER);
