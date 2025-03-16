@@ -95,6 +95,7 @@ else memberInfo.status=PLAYER_STATUS_TYPE.OFFLINE;
 membersInfo.add(memberInfo);
 }
 
+
 return membersInfo;
 }
 @Path("/inviteUser")
