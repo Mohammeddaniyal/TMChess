@@ -112,6 +112,13 @@ String fromUsername=message.toUsername;
 String toUsername=message.fromUsername;
 if(message.type==MESSAGE_TYPE.CHALLENGE_ACCEPTED)
 {
+//and remove from logged in members
+
+// add both this player into playingMembers set
+playingMembers.add();
+playingMembers.add();
+
+
 String uuid=UUID.randomUUID().toString();
 Random random=new Random();
 //decide player color
