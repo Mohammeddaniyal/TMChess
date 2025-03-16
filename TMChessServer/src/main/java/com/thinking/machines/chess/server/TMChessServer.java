@@ -80,6 +80,7 @@ memberInfo.member=u;
 //player is online
 if(loggedInMembers.contains(u)) memberInfo.status=PLAYER_STATUS_TYPE.ONLINE;
 else if(playingMembers.contains(u)) memberInfo.status=PLAYER_STATUS_TYPE.IN_GAME;
+else memberInfo.status=PLAYER_STATUS_TYPE.OFFLINE;
 
 
 }
