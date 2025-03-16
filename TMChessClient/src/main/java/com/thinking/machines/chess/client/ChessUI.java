@@ -430,7 +430,7 @@ this.status.clear();
 for(MemberInfo memberInfo:members)
 {
 this.members.add(memberInfo.member);
-this.status.add(statusEmojiMap.get(memberInfo.status));
+this.status.add(memberInfo.status);
 }
 this.inviteButtons.clear();
 for(int i=0;i<members.size();i++)
@@ -487,8 +487,16 @@ class AvailableMemberListStatusRenderer implements TableCellRenderer
 {
 public Component getTableCellRendererComponent(JTable table,Object value,boolean isSelected,boolean hasFocus,int row,int column)
 {
-JLabel label=new JLabel((String)value,SwingConstants.CENTER);
-label.setFont(new Font("Seoge UI Emoji",Font.PLAIN,20));// Ensuring proper emoji font
+JLabel label=new JLabel("\u25CF"); // dot symbol
+label.setFont(new Font("Arial",Font.PLAIN,16));// Ensuring proper emoji font
+label.setHorizontalAlignment(SwingConstants.CENTER);
+Color color=Color.GRAY;
+if(value instanceof PLAYER_STATUS_TYPE)
+{
+if(value==PLAYER_STATUS_TYPE.ONLINE) color=Color.GREEN;
+else if(value==PLAYER_STATUS_TYPE.OFFLINE) color=Color.RED;
+else if(value==PLAYER_STATUS_TYPE.IN_GAME)color=Color.YELLOW; // in game
+}
 label.setOpaque(true);
 label.setBackground(isSelected?table.getSelectionBackground():Color.WHITE);
 return label;
