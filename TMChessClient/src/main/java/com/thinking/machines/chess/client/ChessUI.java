@@ -376,13 +376,15 @@ this.revalidate();
 class AvailableMembersListModel extends AbstractTableModel
 {
 private java.util.List<String> members;
+private java.util.List<JLabel> status;
 private java.util.List<JButton> inviteButtons;
-private String[] title={"Members"," "};
+private String[] title={"Members","Status"," "};
 private boolean awaitingInvitationReply;
 AvailableMembersListModel()
 {
 awaitingInvitationReply=false;
 members=new LinkedList<>();
+status=new LinkedList<>();
 inviteButtons=new LinkedList<>();
 }
 public int getRowCount()
@@ -401,6 +403,7 @@ public Object getValueAt(int row,int column)
 {
 //System.out.println("get value at : "+row+","+column);
 if(column==0) return this.members.get(row);
+if(column==1) return this.status.get(row);
 return this.inviteButtons.get(row);
 }
 public boolean isCellEditable(int row,int column)
