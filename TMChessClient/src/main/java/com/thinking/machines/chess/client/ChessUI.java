@@ -408,7 +408,7 @@ return this.inviteButtons.get(row);
 }
 public boolean isCellEditable(int row,int column)
 {
-if(column==1) return true;
+if(column==2) return true;
 return false;
 }
 public Class getColumnClass(int column)
@@ -435,7 +435,7 @@ fireTableDataChanged();
 public void setValueAt(Object data,int row,int column)
 {
 //System.out.println("setValueAt gets called");
-if(column==1)
+if(column==2)
 {
 JButton button=this.inviteButtons.get(row);
 String text=(String)data;
