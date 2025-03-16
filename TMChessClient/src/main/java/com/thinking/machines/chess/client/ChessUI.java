@@ -376,7 +376,7 @@ this.revalidate();
 class AvailableMembersListModel extends AbstractTableModel
 {
 private java.util.List<String> members;
-private java.util.List<JLabel> status;
+private java.util.List<String> status;
 private java.util.List<JButton> inviteButtons;
 private String[] title={"Members","Status"," "};
 private boolean awaitingInvitationReply;
@@ -414,6 +414,7 @@ return false;
 public Class getColumnClass(int column)
 {
 if(column==0) return String.class;
+if(column==1) 
 return JButton.class;
 }
 public void setMembers(java.util.List<String> members)
