@@ -71,11 +71,17 @@ loggedInMembers.remove(username);
 public List<String> getMembers(String username)
 {
 List<MemberInfo> members=new LinkedList<>();
-
+MemberInfo memberInfo;
 //determining the status of each member (by using wisely other two sets[playingMember and loggedInMembers]) and adding into the list
 for(String u:members)
 {
-if(
+memberInfo=new MemberInfo();
+memberInfo.member=u;
+//player is online
+if(loggedInMembers.contains(u)) memberInfo.status=PLAYER_STATUS_TYPE.ONLINE;
+else if()
+
+
 }
 
 for(String u:loggedInMembers)
