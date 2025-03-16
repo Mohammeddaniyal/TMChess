@@ -417,7 +417,7 @@ public Class getColumnClass(int column)
 if(column==0 || column==1) return String.class;
 return JButton.class;
 }
-public void setMembers(java.util.List<String> members)
+public void setMembers(java.util.List<MemberInfo> members)
 {
 if(awaitingInvitationReply) return;
 for(MemberInfo memberInfo:members)
