@@ -95,11 +95,7 @@ else memberInfo.status=PLAYER_STATUS_TYPE.OFFLINE;
 membersInfo.add(memberInfo);
 }
 
-for(String u:loggedInMembers)
-{
-if(playingMembers.contains(u)==false && u.equals(username)==false) availableMembers.add(u);
-}
-return availableMembers;
+return membersInfo;
 }
 @Path("/inviteUser")
 public void inviteUser(String fromUsername,String toUsername)
@@ -143,7 +139,7 @@ loggedInMembers.remove(toUsername);
 playingMembers.add(fromUsername);
 playingMembers.add(toUsername);
 
-notifyNonPlayingMembers();
+//notifyNonPlayingMembers();
 
 String uuid=UUID.randomUUID().toString();
 Random random=new Random();
