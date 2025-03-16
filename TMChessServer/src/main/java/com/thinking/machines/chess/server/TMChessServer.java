@@ -70,7 +70,7 @@ loggedInMembers.remove(username);
 @Path("/getMembers")
 public List<MemberInfo> getMembers(String username)
 {
-List<MemberInfo> members=new LinkedList<>();
+List<MemberInfo> membersInfo=new LinkedList<>();
 MemberInfo memberInfo;
 String u;
 //determining the status of each member (by using wisely other two sets[playingMember and loggedInMembers]) and adding into the list
@@ -83,9 +83,11 @@ memberInfo=new MemberInfo();
 memberInfo.member=u;
 //player is online
 if(loggedInMembers.contains(u)) memberInfo.status=PLAYER_STATUS_TYPE.ONLINE;
+//player is online but in game
 else if(playingMembers.contains(u)) memberInfo.status=PLAYER_STATUS_TYPE.IN_GAME;
+//player is offline
 else memberInfo.status=PLAYER_STATUS_TYPE.OFFLINE;
-members
+membersInfo.add(memberInfo);
 }
 
 for(String u:loggedInMembers)
