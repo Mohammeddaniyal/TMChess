@@ -72,17 +72,20 @@ public List<MemberInfo> getMembers(String username)
 {
 List<MemberInfo> members=new LinkedList<>();
 MemberInfo memberInfo;
+String u;
 //determining the status of each member (by using wisely other two sets[playingMember and loggedInMembers]) and adding into the list
-for(String u:members)
+
+for(var entry:members.entrySet())
 {
+//getting username from map
+u=entry.getKey();
 memberInfo=new MemberInfo();
 memberInfo.member=u;
 //player is online
 if(loggedInMembers.contains(u)) memberInfo.status=PLAYER_STATUS_TYPE.ONLINE;
 else if(playingMembers.contains(u)) memberInfo.status=PLAYER_STATUS_TYPE.IN_GAME;
 else memberInfo.status=PLAYER_STATUS_TYPE.OFFLINE;
-
-
+members
 }
 
 for(String u:loggedInMembers)
