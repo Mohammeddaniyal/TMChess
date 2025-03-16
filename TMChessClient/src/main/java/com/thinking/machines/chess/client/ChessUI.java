@@ -54,6 +54,7 @@ countdownLabel.setFont(new Font("Arial",Font.BOLD,14));
 countdownLabel.setForeground(Color.RED);
 this.availableMembersListModel=new AvailableMembersListModel();
 this.availableMembersList=new JTable(availableMembersListModel);
+this.availableMembersList.getColumn("status").setCellRenderer(new AvailableMemberListStatusRenderer());
 this.availableMembersList.getColumn(" ").setCellRenderer(new AvailableMembersListButtonRenderer());
 this.availableMembersList.getColumn(" ").setCellEditor(new AvailableMembersListButtonCellEditor());
 this.availableMembersListScrollPane=new JScrollPane(this.availableMembersList,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
