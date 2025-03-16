@@ -13,7 +13,6 @@ public class ChessUI extends JFrame
 {
 private String username;
 private GameInit gameInit;
-private Map<Enum,String> statusEmojiMap;
 private JLabel countdownLabel;
 private JPanel p1;
 private Chess chessPanel;
@@ -47,10 +46,6 @@ setLocation(d.width/2-width/2,d.height/2-height/2);
 }
 private void initComponents()
 {
-statusEmojiMap=new HashMap<>();
-statusEmojiMap.put(PLAYER_STATUS_TYPE.ONLINE,"\uD83D\uDFE2");
-statusEmojiMap.put(PLAYER_STATUS_TYPE.OFFLINE,"\uD83D\uDD34");
-statusEmojiMap.put(PLAYER_STATUS_TYPE.IN_GAME,"\uD83D\uDFE1");
 
 
 this.mode=MODE.VIEW;
@@ -385,7 +380,7 @@ this.revalidate();
 class AvailableMembersListModel extends AbstractTableModel
 {
 private java.util.List<String> members;
-private java.util.List<String> status;
+private java.util.List<ENUM> status;
 private java.util.List<JButton> inviteButtons;
 private String[] title={"Members","Status"," "};
 private boolean awaitingInvitationReply;
@@ -422,7 +417,8 @@ return false;
 }
 public Class getColumnClass(int column)
 {
-if(column==0 || column==1) return String.class;
+if(column==0) return String.class;
+if(column==1) return Enum.class;
 return JButton.class;
 }
 public void setMembers(java.util.List<MemberInfo> members)
