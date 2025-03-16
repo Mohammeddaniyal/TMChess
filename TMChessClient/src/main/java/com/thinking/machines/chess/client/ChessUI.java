@@ -13,6 +13,7 @@ public class ChessUI extends JFrame
 {
 private String username;
 private GameInit gameInit;
+private Map<Enum,String> statusEmojiMap;
 private JLabel countdownLabel;
 private JPanel p1;
 private Chess chessPanel;
@@ -46,6 +47,12 @@ setLocation(d.width/2-width/2,d.height/2-height/2);
 }
 private void initComponents()
 {
+statusEmojiMap=new HashMap<>();
+statusEmojiMap.put(PLAYER_STATUS_TYPE.ONLINE,"\uD83D\uDFE2");
+statusEmojiMap.put(PLAYER_STATUS_TYPE.OFFLINE,"\uD83D\uDD34");
+statusEmojiMap.put(PLAYER_STATUS_TYPE.IN_GAME"\uD83D\uDFE1");
+
+
 this.mode=MODE.VIEW;
 layeredPane=new JLayeredPane();
 layeredPane.setPreferredSize(new Dimension(400,300));
@@ -420,9 +427,11 @@ return JButton.class;
 public void setMembers(java.util.List<MemberInfo> members)
 {
 if(awaitingInvitationReply) return;
+//done
 for(MemberInfo memberInfo:members)
 {
 this.members.add(memberInfo.member);
+
 this.status.add(memberInfo.status);
 }
 this.inviteButtons.clear();
