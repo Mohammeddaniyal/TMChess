@@ -57,7 +57,7 @@ countdownLabel.setForeground(Color.RED);
 this.availableMembersListModel=new AvailableMembersListModel();
 this.availableMembersList=new JTable(availableMembersListModel);
 this.availableMembersList.getColumn("Status").setCellRenderer(new AvailableMemberListStatusRenderer());
-System.out.println("CAT");
+
 this.availableMembersList.getColumn(" ").setCellRenderer(new AvailableMembersListButtonRenderer());
 this.availableMembersList.getColumn(" ").setCellEditor(new AvailableMembersListButtonCellEditor());
 this.availableMembersListScrollPane=new JScrollPane(this.availableMembersList,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
