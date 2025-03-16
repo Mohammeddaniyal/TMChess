@@ -79,6 +79,11 @@ for(var entry:members.entrySet())
 {
 //getting username from map
 u=entry.getKey();
+
+//no need to add that user who asked or called this method getMembers 
+//exclude this user
+if(u.equals(username)) continue;
+
 memberInfo=new MemberInfo();
 memberInfo.member=u;
 //player is online
