@@ -50,7 +50,7 @@ private void initComponents()
 statusEmojiMap=new HashMap<>();
 statusEmojiMap.put(PLAYER_STATUS_TYPE.ONLINE,"\uD83D\uDFE2");
 statusEmojiMap.put(PLAYER_STATUS_TYPE.OFFLINE,"\uD83D\uDD34");
-statusEmojiMap.put(PLAYER_STATUS_TYPE.IN_GAME"\uD83D\uDFE1");
+statusEmojiMap.put(PLAYER_STATUS_TYPE.IN_GAME,"\uD83D\uDFE1");
 
 
 this.mode=MODE.VIEW;
