@@ -121,7 +121,7 @@ public void actionPerformed(ActionEvent ev)
 timer.stop();
 try
 {
-java.util.List<String> members=(java.util.List<String>)client.execute("/TMChessServer/getMembers",username);
+java.util.List<MemberInfo> members=(java.util.List<MemberInfo>)client.execute("/TMChessServer/getMembers",username);
 availableMembersListModel.setMembers(members);
 }catch(Throwable t)
 {
@@ -361,7 +361,7 @@ countdownTimer.start();
 
 public void resetFrame()
 {
-ChessUI.this.mode=MODE.VIEW;
+ChessUI.this.mode=MODE.VIEW;g
 ChessUI.this.container.removeAll();
 container.setLayout(new BorderLayout());
 layeredPane.add(countdownLabel,JLayeredPane.POPUP_LAYER);
