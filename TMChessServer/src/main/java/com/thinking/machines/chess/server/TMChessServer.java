@@ -71,12 +71,11 @@ loggedInMembers.remove(username);
 public List<String> getMembers(String username)
 {
 List<MemberInfo> members=new LinkedList<>();
-List<String> availableMembers=new LinkedList<>();
 
 //determining the status of each member (by using wisely other two sets[playingMember and loggedInMembers]) and adding into the list
 for(String u:members)
 {
-
+if(
 }
 
 for(String u:loggedInMembers)
