@@ -115,8 +115,8 @@ if(message.type==MESSAGE_TYPE.CHALLENGE_ACCEPTED)
 //and remove from logged in members
 
 // add both this player into playingMembers set
-playingMembers.add();
-playingMembers.add();
+playingMembers.add(fromUsername);
+playingMembers.add(toUsername);
 
 
 String uuid=UUID.randomUUID().toString();
