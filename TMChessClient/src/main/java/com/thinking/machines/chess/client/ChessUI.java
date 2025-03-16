@@ -380,7 +380,7 @@ this.revalidate();
 class AvailableMembersListModel extends AbstractTableModel
 {
 private java.util.List<String> members;
-private java.util.List<ENUM> status;
+private java.util.List<Enum> status;
 private java.util.List<JButton> inviteButtons;
 private String[] title={"Members","Status"," "};
 private boolean awaitingInvitationReply;
@@ -436,6 +436,7 @@ this.inviteButtons.clear();
 for(int i=0;i<members.size();i++)
 {
 this.inviteButtons.add(new JButton("Invite"));
+if(!(status.get(i)==PLAYER_STATUS_TYPE.ONLINE)) this.inviteButtons.get(i).setEnabled(false);
 }
 //System.out.println("firing table availablemembers");
 fireTableDataChanged();
