@@ -413,8 +413,7 @@ return false;
 }
 public Class getColumnClass(int column)
 {
-if(column==0) return String.class;
-if(column==1) 
+if(column==0 || column==1) return String.class;
 return JButton.class;
 }
 public void setMembers(java.util.List<String> members)
