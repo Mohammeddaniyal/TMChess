@@ -362,7 +362,7 @@ countdownTimer.start();
 
 public void resetFrame()
 {
-ChessUI.this.mode=MODE.VIEW;g
+ChessUI.this.mode=MODE.VIEW;
 ChessUI.this.container.removeAll();
 container.setLayout(new BorderLayout());
 layeredPane.add(countdownLabel,JLayeredPane.POPUP_LAYER);
