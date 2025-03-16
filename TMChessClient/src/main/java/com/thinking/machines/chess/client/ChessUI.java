@@ -419,7 +419,11 @@ return JButton.class;
 public void setMembers(java.util.List<String> members)
 {
 if(awaitingInvitationReply) return;
-this.members=members;
+for(MemberInfo memberInfo:members)
+{
+this.members.add(memberInfo.member);
+this.status.add(memberInfo.status);
+}
 this.inviteButtons.clear();
 for(int i=0;i<members.size();i++)
 {
