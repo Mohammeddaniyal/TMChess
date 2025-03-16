@@ -68,7 +68,7 @@ public void logout(String username)
 loggedInMembers.remove(username);
 }
 @Path("/getMembers")
-public List<String> getMembers(String username)
+public List<MemberInfo> getMembers(String username)
 {
 List<MemberInfo> members=new LinkedList<>();
 MemberInfo memberInfo;
@@ -79,7 +79,7 @@ memberInfo=new MemberInfo();
 memberInfo.member=u;
 //player is online
 if(loggedInMembers.contains(u)) memberInfo.status=PLAYER_STATUS_TYPE.ONLINE;
-else if()
+else if(playingMembers.contains(u)) memberInfo.status=PLAYER_STATUS_TYPE.IN_GAME;
 
 
 }
