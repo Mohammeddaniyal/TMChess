@@ -474,6 +474,16 @@ public Component getTableCellRendererComponent(JTable table,Object value,boolean
 return (JButton)value;
 }
 }
+
+class AvailableMemberListStatusRenderer implements TableCellRenderer
+{
+public Component getTableCellRendererComponent(JTable table,Object value,boolean a,boolean b,int row,int column)
+{
+JLabel label=new JLabel((String)value,SwingConstants.CENTER);
+}
+}
+
+
 class AvailableMembersListButtonCellEditor extends DefaultCellEditor
 {
 private boolean isClicked;
