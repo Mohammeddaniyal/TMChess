@@ -61,7 +61,8 @@ countdownLabel.setFont(new Font("Arial",Font.BOLD,14));
 countdownLabel.setForeground(Color.RED);
 this.availableMembersListModel=new AvailableMembersListModel();
 this.availableMembersList=new JTable(availableMembersListModel);
-this.availableMembersList.getColumn("status").setCellRenderer(new AvailableMemberListStatusRenderer());
+this.availableMembersList.getColumn("Status").setCellRenderer(new AvailableMemberListStatusRenderer());
+System.out.println("CAT");
 this.availableMembersList.getColumn(" ").setCellRenderer(new AvailableMembersListButtonRenderer());
 this.availableMembersList.getColumn(" ").setCellEditor(new AvailableMembersListButtonCellEditor());
 this.availableMembersListScrollPane=new JScrollPane(this.availableMembersList,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -427,7 +428,9 @@ return JButton.class;
 public void setMembers(java.util.List<MemberInfo> members)
 {
 if(awaitingInvitationReply) return;
-
+// very important to clear old other it will append with the current one and leading into an bug
+this.members.clear();
+this.status.clear();
 for(MemberInfo memberInfo:members)
 {
 this.members.add(memberInfo.member);
@@ -486,7 +489,7 @@ return (JButton)value;
 
 class AvailableMemberListStatusRenderer implements TableCellRenderer
 {
-public Component getTableCellRendererComponent(JTable table,Object value,boolean a,boolean b,int row,int column)
+public Component getTableCellRendererComponent(JTable table,Object value,boolean isSelected,boolean hasFocus,int row,int column)
 {
 JLabel label=new JLabel((String)value,SwingConstants.CENTER);
 label.setFont(new Font("Seoge UI Emoji",Font.PLAIN,20));// Ensuring proper emoji font
