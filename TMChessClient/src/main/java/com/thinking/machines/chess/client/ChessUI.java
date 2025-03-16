@@ -497,6 +497,7 @@ if(value==PLAYER_STATUS_TYPE.ONLINE) color=Color.GREEN;
 else if(value==PLAYER_STATUS_TYPE.OFFLINE) color=Color.RED;
 else if(value==PLAYER_STATUS_TYPE.IN_GAME)color=Color.YELLOW; // in game
 }
+label.setForeground(color);
 label.setOpaque(true);
 label.setBackground(isSelected?table.getSelectionBackground():Color.WHITE);
 return label;
