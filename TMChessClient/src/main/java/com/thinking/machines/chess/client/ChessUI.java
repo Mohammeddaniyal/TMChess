@@ -291,7 +291,7 @@ client.execute("/TMChessServer/inviteUser",username,toUsername);
 //JOptionPane.showMessageDialog(this,"Invitation for game sent to : "+toUsername);
 
 // start a timer to get the update on what happened with invitation
-//done
+
 
 getInvitationStatusTimer=new javax.swing.Timer(1000,(ev)->{
 try
@@ -427,12 +427,11 @@ return JButton.class;
 public void setMembers(java.util.List<MemberInfo> members)
 {
 if(awaitingInvitationReply) return;
-//done
+
 for(MemberInfo memberInfo:members)
 {
 this.members.add(memberInfo.member);
-
-this.status.add(memberInfo.status);
+this.status.add(statusEmojiMap.get(memberInfo.status));
 }
 this.inviteButtons.clear();
 for(int i=0;i<members.size();i++)
