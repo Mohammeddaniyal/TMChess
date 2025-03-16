@@ -480,6 +480,10 @@ class AvailableMemberListStatusRenderer implements TableCellRenderer
 public Component getTableCellRendererComponent(JTable table,Object value,boolean a,boolean b,int row,int column)
 {
 JLabel label=new JLabel((String)value,SwingConstants.CENTER);
+label.setFont(new Font("Seoge UI Emoji",Font.PLAIN,20));// Ensuring proper emoji font
+label.setOpaque(true);
+label.setBackground(isSelected?table.getSelectionBackground():Color:WHITE);
+return label;
 }
 }
 
