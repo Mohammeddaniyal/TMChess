@@ -251,9 +251,22 @@ JOptionPane.showMessageDialog(ChessUI.this,t.toString());
 }
 else if(ChessUI.this.mode==MODE.GAME)
 {
-System.out.println("Resetting frame");
+int result=JOptionPane.showConfirmDialog(this,"Are you sure you want to left the game ?","Confirmation",JOptionPane.YES_NO_OPTION);
+if(result==JOptionPane.YES_OPTION)
+{
+try
+{
+client.execute("/TMChessServer/leftGame",username);
+}catch(Throwable t)
+{
+JOptionPane.showMessageDialog(this,t.getMessage());
+}
 ChessUI.this.mode=MODE.VIEW;
 resetFrame();
+}else if(result==JOptionPane.NO_OPTION)
+{
+//do nothing
+}
 }
 }
 
