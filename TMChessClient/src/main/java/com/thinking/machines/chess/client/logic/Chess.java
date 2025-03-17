@@ -73,12 +73,15 @@ this.canIPlay=(boolean)client.execute("/TMChessServer/canIPlay",gameInit.gameId,
 System.out.println(canIPlay);
 if(!canIPlay)
 {
-
+//a little delay so the ui gets updated before showing the dialog
+try{Thread.sleep(100);}catch(Exception e){}
+JOptionPane.showMessageDialog(Chess.this,"Opponent is first");
 getOpponentMoveTimer.start();
-System.out.println("Switched of canIPlayTimer and switched on getOpponentMoveTimer");
 }
 else
 {
+//a little delay so the ui gets updated before showing the dialog
+try{Thread.sleep(100);}catch(Exception e){}
 JOptionPane.showMessageDialog(Chess.this,"You are first "+username);
 }
 }catch(Throwable t)
@@ -94,8 +97,8 @@ isOpponentLeftTheGameTimer=new javax.swing.Timer(1000,ev->{
 try
 {
 byte isOpponentLeftTheGame=client.execute("/TMChessServer/isOpponentLeftTheGame",gameInit.gameId,username);
-if(byte==-1 || byte==0) return; // did n't left the game
-if(byte==1)//means left the game
+if(isOpponentLeftTheGame==-1 || isOpponentLeftTheGame==0) return; // did n't left the game
+if(isOpponentLeftTheGame==1)//means left the game
 {
 ((javax.swing.Timer)ev.getSource()).stop();
 //show a dialog saying that opponent has left the game and you win by default
