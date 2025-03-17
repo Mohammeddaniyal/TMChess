@@ -321,4 +321,10 @@ int size=game.moves.size();
 int lastMoveIndex=(size>0)?size-1:0;
 return game.moves.get(lastMoveIndex);
 }
+@Path("/leftGame")
+public void leftGame(String username)
+{
+this.playingMembers.remove(username);
+this.loggedInMembers.add(username);
+}
 }
