@@ -140,7 +140,6 @@ loggedInMembers.remove(toUsername);
 playingMembers.add(fromUsername);
 playingMembers.add(toUsername);
 
-//notifyNonPlayingMembers();
 
 String uuid=UUID.randomUUID().toString();
 Random random=new Random();
