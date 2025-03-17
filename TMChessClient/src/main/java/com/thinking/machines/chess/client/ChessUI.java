@@ -259,7 +259,7 @@ try
 client.execute("/TMChessServer/leftGame",username);
 }catch(Throwable t)
 {
-JOptionPane.showMessageDialog(this,t.getMessage());
+JOptionPane.showMessageDialog(ChessUI.this,t.getMessage());
 }
 ChessUI.this.mode=MODE.VIEW;
 resetFrame();
