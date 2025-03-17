@@ -96,7 +96,7 @@ private void addActionListeners()
 isOpponentLeftTheGameTimer=new javax.swing.Timer(1000,ev->{
 try
 {
-byte isOpponentLeftTheGame=client.execute("/TMChessServer/isOpponentLeftTheGame",gameInit.gameId,username);
+byte isOpponentLeftTheGame=(byte)client.execute("/TMChessServer/isOpponentLeftTheGame",gameInit.gameId,username);
 if(isOpponentLeftTheGame==-1 || isOpponentLeftTheGame==0) return; // did n't left the game
 if(isOpponentLeftTheGame==1)//means left the game
 {
