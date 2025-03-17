@@ -251,7 +251,7 @@ JOptionPane.showMessageDialog(ChessUI.this,t.toString());
 }
 else if(ChessUI.this.mode==MODE.GAME)
 {
-int result=JOptionPane.showConfirmDialog(this,"Are you sure you want to left the game ?","Confirmation",JOptionPane.YES_NO_OPTION);
+int result=JOptionPane.showConfirmDialog(ChessUI.this,"Are you sure you want to left the game ?","Confirmation",JOptionPane.YES_NO_OPTION);
 if(result==JOptionPane.YES_OPTION)
 {
 try
