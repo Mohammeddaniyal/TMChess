@@ -93,12 +93,27 @@ private void addActionListeners()
 isOpponentLeftTheGameTimer=new javax.swing.Timer(1000,ev->{
 try
 {
-
+byte isOpponentLeftTheGame=client.execute("/TMChessServer/isOpponentLeftTheGame",gameInit.gameId,username);
+if(byte==-1 || byte==0) return; // did n't left the game
+if(byte==1)//means left the game
+{
+((javax.swing.Timer)ev.getSource()).stop();
+//show a dialog saying that opponent has left the game and you win by default
+JOptionPane.showMessageDialog(this,"Opponent has left the game\nYou Won","Game Over",JOptionPane.INFORMATION_MESSAGE);
+SwingUtilities.invokeLater(()->{
+chessUI.resetFrame();
+});
+}
 }catch(Throwable t)
 {
 JOptionPane.showMessageDialog(this,t.getMessage());
 }
 });
+
+//start this timer isOpponentLeftTheGameTimer
+
+isOpponentLeftTheGameTimer.start(); //it will run until either the game ends or someone left the game
+
 
 getOpponentMoveTimer=new javax.swing.Timer(1000,ev->{
 try
@@ -132,6 +147,7 @@ pawnPromotionDialog.promotePawn();
 System.out.println("Last move : "+move.isLastMove);
 if(move.isLastMove==1)
 {
+isOpponentLeftTheGameTimer.stop();
 reset();
 JOptionPane.showMessageDialog(this,"You Lost!","Game over",JOptionPane.INFORMATION_MESSAGE);
 SwingUtilities.invokeLater(()->{
@@ -619,6 +635,7 @@ this.sourceTile.setBorder(UIManager.getBorder("Button.border"));
 //checking if this was the last move
 if(isLastMove==1)
 {
+isOpponentLeftTheGameTimer.stop();
 reset();
 JOptionPane.showMessageDialog(this,"You won!","Game over",JOptionPane.INFORMATION_MESSAGE);
 SwingUtilities.invokeLater(()->{
