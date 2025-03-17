@@ -1,4 +1,4 @@
- package com.thinking.machines.chess.client.logic;
+package com.thinking.machines.chess.client.logic;
 import com.thinking.machines.nframework.client.*;
 import com.thinking.machines.chess.client.ChessUI;
 import com.thinking.machines.chess.common.*;
@@ -63,6 +63,7 @@ private UNDOMove undoMove;
 private boolean undoMoveValid=false;
 private byte startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex;
 private javax.swing.Timer getOpponentMoveTimer;
+private javax.swing.Timer isOpponentLeftTheGameTimer;
 private boolean canIPlay;
 private void canIPlay()
 {
@@ -88,6 +89,16 @@ JOptionPane.showMessageDialog(Chess.this,t.getMessage());
 }
 private void addActionListeners()
 {
+
+isOpponentLeftTheGameTimer=new javax.swing.Timer(1000,ev->{
+try
+{
+
+}catch(Throwable t)
+{
+JOptionPane.showMessageDialog(this,t.getMessage());
+}
+});
 
 getOpponentMoveTimer=new javax.swing.Timer(1000,ev->{
 try
