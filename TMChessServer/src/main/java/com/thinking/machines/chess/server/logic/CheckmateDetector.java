@@ -181,7 +181,6 @@ break;
 ArrayList<PieceMoves> piecesMoves=isPieceInDanger(board,color,kingRowIndex,kingColumnIndex,true);
 if(piecesMoves.size()==0) 
 {
-System.out.println("King piece : "+kingPiece+" not in danger");
 return false;
 }
 
@@ -274,7 +273,6 @@ for(PossibleMovesIndex kvi:kingValidIndexes)
 {
 //System.out.println(kvi.row+"/"+kvi.column);
 }
-System.out.println("Checkmate detected(no safe tile) to move");
 }
 else
 {
@@ -284,7 +282,6 @@ for(PossibleMovesIndex kvi:kingSafeIndexes)
 {
 //System.out.println(kvi.row+"/"+kvi.column);
 }
-System.out.println("HELLLLELEo");
 return false;
 }
 row=attackingPieceMoves.rowIndex;
@@ -292,7 +289,6 @@ column=attackingPieceMoves.columnIndex;
 possibleMoves=attackingPieceMoves.possibleMoves;
 
 byte opponentPiece=board[row][column];
-System.out.println("Attacking piece name : "+opponentPiece);
 byte attackingPieceRowIndex=row;
 byte attackingPieceColumnIndex=column;
 boolean captureOpponentPiece=false;
@@ -302,7 +298,6 @@ PossibleMovesIndex attackingPiecePossibleMovesIndex;
 ArrayList<PossibleMovesIndex> attackingPiecePossibleMovesIndexes=new ArrayList<>();
 if(opponentPiece==2 || opponentPiece==-2)
 {
-System.out.println("Attacking piece is knight");
 knightPiece=true;
 }
 
@@ -338,7 +333,6 @@ possibleMoves=PossibleMoves.getPossibleMoves(board,e,f,kingCastling);
 if(possibleMoves[attackingPieceRowIndex][attackingPieceColumnIndex]==1)
 {
 // the which is threating the king can be captured
-System.out.println("Threating piece can be captured by : "+piece);
 captureOpponentPiece=true;
 break;
 }
