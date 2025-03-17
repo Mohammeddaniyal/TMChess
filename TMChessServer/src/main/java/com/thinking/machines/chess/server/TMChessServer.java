@@ -336,6 +336,6 @@ String opponentPlayer=(game.player1.equals(username))?game.player2:game.player1;
 //search the opponent is he still in the playingMembers set or not 
 //if yes then he doesn't left the game and otherwise he left
 boolean leftTheGame=playingMember.contains(opponentPlayer);
-return (leftGame)?1:0;
+return (byte)((leftTheGame)?1:0);
 }
 }
