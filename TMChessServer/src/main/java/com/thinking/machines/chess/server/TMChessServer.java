@@ -327,4 +327,11 @@ public void leftGame(String username)
 this.playingMembers.remove(username);
 this.loggedInMembers.add(username);
 }
+@Path("/isOpponentLeftTheGame")
+public byte isOpponentLeftTheGame(String gameId,String username)
+{
+Game game=games.get(gameId);
+if(game==null) return -1;
+
+}
 }
