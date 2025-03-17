@@ -190,14 +190,11 @@ this.invitationsTimeout.remove(fromUsername);
 @Path("/getMessages")
 public List<Message> getMessages(String username)
 {
-//System.out.println("get messages called");
 List<Message> messages=inboxes.get(username);
 if(messages!=null && messages.size()>0)
 {
 inboxes.put(username,new LinkedList<Message>());
 }
-//if(messages!=null)System.out.println("returning messages "+messages.size());
-//else System.out.println("returning messages ");
 return messages;
 }
 @Path("/expiredInvitations")
@@ -267,7 +264,6 @@ public boolean canIPlay(String gameId,byte playerColor)
 Game game=games.get(gameId);
 if(game==null) 
 {
-System.out.println("game is null");
 return false;
 }
 
@@ -298,7 +294,6 @@ move. pawnPromotionTo=m. pawnPromotionTo;
 MoveResponse moveResponse=MoveHandler.validateMove(game,move);
 if(moveResponse.isValid==0) return moveResponse;
 byte isLastMove=MoveHandler.detectCheckmate(game);
-System.out.println("IS LAST MOVE : "+isLastMove);
 move.isLastMove=isLastMove;
 moveResponse.isLastMove=isLastMove;
 //update the move in list
