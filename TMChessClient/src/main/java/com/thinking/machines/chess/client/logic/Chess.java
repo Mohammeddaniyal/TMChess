@@ -101,6 +101,15 @@ if(isOpponentLeftTheGame==-1 || isOpponentLeftTheGame==0) return; // did n't lef
 if(isOpponentLeftTheGame==1)//means left the game
 {
 ((javax.swing.Timer)ev.getSource()).stop();
+//also left the game
+try
+{
+client.execute("/TMChessServer/leftGame",username);
+}catch(Throwable t)
+{
+JOptionPane.showMessageDialog(Chess.this,t.getMessage());
+}
+
 //show a dialog saying that opponent has left the game and you win by default
 JOptionPane.showMessageDialog(this,"Opponent has left the game\nYou Won","Game Over",JOptionPane.INFORMATION_MESSAGE);
 SwingUtilities.invokeLater(()->{
