@@ -4,7 +4,7 @@ import com.thinking.machines.chess.server.models.*;
 import java.util.*;
 public class CheckmateDetector
 {
-public static byte[][] getPossibleMoves(byte[][] board,byte startRowIndex,byte startColumnIndex,KingCastling kingCastling)
+public static byte[][] getPossibleMoves(byte[][] board,byte startRowIndex,byte startColumnIndex,KingCastling kingCastling,byte calledForStalemate)
 {
 byte [][]possibleMoves=PossibleMoves.getPossibleMoves(board,startRowIndex,startColumnIndex,kingCastling);
 PossibleMovesIndex pieceValidIndex;
@@ -23,6 +23,9 @@ piecesValidIndexes.add(pieceValidIndex);
 }
 }
 }//piece valid indexes loop ends here
+
+//means for checking stalemate condition this piece have no valid moves 
+if(calledForStalemate && piecesValidIndexes.size()==0) return null;
 
 if(piecesValidIndexes.size()==0) return possibleMoves;
 byte [][]validPossibleMoves=possibleMoves;
