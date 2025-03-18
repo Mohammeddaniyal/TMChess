@@ -25,7 +25,7 @@ piecesValidIndexes.add(pieceValidIndex);
 }//piece valid indexes loop ends here
 
 //means for checking stalemate condition this piece have no valid moves 
-if(calledForStalemate && piecesValidIndexes.size()==0) return null;
+if(calledForStalemate==1 && piecesValidIndexes.size()==0) return null;
 
 if(piecesValidIndexes.size()==0) return possibleMoves;
 byte [][]validPossibleMoves=possibleMoves;
@@ -81,6 +81,8 @@ dummyBoard[e][f]=dummyTile;
 }
 }//creating dummy tiles(D.S) ends here
 
+int possibleMovesSize=piecesValidIndexes.size();
+
 byte row;
 byte column;
 ArrayList<PieceMoves> capturingPiecesMovesList;
@@ -101,6 +103,7 @@ if(pieceIsKing==true)
 if(possibleMoves[row][column]==1)
 {
 validPossibleMoves[row][column]=0;
+possibleMovesSize--;
 break;
 }
 }
@@ -109,6 +112,7 @@ else
 if(possibleMoves[kingRowIndex][kingColumnIndex]==1)
 {
 validPossibleMoves[row][column]=0;
+possibleMovesSize--;
 break;
 }
 }//else ends 
@@ -116,6 +120,10 @@ break;
 //put the piece on it's original position
 //or reset the dummyBoard as before after simulating
 dummyBoard[row][column]=dummyTile;
+}
+if(calledForStalemate==1 && possibleMovesSize<=0)
+{
+return null;
 }
 return validPossibleMoves;
 }
