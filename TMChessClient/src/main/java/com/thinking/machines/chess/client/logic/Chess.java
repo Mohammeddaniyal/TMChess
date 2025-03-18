@@ -90,6 +90,10 @@ JOptionPane.showMessageDialog(Chess.this,t.getMessage());
 }
 
 }
+public void StopisOpponentLeftTheGameTimer()
+{
+isOpponentLeftTheGameTimer.stop();
+}
 private void addActionListeners()
 {
 
@@ -170,6 +174,8 @@ try{client.execute("/TMChessServer/leftGame",username);}catch(Throwable t){JOpti
 return;
 }
 });
+if(move.isLastMove==1) return;
+
 reset();
 canIPlay=true;
 
