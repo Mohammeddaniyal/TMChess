@@ -166,7 +166,7 @@ JOptionPane.showMessageDialog(this,"You Lost!","Game over",JOptionPane.INFORMATI
 SwingUtilities.invokeLater(()->{
 chessUI.resetFrame();
 });
-try{client.execute("/TMChessServer/leftGame");}catch(Throwable t){JOptionPane.showMessageDialog(this,t.getMessage());}
+try{client.execute("/TMChessServer/leftGame",username);}catch(Throwable t){JOptionPane.showMessageDialog(this,t.getMessage());}
 return;
 }
 });
@@ -186,6 +186,7 @@ JOptionPane.showMessageDialog(this,"No legal move left to make","Draw",JOptionPa
 SwingUtilities.invokeLater(()->{
 chessUI.resetFrame();
 });
+try{client.execute("/TMChessServer/leftGame",username);}catch(Throwable t){JOptionPane.showMessageDialog(this,t.getMessage());}
 return;
 }
 }catch(Throwable t)
@@ -675,6 +676,7 @@ JOptionPane.showMessageDialog(this,"You won!","Game over",JOptionPane.INFORMATIO
 SwingUtilities.invokeLater(()->{
 chessUI.resetFrame();
 });
+try{client.execute("/TMChessServer/leftGame",username);}catch(Throwable t){JOptionPane.showMessageDialog(this,t.getMessage());}
 return;
 }
 
@@ -694,6 +696,7 @@ JOptionPane.showMessageDialog(this,"Oppoent left with No legal move left to make
 SwingUtilities.invokeLater(()->{
 chessUI.resetFrame();
 });
+try{client.execute("/TMChessServer/leftGame",username);}catch(Throwable t){JOptionPane.showMessageDialog(this,t.getMessage());}
 return;
 }
 }catch(Throwable t)
