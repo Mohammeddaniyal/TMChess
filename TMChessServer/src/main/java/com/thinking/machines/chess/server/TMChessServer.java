@@ -2,7 +2,7 @@ package com.thinking.machines.chess.server;
 import com.thinking.machines.chess.server.handler.MoveHandler;
 import com.thinking.machines.chess.server.models.Game;
 import com.thinking.machines.chess.server.models.KingCastling;
-import com.thinking.machines.chess.server.logic.BoardInitializer;
+import com.thinking.machines.chess.server.logic.*;
 import com.thinking.machines.chess.common.*;
 import com.thinking.machines.nframework.server.*;
 import com.thinking.machines.nframework.server.annotations.*;
@@ -316,6 +316,15 @@ int size=game.moves.size();
 int lastMoveIndex=(size>0)?size-1:0;
 return game.moves.get(lastMoveIndex);
 }
+@Path("isStalemate")
+public byte isStalemate(String gameId,byte player)
+{
+Game game=games.get(gameId);
+if(game==null) return -1;
+byte stalemate=StalemateDetector.detectStalemate(game,(byte)player);
+return stalemate;
+}
+
 @Path("/leftGame")
 public void leftGame(String username)
 {
