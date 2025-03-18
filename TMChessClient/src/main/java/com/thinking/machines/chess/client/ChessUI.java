@@ -257,6 +257,7 @@ if(result==JOptionPane.YES_OPTION)
 try
 {
 client.execute("/TMChessServer/leftGame",username);
+chessPanel.StopisOpponentLeftTheGameTimer();
 }catch(Throwable t)
 {
 JOptionPane.showMessageDialog(ChessUI.this,t.getMessage());
