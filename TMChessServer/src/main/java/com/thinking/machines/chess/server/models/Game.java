@@ -9,6 +9,7 @@ public String player2;
 public byte[][] board;
 public byte[][] possibleMoves;
 public byte activePlayer;
+public byte isStalemate=0;
 public List<Move> moves;
 public KingCastling whiteKingCastling;
 public KingCastling blackKingCastling;
