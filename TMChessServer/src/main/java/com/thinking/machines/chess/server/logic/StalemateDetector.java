@@ -21,6 +21,12 @@ index[0]=e;
 index[1]=f;
 }
 }
-return 0;
+byte isStalemate=0;
+
+for(byte []_index:playerPiecesIndexes)
+{
+}
+
+return isStalemate;
 }
 }
