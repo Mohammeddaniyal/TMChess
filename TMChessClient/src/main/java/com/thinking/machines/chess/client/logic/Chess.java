@@ -161,16 +161,38 @@ if(move.isLastMove==1)
 {
 isOpponentLeftTheGameTimer.stop();
 reset();
+
 JOptionPane.showMessageDialog(this,"You Lost!","Game over",JOptionPane.INFORMATION_MESSAGE);
 SwingUtilities.invokeLater(()->{
 chessUI.resetFrame();
 });
-
+try{client.execute("/TMChessServer/leftGame");}catch(Throwable t){JOptionPane.showMessageDialog(this,t.getMessage());}
 return;
 }
 });
 reset();
 canIPlay=true;
+
+//now its player turn to play now time to check whther this player have any legal moves left or not
+
+try
+{
+byte isStalemate=(byte)client.execute("/TMChessServer/isStalemate",gameInit.gameId,gameInit.playerColor);
+if(isStalemate==1)
+{
+isOpponentLeftTheGameTimer.stop();
+reset();
+JOptionPane.showMessageDialog(this,"No legal move left to make","Draw",JOptionPane.INFORMATION_MESSAGE);
+SwingUtilities.invokeLater(()->{
+chessUI.resetFrame();
+});
+return;
+}
+}catch(Throwable t)
+{
+JOptionPane.showMessageDialog(this,t.getMessage());
+}
+
 }catch(Throwable t)
 {
 JOptionPane.showMessageDialog(Chess.this,t.getMessage());
@@ -656,13 +678,35 @@ chessUI.resetFrame();
 return;
 }
 
+//since move is submitted and assuming after submitting process upto now
+//the opponent recieved the move 
+//and checked for the whether the opponent left with any legal move or not
+//so we will also check whether stalemate occurs or not
 
-
+try
+{
+byte stalemateOccur=(byte)client.execute("/TMChessServer/stalemateOccur",gameInit.gameId);
+if(stalemateOccur==1)
+{
+isOpponentLeftTheGameTimer.stop();
+reset();
+JOptionPane.showMessageDialog(this,"Oppoent left with No legal move left to make","Draw",JOptionPane.INFORMATION_MESSAGE);
+SwingUtilities.invokeLater(()->{
+chessUI.resetFrame();
+});
+return;
+}
+}catch(Throwable t)
+{
+JOptionPane.showMessageDialog(this,t.getMessage());
+}
 
 
 
 canIPlay=false;
 getOpponentMoveTimer.start();
+
+
 /*
 //switching black/white turn
 if(white) 
