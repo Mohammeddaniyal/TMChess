@@ -45,7 +45,8 @@ kingCastling=game.whiteKingCastling;
 {
 kingCastling=game.blackKingCastling;
 }
-byte [][]possibleMoves=CheckmateDetector.getPossibleMoves(game.board,fromX,fromY,kingCastling);
+			//passing zero 	means no need to check for stalemate part
+byte [][]possibleMoves=CheckmateDetector.getPossibleMoves(game.board,fromX,fromY,kingCastling,(byte)0);
 game.possibleMoves=possibleMoves;
 return possibleMoves;
 }
