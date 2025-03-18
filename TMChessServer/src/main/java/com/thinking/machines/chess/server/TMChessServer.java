@@ -316,15 +316,24 @@ int size=game.moves.size();
 int lastMoveIndex=(size>0)?size-1:0;
 return game.moves.get(lastMoveIndex);
 }
+//this method will check for a specific player that it has any legal move
 @Path("isStalemate")
 public byte isStalemate(String gameId,byte player)
 {
 Game game=games.get(gameId);
 if(game==null) return -1;
 byte stalemate=StalemateDetector.detectStalemate(game,(byte)player);
+game.isStalemate=stalemate;
 return stalemate;
 }
-
+//this method tells the opponent stalemate occurs
+@Path("stalemateOccur")
+public byte checkStalemateOccur(String gameId)
+{
+Game game=games.get(gameId);
+if(game==null) return -1;
+return game.isStalemate;
+}
 @Path("/leftGame")
 public void leftGame(String username)
 {
