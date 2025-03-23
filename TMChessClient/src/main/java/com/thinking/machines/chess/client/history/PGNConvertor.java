@@ -24,6 +24,10 @@ pgn.append(('a'+move.fromY));
 }
 
 //capture notation
+if(isCapture==1)
+{
+pgn.append('x');
+}
 
 }
 
