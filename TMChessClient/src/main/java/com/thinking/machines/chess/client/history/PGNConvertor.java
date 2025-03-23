@@ -1,4 +1,5 @@
 package com.thinking.machines.chess.client.history;
+import com.thinking.machines.chess.common.Move;
 public class PGNConvertor
 {
 public static String convertMoveToPGN(Move move,byte isCapture)
@@ -17,7 +18,7 @@ if(pieceChar!=' ') pgn.append(pieceChar);
 //file ambiguity
 if(move.ambiguityType==1)
 {
-pgn.append(new String(move.fromX+1));
+pgn.append(move.fromX+1);
 }else if(move.ambiguityType==2){
 //rank ambiguity
 pgn.append(('a'+move.fromY));
@@ -34,9 +35,9 @@ pgn.append(('a'+move.toX));
 pgn.append(8-move.fromY);
 
 // promotion notation
-if(move.isPromotion!=0 && move.isPromotion!=1 && move.isPromotion!=-1)
+if(move.pawnPromotionTo!=0 && move.pawnPromotionTo!=1 && move.pawnPromotionTo!=-1)
 {
-pgn.append('=').append(getPieceChar(move.isPromotion));
+pgn.append('=').append(getPieceChar(move.pawnPromotionTo));
 }
 
 // for checkmate
@@ -44,19 +45,20 @@ if(move.isLastMove==1)
 {
 pgn.append('#');
 }
-
+return pgn.toString();
 }
 
-private char getPieceChar(byte piece)
+private static char getPieceChar(byte piece)
 {
-byte piece=(byte)((piece<0)?piece*-1:piece);
+piece=(byte)((piece<0)?piece*-1:piece);
 return switch(piece){
-case 1 -> ' ',//pawn no letter
-case 2 -> 'N',
-case 3 -> 'B',
-case 4 -> 'R',
-case 5 -> 'Q',
-case 6 -> 'K'
+case 1 -> ' ';//pawn no letter
+case 2 -> 'N';
+case 3 -> 'B';
+case 4 -> 'R';
+case 5 -> 'Q';
+case 6 -> 'K';
+default -> ' ';
 };
 }
 }
