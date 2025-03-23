@@ -29,6 +29,9 @@ if(isCapture==1)
 pgn.append('x');
 }
 
+//destination part notation
+pgn.append(('a'+move.toX));
+pgn.append(8-move.fromY);
 }
 
 private char getPieceChar(byte piece)
