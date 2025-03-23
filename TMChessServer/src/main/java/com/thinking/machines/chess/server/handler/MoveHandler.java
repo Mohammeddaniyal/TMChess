@@ -109,9 +109,10 @@ moveResponse. pawnPromotionTo=move. pawnPromotionTo;
 game.board[fromX][fromY]=0;
 game.board[toX][toY]=sourcePiece;
 
-
+if(sourcePiece==1 || sourcePiece==-1) isPawnMoveAmbiguous(move,game.board);
 //now check for is the current move is ambigious
-isMoveAmbiguous(move,game.board);
+//for(Knight,Rook and Bishop)
+else isMoveAmbiguous(move,game.board);
 
 
 
