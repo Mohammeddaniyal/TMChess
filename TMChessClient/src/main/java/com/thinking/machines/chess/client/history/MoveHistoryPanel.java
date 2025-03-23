@@ -15,6 +15,7 @@ moveHistoryTable=new JTable(moveHistoryTableModel);
 moveHistoryTableScrollPane=new JScrollPane(moveHistoryTable,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 setLayout(new BorderLayout());
 add(moveHistoryTableScrollPane);
+setSize(300,400);
 setVisible(true);
 }
 public void addBlackMove(String move)
