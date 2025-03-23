@@ -291,6 +291,7 @@ move.toY=m.toY;
 move.isLastMove=m.isLastMove;
 move.castlingType=m.castlingType;
 move. pawnPromotionTo=m. pawnPromotionTo;
+move.ambiguityType=m.ambiguityType;
 MoveResponse moveResponse=MoveHandler.validateMove(game,move);
 if(moveResponse.isValid==0) return moveResponse;
 byte isLastMove=MoveHandler.detectCheckmate(game);
