@@ -68,6 +68,21 @@ private javax.swing.Timer getOpponentMoveTimer;
 private javax.swing.Timer isOpponentLeftTheGameTimer;
 private boolean canIPlay;
 private byte firstTurnOfPlayerColor;
+private void handleMoveHistory(Move move)
+{
+//determine the current move done by opponent is the case of capture or not
+byte isCapture=0;
+if(gameInit.board[move.toX][move.toY]!=0) isCapture=1;
+
+//convert move to pgn and append in the history table
+
+String pgnMove=PGNConvertor.convertMoveToPgn(move,isCapture);
+
+//if player is white means the move was done by black
+if(gameInit.playerColor==1) moveHistoryPanel.addBlackMove(pgnMove);
+else  moveHistoryPanel.addWhiteMove(pgnMove);
+
+}
 private void canIPlay()
 {
 try
@@ -146,17 +161,7 @@ try{Thread.sleep(100);}catch(Exception e){}
 return;
 }
 
-//determine the current move done by opponent is the case of capture or not
-byte isCapture=0;
-if(gameInit.board[move.toX][move.toY]!=0) isCapture=1;
-
-//convert move to pgn and append in the history table
-
-String pgnMove=PGNConvertor.convertMoveToPgn(move,isCapture);
-
-//if player is white means the move was done by black
-if(gameInit.playerColor==1) moveHistoryPanel.addBlackMove(pgnMove);
-else  moveHistoryPanel.addWhiteMove(pgnMove);
+handleMoveHistory(move);
 
 ((javax.swing.Timer)ev.getSource()).stop();
 String pieceName=getPieceName(move.piece);
@@ -634,7 +639,7 @@ move.toX=(byte)destinationRowIndex;
 move.toY=(byte)destinationColumnIndex;
 move.isLastMove=-1;
 move.castlingType=0;
-
+move.ambiguityType=0;
 //now to check if user did castling
 if(move.piece==6)
 {
@@ -684,6 +689,10 @@ this.sourceTile.setBorder(BorderFactory.createLineBorder(Color.GREEN,3));
 movePiece(sourceIconName);
 move.castlingType=castlingType;
 move.pawnPromotionTo=pawnPromotionTo;
+move.ambiguityType=moveResponse.ambiguityType;
+//lets handle the chess move history updation part
+handleMoveHistory(move);
+
 //if castling case yes, then updateBoardState will handle the byte[][] board
 //as well as the updation of GUI
 
