@@ -76,10 +76,10 @@ if(gameInit.board[move.toX][move.toY]!=0) isCapture=1;
 
 //convert move to pgn and append in the history table
 
-String pgnMove=PGNConvertor.convertMoveToPgn(move,isCapture);
+String pgnMove=PGNConvertor.convertMoveToPGN(move,isCapture);
 
 //if player is white means the move was done by black
-if(gameInit.playerColor==1) moveHistoryPanel.addBlackMove(pgnMove);
+if(move.player==0) moveHistoryPanel.addBlackMove(pgnMove);
 else  moveHistoryPanel.addWhiteMove(pgnMove);
 
 }
@@ -89,7 +89,7 @@ try
 {
 this.canIPlay=(boolean)client.execute("/TMChessServer/canIPlay",gameInit.gameId,gameInit.playerColor);
 if(canIPlay) firstTurnOfPlayerColor=gameInit.playerColor;
-else firstTurnOfPlayerColor=(gameInit.playerColor==1)?0:1;
+else firstTurnOfPlayerColor=(byte)((gameInit.playerColor==1)?0:1);
 System.out.println(canIPlay);
 if(!canIPlay)
 {
