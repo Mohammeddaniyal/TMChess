@@ -65,12 +65,14 @@ if(validMove==0)
 moveResponse.isValid=0;
 moveResponse.castlingType=0;
 moveResponse.pawnPromotionTo=0;
+moveResponse.ambiguityType=0;
 return moveResponse;
 }
 
 moveResponse.isValid=1;
 moveResponse.castlingType=0;
 moveResponse. pawnPromotionTo=0;
+moveResponse.ambiguityType=0;
 
 KingCastling kingCastling;
 if(game.board[fromX][fromY]==6)//white king
@@ -114,6 +116,8 @@ if(sourcePiece==1 || sourcePiece==-1) isPawnMoveAmbiguous(move,game.board);
 //for(Knight,Rook and Bishop)
 else isMoveAmbiguous(move,game.board);
 
+//update the move response
+moveResponse.ambiguityType=move.ambiguityType;
 
 
 //now check if the move was castling
