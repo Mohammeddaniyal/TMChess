@@ -17,4 +17,9 @@ public byte pawnPromotionTo=0;
 //3 promote to Bishop
 //2 promote to Knight
 //for black all negative values
+public byte ambiguityType=0;
+//0 for none ambiguity
+//1 for file ambiguity
+//2 for rank ambiguity
+
 }
