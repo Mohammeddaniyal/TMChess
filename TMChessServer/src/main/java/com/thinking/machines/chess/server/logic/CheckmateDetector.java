@@ -4,6 +4,86 @@ import com.thinking.machines.chess.server.models.*;
 import java.util.*;
 public class CheckmateDetector
 {
+//using only for pawn knight bishop rook for checking ambiguity purpose
+public static byte isMoveValid(byte [][]board,byte startRowIndex,byte startColumnIndex,byte destinationRowIndex,byte destinationColumnIndex)
+{
+byte piece=board[startRowIndex][startColumnIndex];
+byte valid=0;
+if(piece==3 || piece==-3)
+{
+valid= BishopMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,board);
+}else if(piece==4 || piece==-4)
+{
+valid=RookMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,board);
+}else if(piece==2 ||  piece==-2)
+{
+valid= KnightMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex);
+}else if(piece==1 || piece==-1)
+{
+valid= PawnMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,board);
+}
+if(valid==0) return 0;
+//determine king's index
+
+byte kingRowIndex=0;
+byte kingColumnIndex=0;
+byte kingPiece=(byte)((piece>0)?6:-6);
+
+for(byte e=0;e<8;e++)
+{
+for(byte f=0;f<8;f++)
+{
+if(board[e][f]==kingPiece) 
+{
+kingRowIndex=e;
+kingColumnIndex=f;
+break;
+}
+}
+}
+
+
+
+//create dummyBoard ,without the source piece to simulate or apply no self check rule
+byte [][]dummyBoard=new byte[8][8];
+byte dummyTile;
+byte tile;
+for(byte e=0;e<8;e++)
+{
+for(byte f=0;f<8;f++)
+{
+tile=board[e][f];
+if(e==startRowIndex && f==startColumnIndex)
+{
+dummyTile=0;
+}
+else
+{
+dummyTile=tile;
+}
+dummyBoard[e][f]=dummyTile;
+}
+}//creating dummy tiles(D.S) ends here
+byte pieceColor=(byte)((piece>0)?1:0);
+ArrayList<PieceMoves> capturingPiecesMovesList;
+
+dummyBoard[destinationRowIndex][destinationColumnIndex]=piece;
+capturingPiecesMovesList=isPieceInDanger(dummyBoard,pieceColor,kingRowIndex,kingColumnIndex,false);
+byte [][]possibleMoves;
+
+for(PieceMoves pieceMoves:capturingPiecesMovesList)
+{
+possibleMoves=pieceMoves.possibleMoves;
+if(possibleMoves[kingRowIndex][kingColumnIndex]==1)
+{
+//king is in danger
+return 0;
+}
+}//for loop ends(possibleMovesCapture)
+// valid move
+return 1;
+}
+
 public static byte[][] getPossibleMoves(byte[][] board,byte startRowIndex,byte startColumnIndex,KingCastling kingCastling,byte calledForStalemate)
 {
 byte [][]possibleMoves=PossibleMoves.getPossibleMoves(board,startRowIndex,startColumnIndex,kingCastling);
@@ -160,6 +240,7 @@ pieceMoves=new PieceMoves();
 pieceMoves.possibleMoves=possibleMoves;
 pieceMoves.rowIndex=e;
 pieceMoves.columnIndex=f;
+System.out.println("King is in danger by piece "+board[e][f]);
 piecesMoves.add(pieceMoves);
 if(includeAllValidPieces==false)
 {
