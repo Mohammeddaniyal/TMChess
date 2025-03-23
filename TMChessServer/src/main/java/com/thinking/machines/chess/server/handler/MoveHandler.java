@@ -190,6 +190,9 @@ for(byte e=0;e<8;e++)
 {
 for(byte f=0;f<8;f++)
 {
+//skip the sourcePiece
+if(e==move.fromX && f==move.fromY) continue;
+
 if(sourcePiece==board[e][f])
 {
 samePieceX=e;
@@ -213,6 +216,40 @@ else move.ambiguityType=2;// rank ambguity case
 }
 
 }
+
+
+public static void isPawnMoveAmbiguous(Move move,byte[][] board)
+{
+//means only check ambiguity in en passant case
+if(board[move.toX][move.toY]==0) return;
+
+byte sourcePiece=move.piece;
+if(sourcePiece!=1 || sourcePiece!=-1) return; // no need to check ambiguity
+//find the same piece in board and store it's index
+
+byte []sameFile=board[move.fromX];
+
+for(byte fromY=0;fromY<8;fromY++)
+{
+//skip sourcePiece
+if(move.fromY==fromY) continue;
+if(sameFile[fromY]==sourcePiece)
+{
+//check whether it can move or not 
+byte canGoToSamePosition=CheckmateDetector.isMoveValid(board,move.fromX,fromY,move.toX,move.toY);
+if(canGoToSamePosition==1)
+{
+//file ambiguity case
+move.ambiguityType=1;
+return;
+}
+}
+}
+//no ambiguity if loops ends 
+}
+
+
+
 
 public static byte detectCheckmate(Game game)
 {
