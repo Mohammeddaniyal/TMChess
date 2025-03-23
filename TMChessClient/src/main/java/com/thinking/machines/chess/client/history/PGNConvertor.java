@@ -38,6 +38,13 @@ if(move.isPromotion!=0 && move.isPromotion!=1 && move.isPromotion!=-1)
 {
 pgn.append('=').append(getPieceChar(move.isPromotion));
 }
+
+// for checkmate
+if(move.isLastMove==1)
+{
+pgn.append('#');
+}
+
 }
 
 private char getPieceChar(byte piece)
