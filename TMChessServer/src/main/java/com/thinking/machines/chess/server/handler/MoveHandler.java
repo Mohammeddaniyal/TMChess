@@ -204,8 +204,11 @@ if(samePieceX==-1) return;
 byte canGoToSamePosition=CheckmateDetector.isMoveValid(board,samePieceX,samePieceY,move.toX,move.toY)
 if(canGoToSamePosition==0) return;
 
-// now time to identify
+// now time to identify ambiguity type
 
+//check for file ambguity
+if(samePieceY==move.fromY) move.ambguityType=1;
+else move.ambguityType=2;// rank ambguity case
 
 }
 
