@@ -8,7 +8,7 @@ public class MoveHistoryPanel extends JPanel
 private MoveHistoryTableModel moveHistoryTableModel;
 private JTable moveHistoryTable;
 private JScrollPane moveHistoryTableScrollPane;
-MoveHistoryPanel(byte firstPlayerColor)
+public MoveHistoryPanel(byte firstPlayerColor)
 {
 moveHistoryTableModel=new MoveHistoryTableModel(firstPlayerColor);
 moveHistoryTable=new JTable(moveHistoryTableModel);
