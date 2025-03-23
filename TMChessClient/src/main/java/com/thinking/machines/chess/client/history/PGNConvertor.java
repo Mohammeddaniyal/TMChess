@@ -21,7 +21,8 @@ if(move.ambiguityType==1)
 pgn.append(move.fromX+1);
 }else if(move.ambiguityType==2){
 //rank ambiguity
-pgn.append(('a'+move.fromY));
+char fromRank=(char)('a'+move.fromY);
+pgn.append(fromRank);
 }
 
 //capture notation
@@ -31,7 +32,8 @@ pgn.append('x');
 }
 
 //destination part notation
-pgn.append(('a'+move.toX));
+char toFile=(char)'a'+move.toX;
+pgn.append(toFile);
 pgn.append(8-move.fromY);
 
 // promotion notation
@@ -45,6 +47,7 @@ if(move.isLastMove==1)
 {
 pgn.append('#');
 }
+System.out.println("PGN Move : "+pgn.toString());
 return pgn.toString();
 }
 
