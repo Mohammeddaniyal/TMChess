@@ -148,7 +148,7 @@ return;
 
 //determine the current move done by opponent is the case of capture or not
 byte isCapture=0;
-if(
+if(gameInit.board[move.toX][move.toY]!=0) isCapture=1;
 
 //convert move to pgn and append in the history table
 
