@@ -288,9 +288,11 @@ whitePawnIcon=new ImageIcon(this.getClass().getResource("/icons/white_pawn.png")
 
 for(int e=0;e<8;e++)
 {
+int h=e;
+if(gameInit.playerColor==0) h=7-e;
 for(int f=0;f<8;f++)
 {
-if(e%2==0)
+if(h%2==0)
 {
 if(f%2==0)
 {
@@ -316,9 +318,9 @@ tileColor=lightTileColor;
 tileBorder=darkTileBorder;
 }
 }
-tile=setupBoard(e,f,tileColor,tileBorder);
+tile=setupBoard(h,f,tileColor,tileBorder);
 tile.addActionListener(this);
-tiles[e][f]=tile;
+tiles[h][f]=tile;
 boardPanel.add(tile);
 }
 }
