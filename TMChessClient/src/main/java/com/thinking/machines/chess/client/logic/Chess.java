@@ -1,5 +1,6 @@
 package com.thinking.machines.chess.client.logic;
 import com.thinking.machines.nframework.client.*;
+import com.thinking.machines.chess.client.history.*;
 import com.thinking.machines.chess.client.ChessUI;
 import com.thinking.machines.chess.common.*;
 import javax.swing.*;
@@ -13,6 +14,7 @@ private NFrameworkClient client;
 private GameInit gameInit;
 private ChessUI chessUI;
 String username;
+private MoveHistoryPanel moveHistoryPanel;
 class UNDOMove
 {
 public JButton tile1,tile2;
@@ -65,11 +67,14 @@ private byte startRowIndex,startColumnIndex,destinationRowIndex,destinationColum
 private javax.swing.Timer getOpponentMoveTimer;
 private javax.swing.Timer isOpponentLeftTheGameTimer;
 private boolean canIPlay;
+private byte firstTurnOfPlayerColor;
 private void canIPlay()
 {
 try
 {
 this.canIPlay=(boolean)client.execute("/TMChessServer/canIPlay",gameInit.gameId,gameInit.playerColor);
+if(canIPlay) firstTurnOfPlayerColor=gameInit.playerColor;
+else firstTurnOfPlayerColor=(gameInit.playerColor==1)?0:1;
 System.out.println(canIPlay);
 if(!canIPlay)
 {
@@ -310,10 +315,12 @@ buttonPanel=new ButtonPanel();
 //container.add(boardPanel,BorderLayout.CENTER);
 //container.add(buttonPanel,BorderLayout.EAST);
 add(boardPanel,BorderLayout.CENTER);
-add(buttonPanel,BorderLayout.EAST);
+//add(buttonPanel,BorderLayout.EAST);
 setLocation(x,y);
 setVisible(true);
 canIPlay();
+moveHistoryPanel=new MoveHistoryPanel(firstTurnOfPlayerColor);
+add(moveHistoryPanel,BorderLayout.EAST);
 }
 private void reset()
 {
