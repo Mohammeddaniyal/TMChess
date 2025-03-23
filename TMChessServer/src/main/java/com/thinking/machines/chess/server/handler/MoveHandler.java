@@ -201,8 +201,10 @@ break;
 if(samePieceX==-1) return;
 
 //now check whether can this identical piece can go to that same position
+byte canGoToSamePosition=CheckmateDetector.isMoveValid(board,samePieceX,samePieceY,move.toX,move.toY)
+if(canGoToSamePosition==0) return;
 
-
+// now time to identify
 
 
 }
