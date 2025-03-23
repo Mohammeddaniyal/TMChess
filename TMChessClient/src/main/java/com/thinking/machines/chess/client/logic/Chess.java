@@ -146,9 +146,13 @@ try{Thread.sleep(100);}catch(Exception e){}
 return;
 }
 
+//determine the current move done by opponent is the case of capture or not
+byte isCapture=0;
+if(
+
 //convert move to pgn and append in the history table
 
-String pgnMove=PGNConvertor.convertMoveToPgn();
+String pgnMove=PGNConvertor.convertMoveToPgn(move,isCapture);
 
 //if player is white means the move was done by black
 if(gameInit.playerColor==1) moveHistoryPanel.addBlackMove(pgnMove);
