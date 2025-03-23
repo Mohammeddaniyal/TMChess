@@ -146,6 +146,14 @@ try{Thread.sleep(100);}catch(Exception e){}
 return;
 }
 
+//convert move to pgn and append in the history table
+
+String pgnMove=PGNConvertor.convertMoveToPgn();
+
+//if player is white means the move was done by black
+if(gameInit.playerColor==1) moveHistoryPanel.addBlackMove(pgnMove);
+else  moveHistoryPanel.addWhiteMove(pgnMove);
+
 ((javax.swing.Timer)ev.getSource()).stop();
 String pieceName=getPieceName(move.piece);
 
