@@ -39,7 +39,7 @@ setAppearence();
 addListeners();
 setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 Dimension d=Toolkit.getDefaultToolkit().getScreenSize();
-int width=650;
+int width=950;
 int height=600;
 setSize(width,height);
 setLocation(d.width/2-width/2,d.height/2-height/2);
