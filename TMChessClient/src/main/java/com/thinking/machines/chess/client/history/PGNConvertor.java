@@ -32,6 +32,12 @@ pgn.append('x');
 //destination part notation
 pgn.append(('a'+move.toX));
 pgn.append(8-move.fromY);
+
+// promotion notation
+if(move.isPromotion!=0 && move.isPromotion!=1 && move.isPromotion!=-1)
+{
+pgn.append('=').append(getPieceChar(move.isPromotion));
+}
 }
 
 private char getPieceChar(byte piece)
