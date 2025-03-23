@@ -96,7 +96,6 @@ return moveResponse;
 }
 sourcePiece=move.pawnPromotionTo;
 moveResponse.pawnPromotionTo=move.pawnPromotionTo;
-System.out.println("PAWN PROMOTING TO : "+sourcePiece);
 }else if(sourcePiece==-1 && toX==7)//black pawn
 {
 if(move.pawnPromotionTo==0)
@@ -106,10 +105,14 @@ return moveResponse;
 }
 sourcePiece=move. pawnPromotionTo;
 moveResponse. pawnPromotionTo=move. pawnPromotionTo;
-System.out.println("PAWN PROMOTING TO : "+sourcePiece);
 }
 game.board[fromX][fromY]=0;
 game.board[toX][toY]=sourcePiece;
+
+
+//now check for is the current move is ambigious
+isMoveAmbiguous(move,game.board);
+
 
 
 //now check if the move was castling
@@ -173,6 +176,39 @@ updateCastlingStatus(kingCastling,game,sourcePiece,fromX,fromY);
 
 return moveResponse;
 }
+
+public static void isMoveAmbiguous(Move move,byte[][] board)
+{
+byte sourcePiece=move.piece;
+sourcePiece=(byte)((sourcePiece<0)?sourcePiece*-1:sourcePiece);
+if(sourcePiece==5 || sourcePiece==6) return; // no need to check ambiguity
+sourcePiece=move.piece;
+//find the same piece in board and store it's index
+byte samePieceX,samePieceY;
+samePieceX=samePieceY=-1;
+for(byte e=0;e<8;e++)
+{
+for(byte f=0;f<8;f++)
+{
+if(sourcePiece==board[e][f])
+{
+samePieceX=e;
+samePieceY=f;
+break;
+}
+}
+//no need to check ambguity when there's no same piece
+if(samePieceX==-1) return;
+
+//now check whether can this identical piece can go to that same position
+
+
+
+
+}
+
+}
+
 public static byte detectCheckmate(Game game)
 {
 byte opponent=(byte)((game.activePlayer==1)?0:1);
@@ -182,4 +218,5 @@ boolean isCheckmate=CheckmateDetector.detectCheckmate(game.board,opponent);
 System.out.println("Is checkmate : "+isCheckmate);
 return (byte)(isCheckmate?1:0);
 }
+
 }
