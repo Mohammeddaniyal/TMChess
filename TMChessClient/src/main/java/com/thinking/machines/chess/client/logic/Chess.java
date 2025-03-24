@@ -497,6 +497,7 @@ JButton button=(JButton)ev.getSource();
 button.setBorder(UIManager.getBorder("Button.border"));//for making the button border as the default as system
 button.setEnabled(false);//doing this trick to remove foucs from button
 button.setEnabled(true);
+reset();
 return;
 }
 boolean found=false;
@@ -560,16 +561,10 @@ startColumnIndex=f;
 click=true;
 this.sourceTile.setBorder(BorderFactory.createLineBorder(Color.GREEN,3));
 this.sourceTile.setBackground(new Color(144,238,144));
-if(pieceName.equals("whiteKing"))
-{
-}else if(pieceName.equals("blackKing"))
-{
-}
 
 
 try
 {
-System.out.println("Getting possibleMoves");
 possibleMoves=(byte[][])client.execute("/TMChessServer/getPossibleMoves",gameInit.gameId,(byte)startRowIndex,(byte)startColumnIndex);
 }catch(Throwable t)
 {
@@ -585,9 +580,13 @@ for(f=0;f<8;f++)
 if(possibleMoves[e][f]==0) continue;
 validTile=tiles[e][f];
 //validTile.setBorder(BorderFactory.createDashedBorder(Color.RED,30,10));
-Color c;
-c=Color.GREEN;
+
+Color c=Color.GREEN;
+if(gameInit.board[e][f]!=0)c=Color.RED;
+
 validTile.setBorder(BorderFactory.createLineBorder(c,3));
+
+
 }
 }
 
