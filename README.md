@@ -25,7 +25,7 @@ TMChess is a multiplayer chess game built with Java, featuring real-time gamepla
 
 | Feature | Screenshot |
 |---------|------------|
-| **Highlighted Moves (Green, Red, Golden Yellow)** | ![Highlight Moves](screenshots/capture highlight color red.png) |
+| **Highlighted Moves (Green, Red, Golden Yellow)** | ![Highlight Moves](screenshots/hightLight_red_color.png) |
 | **White Won** | ![White Won](screenshots/white_won.png) |
 | **Black Lost** | ![Black Lost](screenshots/black_lost.png) |
 | **Flipped Board for Black** | ![Flipped Board](screenshots/flipped_board.png) |
@@ -53,12 +53,12 @@ java -jar build/libs/TMChess-Server.jar
 ### 3️⃣ **Run the Client**  
 Each player should run the client with the server IP and their username:  
 ```sh
-java -jar build/libs/TMChess-Client.jar <server-ip> <username>
+java -jar build/libs/TMChess-Client.jar <username> <password>
 ```
 
 Example:  
 ```sh
-java -jar build/libs/TMChess-Client.jar 127.0.0.1 Daniyal
+java -jar build/libs/TMChess-Client.jar Daniyal daniyal
 ```
 
 ### 4️⃣ **Start Playing!**  
