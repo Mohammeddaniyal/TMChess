@@ -46,6 +46,7 @@ Get the latest release from [TMChess Releases](https://github.com/Mohammeddaniya
 Before starting the game, launch the server:  
 ```sh
 java -jar build/libs/TMChess-Server.jar
+```
 
 ### 3️⃣ **Run the Client**  
 Each player should run the client with the server IP and their username:  
