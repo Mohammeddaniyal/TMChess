@@ -40,7 +40,7 @@ TMChess is a multiplayer chess game built with Java, featuring real-time gamepla
 ## 🚀 Installation & Setup  
 
 ### 1️⃣ **Download the Release**  
-Get the latest release from [TMChess Releases](https://github.com/your-repo/tmchess/releases).  
+Get the latest release from [TMChess Releases](https://github.com/Mohammeddaniyal/TMChess/releases/tag/v1.1).  
 
 ### 2️⃣ **Run the Server**  
 Before starting the game, launch the server:  
