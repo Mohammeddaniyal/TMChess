@@ -26,13 +26,13 @@ TMChess is a multiplayer chess game built with Java, featuring real-time gamepla
 | Feature | Screenshot |
 |---------|------------|
 | **Server Running** | ![Server Running](screenshots/Server_running_in_cmd.png) |
-| **Client Execution Command** | ![Client Execution](screenshots/client_execution.png) |
+| **Client Execution Command** | ![Client Execution](screenshots/Executing_client.png) |
 | **Game Starting Panel (with Timer)** | ![Game Panel](screenshots/game_panel.png) |
 | **Member Table** | ![Member Table](screenshots/member_table.png) |
 | **Inbox Table** | ![Inbox Table](screenshots/inbox_table.png) |
 | **Flipped Board for Black** | ![Flipped Board](screenshots/board_flipped_for_black player.png) |
 | **Highlighted Moves (Green, Red, Golden Yellow)** | ![Highlight Moves](screenshots/hightLight_red_color.png) |
-| **Move History Table** | ![Move History](screenshots/move_history.png) |
+| **Move History Table** | ![Move History](screenshots/move_history_table.png) |
 | **Check Situation** | ![Check](screenshots/check.png) |
 | **Checkmate Situation** | ![Checkmate](screenshots/checkmate.png) |
 | **White Won** | ![White Won](screenshots/white_won.png) |
