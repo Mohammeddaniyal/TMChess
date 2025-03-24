@@ -25,18 +25,18 @@ TMChess is a multiplayer chess game built with Java, featuring real-time gamepla
 
 | Feature | Screenshot |
 |---------|------------|
-| **Highlighted Moves (Green, Red, Golden Yellow)** | ![Highlight Moves](screenshots/hightLight_red_color.png) |
-| **White Won** | ![White Won](screenshots/white_won.png) |
-| **Black Lost** | ![Black Lost](screenshots/black_lost.png) |
-| **Flipped Board for Black** | ![Flipped Board](screenshots/flipped_board.png) |
-| **Check Situation** | ![Check](screenshots/check.png) |
-| **Checkmate Situation** | ![Checkmate](screenshots/checkmate.png) |
-| **Move History Table** | ![Move History](screenshots/move_history.png) |
 | **Server Running** | ![Server Running](screenshots/server_running.png) |
 | **Client Execution Command** | ![Client Execution](screenshots/client_execution.png) |
+| **Game Starting Panel (with Timer)** | ![Game Panel](screenshots/game_panel.png) |
 | **Member Table** | ![Member Table](screenshots/member_table.png) |
 | **Inbox Table** | ![Inbox Table](screenshots/inbox_table.png) |
-| **Game Starting Panel (with Timer)** | ![Game Panel](screenshots/game_panel.png) |
+| **Flipped Board for Black** | ![Flipped Board](screenshots/board_flipped_for_black player.png) |
+| **Highlighted Moves (Green, Red, Golden Yellow)** | ![Highlight Moves](screenshots/hightLight_red_color.png) |
+| **Move History Table** | ![Move History](screenshots/move_history.png) |
+| **Check Situation** | ![Check](screenshots/check.png) |
+| **Checkmate Situation** | ![Checkmate](screenshots/checkmate.png) |
+| **White Won** | ![White Won](screenshots/white_won.png) |
+| **Black Lost** | ![Black Lost](screenshots/black_lost.png) |
 
 ---
 
