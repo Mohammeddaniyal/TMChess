@@ -18,7 +18,7 @@ if(pieceChar!=' ') pgn.append(pieceChar);
 //file ambiguity
 if(move.ambiguityType==1)
 {
-pgn.append(move.fromX+1);
+pgn.append(8-move.fromX);
 }else if(move.ambiguityType==2){
 //rank ambiguity
 char fromRank=(char)('a'+move.fromY);
@@ -32,9 +32,9 @@ pgn.append('x');
 }
 
 //destination part notation
-char toFile=(char)'a'+move.toX;
+char toFile=(char)('a'+move.toY);
 pgn.append(toFile);
-pgn.append(8-move.fromY);
+pgn.append(8-move.toX);
 
 // promotion notation
 if(move.pawnPromotionTo!=0 && move.pawnPromotionTo!=1 && move.pawnPromotionTo!=-1)
@@ -46,6 +46,9 @@ pgn.append('=').append(getPieceChar(move.pawnPromotionTo));
 if(move.isLastMove==1)
 {
 pgn.append('#');
+}else if(move.isInCheck==1)
+{
+pgn.append('+');
 }
 System.out.println("PGN Move : "+pgn.toString());
 return pgn.toString();
