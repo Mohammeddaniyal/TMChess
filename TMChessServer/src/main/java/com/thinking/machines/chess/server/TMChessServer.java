@@ -291,12 +291,21 @@ move.toY=m.toY;
 move.isLastMove=m.isLastMove;
 move.castlingType=m.castlingType;
 move. pawnPromotionTo=m. pawnPromotionTo;
+move.isInCheck=m.isInCheck;
 move.ambiguityType=m.ambiguityType;
 MoveResponse moveResponse=MoveHandler.validateMove(game,move);
 if(moveResponse.isValid==0) return moveResponse;
 byte isLastMove=MoveHandler.detectCheckmate(game);
 move.isLastMove=isLastMove;
 moveResponse.isLastMove=isLastMove;
+//if it's not checkmate condition then check for "CHECK"
+if(isLastMove==0)
+{
+byte isInCheck=MoveHandler.detectCheck(game,move);
+move.isInCheck=isInCheck;
+moveResponse.isInCheck=isInCheck;
+}
+
 //update the move in list
 game.moves.add(move);
 //switch the player
