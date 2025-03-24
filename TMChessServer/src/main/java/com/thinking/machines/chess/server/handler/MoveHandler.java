@@ -53,10 +53,6 @@ k.checkCastling=kingCastling.checkCastling;
 k.kingMoved=kingCastling.kingMoved;
 k.leftRookMoved=kingCastling.leftRookMoved;
 k.rightRookMoved=kingCastling.rightRookMoved;
-System.out.println(" CC : "+kingCastling.checkCastling);
-System.out.println(" KM  "+kingCastling.kingMoved);
-System.out.println(" LRM "+kingCastling.leftRookMoved);
-System.out.println(" RRM "+kingCastling.rightRookMoved);
 			//passing zero 	means no need to check for stalemate part
 byte [][]possibleMoves=CheckmateDetector.getPossibleMoves(game.board,fromX,fromY,k,(byte)0);
 game.possibleMoves=possibleMoves;
@@ -94,20 +90,6 @@ kingCastling=game.whiteKingCastling;
 {
 kingCastling=game.blackKingCastling;
 }
-System.out.println("1111111111111111111111111111111");
-
-
-System.out.println("B CC : "+game.blackKingCastling.checkCastling);
-System.out.println("B KM  "+game.blackKingCastling.kingMoved);
-System.out.println("B LRM "+game.blackKingCastling.leftRookMoved);
-System.out.println("B RRM "+game.blackKingCastling.rightRookMoved);
-
-
-System.out.println(" CC : "+kingCastling.checkCastling);
-System.out.println(" KM  "+kingCastling.kingMoved);
-System.out.println(" LRM "+kingCastling.leftRookMoved);
-System.out.println(" RRM "+kingCastling.rightRookMoved);
-
 
 //if move is valid update the current board state
 byte sourcePiece=game.board[fromX][fromY];
@@ -151,7 +133,6 @@ if(move.castlingType==0)//no castling happened
 //do nothing
 }else if(kingCastling.checkCastling)//checking if castling is possible or not
 {
-System.out.println("CASTLING!!!!!");
 kingCastling.checkCastling=false;
 kingCastling.kingMoved=true;
 if(move.castlingType==1)//white king side castling 
@@ -194,18 +175,6 @@ game.board[toX][toY]=sourcePiece;
 return moveResponse;
 }
 
-System.out.println("22222222222222");
-
-
-System.out.println("B CC : "+game.blackKingCastling.checkCastling);
-System.out.println("B KM  "+game.blackKingCastling.kingMoved);
-System.out.println("B LRM "+game.blackKingCastling.leftRookMoved);
-System.out.println("B RRM "+game.blackKingCastling.rightRookMoved);
-
-System.out.println(" CC : "+kingCastling.checkCastling);
-System.out.println(" KM  "+kingCastling.kingMoved);
-System.out.println(" LRM "+kingCastling.leftRookMoved);
-System.out.println(" RRM "+kingCastling.rightRookMoved);
 
 
 //in case of castling no need to check this because we know that king and either rook is moved
@@ -218,19 +187,6 @@ if(kingCastling.checkCastling)//only when castling is possible
 
 updateCastlingStatus(kingCastling,game,sourcePiece,fromX,fromY);
 }
-
-System.out.println("33333333333333");
-
-
-System.out.println("B CC : "+game.blackKingCastling.checkCastling);
-System.out.println("B KM  "+game.blackKingCastling.kingMoved);
-System.out.println("B LRM "+game.blackKingCastling.leftRookMoved);
-System.out.println("B RRM "+game.blackKingCastling.rightRookMoved);
-
-System.out.println(" CC : "+kingCastling.checkCastling);
-System.out.println(" KM  "+kingCastling.kingMoved);
-System.out.println(" LRM "+kingCastling.leftRookMoved);
-System.out.println(" RRM "+kingCastling.rightRookMoved);
 
 
 return moveResponse;
@@ -314,7 +270,6 @@ public static byte detectCheckmate(Game game)
 {
 byte opponent=(byte)((game.activePlayer==1)?0:1);
 boolean isCheckmate=CheckmateDetector.detectCheckmate(game.board,opponent);
-System.out.println("Is checkmate : "+isCheckmate);
 return (byte)(isCheckmate?1:0);
 }
 
@@ -322,7 +277,6 @@ public static byte detectCheck(Game game,Move move)
 {
 byte opponent=(byte)((game.activePlayer==1)?0:1);
 byte isInCheck=CheckmateDetector.detectCheck(game.board,opponent,move.piece,move.toX,move.toY);
-System.out.println("Is In Check : "+isInCheck);
 return isInCheck;
 }
 
