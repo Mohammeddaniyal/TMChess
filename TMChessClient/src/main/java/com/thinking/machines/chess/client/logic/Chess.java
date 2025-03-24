@@ -571,6 +571,7 @@ possibleMoves=(byte[][])client.execute("/TMChessServer/getPossibleMoves",gameIni
 JOptionPane.showMessageDialog(Chess.this,t);
 }
 
+byte piece=gameInit.board[startRowIndex][startColumnIndex];
 
 JButton validTile;
 for(e=0;e<8;e++)
@@ -583,6 +584,36 @@ validTile=tiles[e][f];
 
 Color c=Color.GREEN;
 if(gameInit.board[e][f]!=0)c=Color.RED;
+else 
+{
+if(piece==6)
+{
+if(startRowIndex==7 && startColumnIndex==4 )
+{
+if(possibleMoves[7][2]==1)
+{
+c=Color.YELLOW;
+}else if(possibleMoves[7][6]==1)
+{
+c=Color.YELLOW;
+}
+}
+}
+else if(piece==-6)
+{
+if(startRowIndex==0 && startColumnIndex==4 )
+{
+if(possibleMoves[0][2]==1)
+{
+c=Color.YELLOW;
+}else if(possibleMoves[0][6]==1)
+{
+c=Color.YELLOW;
+}
+}
+
+}
+}
 
 validTile.setBorder(BorderFactory.createLineBorder(c,3));
 
