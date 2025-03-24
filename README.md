@@ -49,7 +49,7 @@ java -jar build/libs/TMChess-Server.jar
 ```
 
 ### 3️⃣ **Run the Client**  
-Each player should run the client with the server IP and their username:  
+Each player should run the client with the their username and password:  
 ```sh
 java -jar build/libs/TMChess-Client.jar <username> <password>
 ```
