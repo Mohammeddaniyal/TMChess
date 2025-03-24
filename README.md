@@ -102,4 +102,3 @@ GitHub: [Mohammeddaniyal](https://github.com/Mohammeddaniyal)
 
 ♟️ **Enjoy Playing TMChess!** 🏆  
 ```
-TMCHESS better version of chess repository
