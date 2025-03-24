@@ -23,14 +23,7 @@ playerPiecesIndexes.add(index);
 }
 }
 byte isStalemate=0;
-KingCastling kingCastling;
-if(player==1)//white king
-{
-kingCastling=game.whiteKingCastling;
-}else
-{
-kingCastling=game.blackKingCastling;
-}
+KingCastling kingCastling=new KingCastling();
 //since it's stalemate we dont need to check for castling scenario
 kingCastling.checkCastling=false;
 for(byte []_index:playerPiecesIndexes)
