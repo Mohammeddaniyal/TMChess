@@ -33,8 +33,6 @@ TMChess is a multiplayer chess game built with Java, featuring real-time gamepla
 | **Flipped Board for Black** | ![Flipped Board](screenshots/board_flipped_for_black_player.png) |
 | **Highlighted Moves (Green, Red, Golden Yellow)** | ![Highlight Moves](screenshots/hightLight_red_color.png) |
 | **Move History Table** | ![Move History](screenshots/move_history_table.png) |
-| **Check Situation** | ![Check](screenshots/check.png) |
-| **Checkmate Situation** | ![Checkmate](screenshots/checkmate.png) |
 | **White Won** | ![White Won](screenshots/white_won.png) |
 | **Black Lost** | ![Black Lost](screenshots/black_lost.png) |
 
