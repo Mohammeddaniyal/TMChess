@@ -259,11 +259,18 @@ return;
 public static byte detectCheckmate(Game game)
 {
 byte opponent=(byte)((game.activePlayer==1)?0:1);
-System.out.println("Active player : "+game.activePlayer);
-System.out.println("Opponent : "+opponent);
 boolean isCheckmate=CheckmateDetector.detectCheckmate(game.board,opponent);
 System.out.println("Is checkmate : "+isCheckmate);
 return (byte)(isCheckmate?1:0);
 }
+
+public static byte detectCheck(Game game,Move move)
+{
+byte opponent=(byte)((game.activePlayer==1)?0:1);
+byte isInCheck=CheckmateDetector.detectCheck(game.board,opponent,move.piece,move.toX,move.toY);
+System.out.println("Is In Check : "+isInCheck);
+return isInCheck;
+}
+
 
 }
