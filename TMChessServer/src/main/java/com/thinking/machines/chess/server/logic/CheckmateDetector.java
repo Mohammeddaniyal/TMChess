@@ -4,7 +4,81 @@ import com.thinking.machines.chess.server.models.*;
 import java.util.*;
 public class CheckmateDetector
 {
-//using only for pawn knight bishop rook for checking ambiguity purpose
+private static byte isValidMove(byte [][]board,byte piece,byte fromX,byte fromY,byte toX,byte toY)
+{
+byte valid=0;
+if(piece==3 || piece==-3)
+{
+valid= BishopMoveValidator.validateMove(fromX,fromY,toX,toY,board);
+}else if(piece==4 || piece==-4)
+{
+valid=RookMoveValidator.validateMove(fromX,fromY,toX,toY,board);
+}else if(piece==2 ||  piece==-2)
+{
+valid= KnightMoveValidator.validateMove(fromX,fromY,toX,toY);
+}else if(piece==1 || piece==-1)
+{
+valid= PawnMoveValidator.validateMove(fromX,fromY,toX,toY,board);
+}else if(piece==5 || piece==-5)
+{
+valid= QueenMoveValidator.validateMove(fromX,fromY,toX,toY,board);
+}
+
+return valid;
+}
+
+//method to detect whther the king is in check or not
+public static byte detectCheck(byte [][]board,byte opponent,byte attackingPiece,byte attackingPieceX,byte attackingPieceY)
+{
+List<byte[]> playerPieces=new LinkedList<>();
+byte kingPiece=(byte)((opponent==0)?-6:6);
+//find the index of king
+byte kingX,kingY;
+kingX=kingY=-1;
+byte []indexes;
+for(byte e=0;e<8;e++)
+{
+for(byte f=0;f<8;f++)
+{
+if((board[e][f]>0 && opponent!=1) || (board[e][f]<0 && opponent!=0))
+{
+//creating a list of indexes of player pieces
+if(board[e][f]!=(kingPiece*-1))
+{
+//no need to add player king index
+indexes=new byte[2];
+indexes[0]=e;
+indexes[1]=f;
+playerPieces.add(indexes);
+}
+}
+if(board[e][f]==kingPiece){
+kingX=e;
+kingY=f;
+}
+}
+}
+if(kingX==-1) return 0;
+//now check whether the current move place the opponent king in danger
+byte valid=0;
+valid=isValidMove(board,attackingPiece,attackingPieceX,attackingPieceY,kingX,kingY);
+
+if(valid==0)
+{
+//now check if it puts the king indirectly in check
+//now time to iterate the playerPieces list
+for(byte []indxs:playerPieces)
+{
+byte fromX=indxs[0];
+byte fromY=indxs[1];
+valid=isValidMove(board,board[fromX][fromY],fromX,fromY,kingX,kingY);
+if(valid==1) break;
+}
+}
+
+return valid;
+}
+
 public static byte isMoveValid(byte [][]board,byte startRowIndex,byte startColumnIndex,byte destinationRowIndex,byte destinationColumnIndex)
 {
 byte piece=board[startRowIndex][startColumnIndex];
@@ -21,6 +95,9 @@ valid= KnightMoveValidator.validateMove(startRowIndex,startColumnIndex,destinati
 }else if(piece==1 || piece==-1)
 {
 valid= PawnMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,board);
+}else if(piece==5 || piece==-5)
+{
+valid= QueenMoveValidator.validateMove(startRowIndex,startColumnIndex,destinationRowIndex,destinationColumnIndex,board);
 }
 if(valid==0) return 0;
 //determine king's index
