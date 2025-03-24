@@ -173,8 +173,8 @@ this.startRowIndex=move.fromX;
 this.startColumnIndex=move.fromY;
 this.destinationRowIndex=move.toX;
 this.destinationColumnIndex=move.toY;
-updateBoardState(move);
 movePiece(pieceName);
+updateBoardState(move);
 if(move.pawnPromotionTo!=0)
 {
 String promoteToName=getPieceName(move.pawnPromotionTo);
@@ -586,16 +586,17 @@ Color c=Color.GREEN;
 if(gameInit.board[e][f]!=0)c=Color.RED;
 else 
 {
+Color goldenYellow=new Color(255,215,0);
 if(piece==6)
 {
 if(startRowIndex==7 && startColumnIndex==4 )
 {
-if(possibleMoves[7][2]==1)
+if(possibleMoves[7][2]==1 && e==7 && f==2)
 {
-c=Color.YELLOW;
-}else if(possibleMoves[7][6]==1)
+c=goldenYellow;
+}else if(possibleMoves[7][6]==1 && e==7 && f==6)
 {
-c=Color.YELLOW;
+c=goldenYellow;
 }
 }
 }
@@ -603,12 +604,12 @@ else if(piece==-6)
 {
 if(startRowIndex==0 && startColumnIndex==4 )
 {
-if(possibleMoves[0][2]==1)
+if(possibleMoves[0][2]==1 && e==0 && f==2)
 {
-c=Color.YELLOW;
-}else if(possibleMoves[0][6]==1)
+c=goldenYellow;
+}else if(possibleMoves[0][6]==1 && e==0 && f==6)
 {
-c=Color.YELLOW;
+c=goldenYellow;
 }
 }
 
