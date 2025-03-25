@@ -70,6 +70,12 @@ java -jar build/libs/TMChess-Client.jar Daniyal daniyal
 
 ## 📝 Changelog  
 
+### **v1.2** - UI Enhancements & Improved Player Turn Indication  
+✅ **Player Turn Highlighting:** All pieces of the current player are now highlighted with a **Cyan border** to indicate their turn.  
+✅ **Smooth UI Updates:** Borders reset correctly when a piece is selected, ensuring a clear and responsive interface.  
+✅ **Improved Game Flow:** Enhanced visibility for active pieces, making it easier to plan moves.  
+✅ **Minor UI Fixes & Refinements:** Optimized rendering for a more polished experience.  
+
 ### **v1.1** - Latest Update  
 ✅ Fixed **King Castling Bug** (caused by a single line of code, took an hour to find in the wrong file 😆).  
 ✅ Updated **GUI Highlights** (Green for moves, Red for captures, Golden Yellow for castling).  
