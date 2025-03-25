@@ -15,6 +15,7 @@ private GameInit gameInit;
 private ChessUI chessUI;
 String username;
 private Set<JButton> playerPiecesSet;
+private boolean isPlayerTurnHighlighted=false;
 private MoveHistoryPanel moveHistoryPanel;
 class UNDOMove
 {
@@ -92,7 +93,6 @@ try
 this.canIPlay=(boolean)client.execute("/TMChessServer/canIPlay",gameInit.gameId,gameInit.playerColor);
 if(canIPlay) firstTurnOfPlayerColor=gameInit.playerColor;
 else firstTurnOfPlayerColor=(byte)((gameInit.playerColor==1)?0:1);
-System.out.println(canIPlay);
 if(!canIPlay)
 {
 //a little delay so the ui gets updated before showing the dialog
@@ -171,7 +171,7 @@ handleMoveHistory(move);
 ((javax.swing.Timer)ev.getSource()).stop();
 String pieceName=getPieceName(move.piece);
 
-SwingUtilities.invokeLater(()->{
+//SwingUtilities.invokeLater(()->{
 this.sourceTile=tiles[move.fromX][move.fromY];
 this.targetTile=tiles[move.toX][move.toY];
 this.startRowIndex=move.fromX;
@@ -187,7 +187,6 @@ ImageIcon promoteToIcon=getPieceIconByName(promoteToName);
 PawnPromotionDialog pawnPromotionDialog=new PawnPromotionDialog(promoteToName,promoteToIcon);
 pawnPromotionDialog.promotePawn();
 }
-System.out.println("Last move : "+move.isLastMove);
 if(move.isLastMove==1)
 {
 isOpponentLeftTheGameTimer.stop();
@@ -200,12 +199,13 @@ chessUI.resetFrame();
 try{client.execute("/TMChessServer/leftGame",username);}catch(Throwable t){JOptionPane.showMessageDialog(this,t.getMessage());}
 return;
 }
-});
+//});
 if(move.isLastMove==1) return;
 
 reset();
 canIPlay=true;
 highlightTurn();
+chessUI.setTitle(title+" | Your turn");
 //now its player turn to play now time to check whther this player have any legal moves left or not
 
 try
@@ -233,7 +233,6 @@ JOptionPane.showMessageDialog(Chess.this,t.getMessage());
 }
 });
 
-chessUI.setTitle(title+" | Your turn");
 
 }
 private String getPieceName(byte piece)
@@ -241,7 +240,6 @@ private String getPieceName(byte piece)
 String pieceName=(piece>0)?"white":"black";
 if(piece<0)piece*=-1;
 pieceName=pieceName+pieceNamesMap.get((byte)piece);
-System.out.println("getPieceName method : (pieceName) "+pieceName);
 return pieceName;
 }
 private void populateDataStructures()
@@ -257,14 +255,14 @@ Map.entry((byte)6,"King")
 }
 public Chess(ChessUI chessUI,NFrameworkClient client,GameInit gameInit,String username)
 {
-addActionListeners();
 populateDataStructures();
 this.client=client;
 this.chessUI=chessUI;
 this.gameInit=gameInit;
 this.username=username;
-this.playerPieces=new HashSet<>();
+this.playerPiecesSet=new HashSet<>();
 this.title="Member : "+username;
+addActionListeners();
 undoMove=new UNDOMove();
 tiles=new JButton[8][8];
 boardPanel=new JPanel();
@@ -331,8 +329,8 @@ tileBorder=darkTileBorder;
 tile=setupBoard(h,f,tileColor,tileBorder);
 tile.addActionListener(this);
 tiles[h][f]=tile;
-if(gameInit.playerColor==1 && e==6 && e==7)playerPiecesSet.add(tile);
-else if(gameInit.playerColor==0 && h==0 && h==1) playerPiecesSet.add(tile);
+if(gameInit.playerColor==1 && (e==6 || e==7))playerPiecesSet.add(tile);
+else if(gameInit.playerColor==0 && (h==0 || h==1)) playerPiecesSet.add(tile);
 boardPanel.add(tile);
 }
 }
@@ -362,9 +360,6 @@ startRowIndex=-1;
 destinationRowIndex=-1;
 startColumnIndex=-1;
 destinationColumnIndex=-1;
-if(possibleMoves!=null)
-{
-System.out.println("Resetting");
 Color tileColor=null;
 Border tileBorder=null;
 for(int e=0;e<8;e++) 
@@ -400,8 +395,7 @@ tileBorder=darkTileBorder;
 tiles[e][f].setBackground(tileColor);
 tiles[e][f].setBorder(tileBorder);
 //tiles[e][f].setBorder(UIManager.getBorder("Button.border"));
-possibleMoves[e][f]=0;
-}
+if(possibleMoves!=null)possibleMoves[e][f]=0;
 }
 }
 /*
@@ -504,6 +498,7 @@ return tile;
 
 private void highlightTurn()
 {
+isPlayerTurnHighlighted=true;
 for(JButton button:playerPiecesSet)
 {
 button.setBorder(BorderFactory.createLineBorder(Color.CYAN,3));//soft glow
@@ -521,7 +516,11 @@ button.setEnabled(true);
 reset();
 return;
 }
+if(isPlayerTurnHighlighted)
+{
+isPlayerTurnHighlighted=false;
 reset();
+}
 boolean found=false;
 JButton tile=null;
 byte e=0;
@@ -1132,6 +1131,24 @@ return pieceIcon;
 }
 private void movePiece(String sourceIconName)
 {
+playerPiecesSet.remove(this.sourceTile);
+playerPiecesSet.remove(this.targetTile);
+String name=this.targetTile.getActionCommand();
+if(name==null) playerPiecesSet.add(this.targetTile);
+else 
+{
+String sourcePieceColor=this.sourceTile.getActionCommand().substring(0,5);
+if((this.gameInit.playerColor==1 && sourcePieceColor.equals("white") )||(this.gameInit.playerColor==0 && sourcePieceColor.equals("black") ))
+{
+System.out.println("Adding piece in set of player color "+gameInit.playerColor);
+System.out.println("This target tile will become : "+this.sourceTile.getActionCommand());
+playerPiecesSet.add(this.targetTile);
+}
+else
+{
+playerPiecesSet.remove(this.targetTile);
+}
+}
 Color sourceTileColor=this.sourceTile.getBackground();
 Color targetTileColor=this.targetTile.getBackground();
 this.sourceTile.removeAll();
@@ -1201,6 +1218,9 @@ targetTile.setActionCommand(pieceName);
 targetTile.add(new JLabel(pieceIcon));
 targetTile.setEnabled(false);
 targetTile.setEnabled(true);
+System.out.println(playerPiecesSet.size());
+System.out.println("MOVE PIECE ENDS");
+
 }
 
 private class PawnPromotionDialog
