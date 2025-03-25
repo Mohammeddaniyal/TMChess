@@ -165,7 +165,7 @@ if(message.type==MESSAGE_TYPE.CHALLENGE_ACCEPTED)
 try
 {
 gameInit=(GameInit)client.execute("/TMChessServer/getGameInit",username);
-JOptionPane.showMessageDialog(ChessUI.this,"Game id : "+gameInit.gameId+" and player color : "+gameInit.playerColor);
+//JOptionPane.showMessageDialog(ChessUI.this,"Game id : "+gameInit.gameId+" and player color : "+gameInit.playerColor);
 availableMembersListModel.enableInviteButtons();
 }catch(Throwable t)
 {
@@ -664,7 +664,7 @@ ChessUI.this.sendInvitationReply(message);
 try
 {
 gameInit=(GameInit)client.execute("/TMChessServer/getGameInit",username);
-JOptionPane.showMessageDialog(ChessUI.this,"Game id : "+gameInit.gameId+" and player color : "+gameInit.playerColor);
+//JOptionPane.showMessageDialog(ChessUI.this,"Game id : "+gameInit.gameId+" and player color : "+gameInit.playerColor);
 }catch(Throwable t)
 {
 JOptionPane.showMessageDialog(ChessUI.this,t.getMessage());
