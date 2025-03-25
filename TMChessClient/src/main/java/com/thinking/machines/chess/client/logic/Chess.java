@@ -14,6 +14,7 @@ private NFrameworkClient client;
 private GameInit gameInit;
 private ChessUI chessUI;
 String username;
+private Set<JButton> playerPiecesSet;
 private MoveHistoryPanel moveHistoryPanel;
 class UNDOMove
 {
@@ -68,6 +69,7 @@ private javax.swing.Timer getOpponentMoveTimer;
 private javax.swing.Timer isOpponentLeftTheGameTimer;
 private boolean canIPlay;
 private byte firstTurnOfPlayerColor;
+private String title;
 private void handleMoveHistory(Move move)
 {
 //determine the current move done by opponent is the case of capture or not
@@ -95,13 +97,16 @@ if(!canIPlay)
 {
 //a little delay so the ui gets updated before showing the dialog
 try{Thread.sleep(100);}catch(Exception e){}
+chessUI.setTitle(title+" | Opponent turn");
 JOptionPane.showMessageDialog(Chess.this,"Opponent is first");
 getOpponentMoveTimer.start();
 }
 else
 {
+highlightTurn();
 //a little delay so the ui gets updated before showing the dialog
 try{Thread.sleep(100);}catch(Exception e){}
+chessUI.setTitle(title+" | Your turn");
 JOptionPane.showMessageDialog(Chess.this,"You are first "+username);
 }
 }catch(Throwable t)
@@ -200,7 +205,7 @@ if(move.isLastMove==1) return;
 
 reset();
 canIPlay=true;
-
+highlightTurn();
 //now its player turn to play now time to check whther this player have any legal moves left or not
 
 try
@@ -227,6 +232,9 @@ JOptionPane.showMessageDialog(this,t.getMessage());
 JOptionPane.showMessageDialog(Chess.this,t.getMessage());
 }
 });
+
+chessUI.setTitle(title+" | Your turn");
+
 }
 private String getPieceName(byte piece)
 {
@@ -255,6 +263,8 @@ this.client=client;
 this.chessUI=chessUI;
 this.gameInit=gameInit;
 this.username=username;
+this.playerPieces=new HashSet<>();
+this.title="Member : "+username;
 undoMove=new UNDOMove();
 tiles=new JButton[8][8];
 boardPanel=new JPanel();
@@ -321,6 +331,8 @@ tileBorder=darkTileBorder;
 tile=setupBoard(h,f,tileColor,tileBorder);
 tile.addActionListener(this);
 tiles[h][f]=tile;
+if(gameInit.playerColor==1 && e==6 && e==7)playerPiecesSet.add(tile);
+else if(gameInit.playerColor==0 && h==0 && h==1) playerPiecesSet.add(tile);
 boardPanel.add(tile);
 }
 }
@@ -352,6 +364,7 @@ startColumnIndex=-1;
 destinationColumnIndex=-1;
 if(possibleMoves!=null)
 {
+System.out.println("Resetting");
 Color tileColor=null;
 Border tileBorder=null;
 for(int e=0;e<8;e++) 
@@ -489,17 +502,26 @@ tile.add(new JLabel(whiteKingIcon));
 return tile;
 }
 
+private void highlightTurn()
+{
+for(JButton button:playerPiecesSet)
+{
+button.setBorder(BorderFactory.createLineBorder(Color.CYAN,3));//soft glow
+}
+}
+
 public void actionPerformed(ActionEvent ev)
 {
 if(!canIPlay)
 {
 JButton button=(JButton)ev.getSource();
-button.setBorder(UIManager.getBorder("Button.border"));//for making the button border as the default as system
+//button.setBorder(UIManager.getBorder("Button.border"));//for making the button border as the default as system
 button.setEnabled(false);//doing this trick to remove foucs from button
 button.setEnabled(true);
 reset();
 return;
 }
+reset();
 boolean found=false;
 JButton tile=null;
 byte e=0;
@@ -777,6 +799,7 @@ JOptionPane.showMessageDialog(this,t.getMessage());
 
 
 canIPlay=false;
+chessUI.setTitle(title+" | Opponent turn");
 getOpponentMoveTimer.start();
 
 
