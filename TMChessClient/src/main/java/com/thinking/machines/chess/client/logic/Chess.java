@@ -1140,8 +1140,6 @@ else
 String sourcePieceColor=this.sourceTile.getActionCommand().substring(0,5);
 if((this.gameInit.playerColor==1 && sourcePieceColor.equals("white") )||(this.gameInit.playerColor==0 && sourcePieceColor.equals("black") ))
 {
-System.out.println("Adding piece in set of player color "+gameInit.playerColor);
-System.out.println("This target tile will become : "+this.sourceTile.getActionCommand());
 playerPiecesSet.add(this.targetTile);
 }
 else
@@ -1218,9 +1216,6 @@ targetTile.setActionCommand(pieceName);
 targetTile.add(new JLabel(pieceIcon));
 targetTile.setEnabled(false);
 targetTile.setEnabled(true);
-System.out.println(playerPiecesSet.size());
-System.out.println("MOVE PIECE ENDS");
-
 }
 
 private class PawnPromotionDialog
